@@ -1,0 +1,24 @@
+<div class="menu-list">
+@if(menuItems().length === 0) {
+  <div class="empty-state">
+    No menu items found
+  </div>
+}
+  @for(item of menuItems(); track item.id) {
+
+  <app-menu-card
+  [name]="item.name"
+  [description]="item.description ?? ''"
+  [price]="item.price"
+  [imageUrl]="item.imageUrl"
+  [foodType]="item.foodType"
+  [isAvailable]="item.isAvailable"
+  [quantity]="getQuantity(item.id)"
+  (itemAdded)="addToCart(item.id)"
+  (quantityIncreased)="increaseQuantity(item.id)"
+  (quantityDecreased)="decreaseQuantity(item.id)">>
+</app-menu-card>
+
+  }
+
+</div>

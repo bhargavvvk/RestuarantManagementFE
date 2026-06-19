@@ -1,0 +1,40 @@
+<header class="customer-header">
+
+    <div class="header-left">
+
+        <img
+            src="header.png"
+            alt="Table Icon"
+            class="header-icon">
+
+        <div class="header-content">
+
+            <div class="table-number">
+                Table {{ tableNumber() }}
+            </div>
+
+            @if(showSessionStatus()){
+                <div class="session-status">
+                    SESSION ACTIVE
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+    @if(showOtp()){
+        <div class="header-right">
+
+            <div class="otp-label">
+                OTP:
+            </div>
+
+            <div class="otp-value">
+                {{ otp() }}
+            </div>
+
+        </div>
+    }
+
+</header>

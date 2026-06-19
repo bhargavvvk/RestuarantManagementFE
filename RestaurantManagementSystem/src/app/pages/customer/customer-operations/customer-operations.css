@@ -1,0 +1,29 @@
+.top-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: white;
+}
+
+
+app-customer-bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1100;
+  background: white;
+}
+.page-content {
+  padding-top: 250px;
+  padding-bottom: 120px;
+}
+.menu-content {
+  padding-top: 250px;
+}
+
+.simple-content {
+  padding-top: 150px;
+}

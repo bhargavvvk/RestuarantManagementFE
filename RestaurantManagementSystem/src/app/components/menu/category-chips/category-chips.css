@@ -1,0 +1,40 @@
+.chips-container {
+  display: flex;
+  gap: 8px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.chips-container::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  height: 34px;
+
+  padding: 0 16px;
+
+  border: none;
+
+  border-radius: 17px;
+
+  background: #F5DDD7;
+
+  color: #58413B;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chip.selected {
+  background: #AA3512;
+  color: white;
+}

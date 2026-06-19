@@ -1,0 +1,51 @@
+.customer-header {
+    background-color: #FFF8F6;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.header-icon {
+    width: 40px;
+    height: 40px;
+}
+.table-number {
+    color: #AA3512;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+.session-status {
+    color: #58413B;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    margin-top: 0.15rem;
+}
+.header-right {
+    text-align: right;
+}
+.otp-label {
+    font-size:0.8rem;
+    color: #58413B;
+}
+.otp-value {
+    color: #AA3512;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+.table-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.customer-header {
+    border-bottom: 1px solid rgba(88, 65, 59, 0.08);
+}

@@ -1,0 +1,71 @@
+<div class="customer-page">
+
+    @if(isLoading()){
+        <div class="status-card-wrapper">
+            <div class="status-card">
+
+                <h2>Checking Table</h2>
+                <p>Please wait while we find your table.</p>
+
+            </div>
+         </div>
+    }
+
+    @if(hasTableError()){
+        <div class="status-card-wrapper">
+            <div class="status-card">
+
+                <h2>
+                    <i class="bi bi-x-circle"></i>
+                    Invalid Table
+                </h2>
+                <p>
+                    We couldn't find the table associated with this QR code.
+                    Please scan the QR code again or contact restaurant staff.
+                </p>
+
+            </div>
+         </div>
+    }
+
+    @if(tableInfo(); as table){
+
+       <app-header
+            [tableNumber]="table.tableNumber"
+            [variant]="headerVariant()">
+        </app-header>
+
+        <main class="customer-content">
+
+            @if(!table.isAvailable){
+                <div class="status-card-wrapper">
+
+                    <div class="status-card">
+
+                        <h2>  <i class="bi bi-exclamation-circle"></i> Table Unavailable</h2>
+
+                        <p>
+                            This table is currently unavailable.
+                            Please contact a staff member for assistance.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            }
+            @else if(table.hasActiveSession){
+
+                <app-join-session-card
+                    [tableIdentifier]="tableIdentifier">
+                </app-join-session-card>
+            }
+            @else{
+                <app-create-session-card
+                    [tableIdentifier]="tableIdentifier"
+                    [tableNumber]="table.tableNumber">
+                </app-create-session-card>
+            }
+        </main>
+    }
+</div>

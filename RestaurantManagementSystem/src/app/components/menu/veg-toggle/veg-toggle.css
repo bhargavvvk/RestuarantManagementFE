@@ -1,0 +1,88 @@
+.veg-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  height: 36px;
+
+  user-select: none;
+}
+
+.veg-toggle input {
+  position: absolute;
+  opacity: 0;
+}
+
+.veg-indicator {
+  width: 18px;
+  height: 18px;
+
+  border: 2px solid #12A64A;
+  border-radius: 3px;
+
+  background: white;
+
+  position: relative;
+}
+
+.veg-indicator::after {
+  content: '';
+
+  width: 8px;
+  height: 8px;
+
+  background: #12A64A;
+
+  border-radius: 50%;
+
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+.veg-label {
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #2D2421;
+}
+
+.switch-track {
+  width: 42px;
+  height: 24px;
+
+  background: #F5DDD7;
+
+  border-radius: 999px;
+
+  position: relative;
+}
+
+.switch-track::after {
+  content: '';
+
+  width: 18px;
+  height: 18px;
+
+  background: white;
+
+  border-radius: 50%;
+
+  position: absolute;
+
+  top: 3px;
+  left: 3px;
+
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.veg-toggle input:checked ~ .switch-track {
+  background: #12A64A;
+}
+
+.veg-toggle input:checked ~ .switch-track::after {
+  transform: translateX(18px);
+}

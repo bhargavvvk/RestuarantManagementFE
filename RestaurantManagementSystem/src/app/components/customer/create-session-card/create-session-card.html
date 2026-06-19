@@ -1,0 +1,65 @@
+
+<div class="create-session-card">
+    <div class="welcome-section">
+           <h2>Welcome to Table {{ tableNumber() }}</h2>
+            <p>Enter Name and Mobile Number to Start</p>
+    </div>
+    <div class="form-section">
+        <form (ngSubmit)="createSession()">
+            <div class="input-group">
+
+                <span class="input-icon">
+                    <i class="bi bi-person-circle"></i>
+                </span>
+
+                <input
+                    type="text"
+                    placeholder="Enter your name"
+                    [formField]="createSessionForm.customerName">
+
+            </div>
+            @if (createSessionForm.customerName().touched()) {
+                @for (error of createSessionForm.customerName().errors(); track error) {
+                    <div class="error-message">
+                        {{ error.message }}
+                    </div>
+                }
+            }
+            <div class="input-group">
+
+                <span class="input-icon">
+                    <i class="bi bi-phone"></i>
+                </span>
+
+                <input
+                    type="text"
+                    placeholder="+91 00000 00000"
+                    [formField]="createSessionForm.phoneNumber">
+
+            </div>
+            @if (createSessionForm.customerName().touched()) {
+                @for(error of createSessionForm.phoneNumber().errors(); track error.message){
+                    <div class="error-message">
+                        {{ error.message }}
+                    </div>
+            }
+            }
+             @if(serverError()) {
+
+            <div class="error-message">
+
+                {{ serverError() }}
+
+            </div>
+
+        }
+            <button
+            type="submit"
+            class="create-session-btn"
+            [disabled]="progress() || createSessionForm().invalid()">
+                Create Dining Session
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </form>
+     </div>
+</div>

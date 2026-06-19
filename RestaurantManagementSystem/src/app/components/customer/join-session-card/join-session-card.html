@@ -1,0 +1,63 @@
+<div class="join-session-card">
+
+
+    <div class="otp-header">
+        <h2>Enter Session OTP</h2>
+        <p>
+            A session is already active at this table.
+            Ask your group for the 4-digit code to
+            join the shared cart.
+        </p>
+    </div>
+    <form (ngSubmit)="joinSession()">
+        <div class="otp-container">
+
+        @for(digit of otpDigits(); track $index) {
+
+                <input
+                    #otpInput
+                    type="text"
+                    maxlength="1"
+
+                    [value]="digit"
+
+                    (input)="onOtpInput($index, $event)"
+
+                    (keydown)="onOtpKeyDown($index, $event)">
+            }
+
+        </div>
+        @if(submitAttempted() && !isOtpComplete()) {
+
+            @for(error of joinSessionForm.sessionOtp().errors(); track error.message) {
+
+                <div class="error-message">
+
+                    {{ error.message }}
+
+                </div>
+
+            }
+
+        }
+        @if(serverError()) {
+
+            <div class="error-message">
+
+                {{ serverError() }}
+
+            </div>
+
+        }
+        <button
+        type="submit"
+        class="join-session-btn"
+        [disabled]="progress() || !isOtpComplete()">
+
+        Join Session
+
+        <i class="bi bi-arrow-right"></i>
+
+    </button>
+    </form>
+</div>

@@ -1,0 +1,41 @@
+:host {
+  flex: 1;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  height: 36px;
+
+  padding: 0 14px;
+
+  border-radius: 18px;
+
+  background: #FBE3DD;
+}
+
+.search-container i {
+  color: #58413B;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.search-container input {
+  flex: 1;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #58413B;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.search-container input::placeholder {
+  color: #777A89;
+}

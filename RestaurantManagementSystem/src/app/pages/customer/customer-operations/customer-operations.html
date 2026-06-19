@@ -1,0 +1,46 @@
+<div class="top-section">
+
+  <app-header
+    [tableNumber]="tableNumber()"
+    variant="after-session"
+    [otp]="sessionOtp">
+  </app-header>
+
+  <app-customer-request></app-customer-request>
+
+  @if(activeTab() === 'menu') {
+
+    <app-menu-filter></app-menu-filter>
+
+  }
+
+</div>
+<div
+  class="page-content"
+  [class.menu-content]="activeTab() === 'menu'"
+  [class.simple-content]="activeTab() !== 'menu'">
+
+  @if(activeTab() === 'menu') {
+
+    <app-menu-list></app-menu-list>
+
+  }
+
+  @if(activeTab() === 'cart') {
+
+    <app-customer-cart></app-customer-cart>
+
+  }
+
+  @if(activeTab() === 'orders') {
+
+    <app-customer-orders></app-customer-orders>
+
+  }
+
+</div>
+
+<app-customer-bottom-nav
+  [activeTab]="activeTab()"
+  (tabChanged)="changeTab($event)">
+</app-customer-bottom-nav>

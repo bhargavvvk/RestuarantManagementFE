@@ -1,0 +1,83 @@
+<div class="menu-card">
+
+  <div class="image-container">
+
+    @if(imageUrl()) {
+      <img
+        [src]="imageUrl()"
+        [alt]="name()">
+    }
+    @else {
+      <div class="placeholder">
+        <i class="bi bi-image"></i>
+      </div>
+    }
+
+  <div
+  class="food-badge"
+  [class.veg]="foodType() === 0"
+  [class.non-veg]="foodType() === 1">
+
+  {{ foodType() === 0 ? 'Veg' : 'Non Veg' }}
+
+    </div>
+
+  </div>
+
+  <div class="content">
+
+    <h3>{{ name() }}</h3>
+
+    <p>
+      {{ description() }}
+    </p>
+
+    <div class="footer">
+
+      <span class="price">
+        ₹{{ price() }}
+      </span>
+
+   @if(isAvailable()) {
+        @if(quantity() === 0) {
+
+           <button
+            class="add-btn"
+            (click)="addItem()">
+            Add
+            </button>
+
+            }
+            @else {
+
+            <div class="quantity-controls">
+
+               <button
+                (click)="decreaseQuantity()">
+                -
+            </button>
+
+            <span>{{ quantity() }}</span>
+
+            <button
+            (click)="increaseQuantity()">
+            +
+            </button>
+
+            </div>
+
+            }
+    }
+    @else {
+
+    <div class="out-of-stock">
+        Out Of Stock
+    </div>
+
+    }
+
+    </div>
+
+  </div>
+
+</div>
