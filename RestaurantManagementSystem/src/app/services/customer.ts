@@ -34,7 +34,10 @@ export class Customer {
     sendRequest(requestType: RequestType) {
     return this.http.post(
       `${baseUrl}/Customer/requests`,
-      { requestType }
+      { requestType },
+      {
+      responseType: 'text'
+    }
     );
   }
 }
