@@ -26,4 +26,7 @@ export class SignalRService {
   onCartUpdated(callback:()=>void):void{
     this.hubConnection?.on('CartUpdated',callback);
   }
+  onOrderPlaced(callback: () => void): void {
+    this.hubConnection?.on('OrderPlaced', callback);
+  }
 }

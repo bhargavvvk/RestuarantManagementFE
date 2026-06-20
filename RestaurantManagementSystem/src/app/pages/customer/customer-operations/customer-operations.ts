@@ -11,6 +11,7 @@ import { MenuList } from "../../../components/menu/menu-list/menu-list";
 import { CustomerCart } from "../../../components/customer/customer-cart/customer-cart";
 import { CustomerOrders } from "../../../components/customer/customer-orders/customer-orders";
 import { MenuService } from '../../../services/menu-service';
+import { NotificationServices } from '../../../services/notification-services';
 
 @Component({
   selector: 'app-customer-operations',
@@ -27,6 +28,7 @@ export class CustomerOperations {
    private customerSession=inject(CustomerSession);
    private router=inject(Router);
    private menuService = inject(MenuService);
+   private notification=inject(NotificationServices)
   tableIdentifier = '';
   activeTab = signal<'menu' | 'cart' | 'orders'>('menu');
   ngOnInit(): void {
@@ -35,16 +37,24 @@ export class CustomerOperations {
     this.sessionOtp = this.customerSession.getSessionOtp() ?? '';
     this.loadTableInfo();
     this.validateSession();
+    this.menuService.loadCart();
     this.signalR.startConnection()
     .then(() => console.log('SignalR Connected'))
     .catch(err => console.error(err));
     this.signalR.onSessionClosed(() => {
       this.customerSession.clearSession();
       this.router.navigate(['/join',this.tableIdentifier]);
-  });
-  this.signalR.onCartUpdated(() => {
-    this.menuService.loadCart();
-  });
+    });
+    this.signalR.onCartUpdated(() => {
+      this.menuService.loadCart();
+    });
+    this.signalR.onOrderPlaced(() => {
+      this.notification.success(
+        ' New Order placed!'
+      );
+      this.menuService.loadCart();
+
+    });
   }
   private loadTableInfo(): void {
     this.customerService

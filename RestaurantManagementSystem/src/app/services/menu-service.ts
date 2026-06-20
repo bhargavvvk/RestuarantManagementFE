@@ -81,4 +81,12 @@ export class MenuService {
       }
     });
   }
+  placeOrder(specialInstructions: string) {
+    return this.http.post(
+      `${baseUrl}/CustomerOrder`,
+      {
+        specialInstructions
+      }
+    );
+  }
 }

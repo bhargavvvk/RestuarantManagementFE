@@ -1,7 +1,9 @@
 <div class="menu-list">
 @if(menuItems().length === 0) {
   <div class="empty-state">
-    No menu items found
+    <mat-icon>search_off</mat-icon>
+    <p>No menu items found</p>
+    <span>Try a different category or search term</span>
   </div>
 }
   @for(item of menuItems(); track item.id) {

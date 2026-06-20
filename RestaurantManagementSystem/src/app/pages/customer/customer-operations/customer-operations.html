@@ -8,11 +8,7 @@
 
   <app-customer-request></app-customer-request>
 
-  @if(activeTab() === 'menu') {
-
-    <app-menu-filter></app-menu-filter>
-
-  }
+  <app-menu-filter [hidden]="activeTab() !== 'menu'"></app-menu-filter>
 
 </div>
 <div
@@ -20,23 +16,9 @@
   [class.menu-content]="activeTab() === 'menu'"
   [class.simple-content]="activeTab() !== 'menu'">
 
-  @if(activeTab() === 'menu') {
-
-    <app-menu-list></app-menu-list>
-
-  }
-
-  @if(activeTab() === 'cart') {
-
-    <app-customer-cart></app-customer-cart>
-
-  }
-
-  @if(activeTab() === 'orders') {
-
-    <app-customer-orders></app-customer-orders>
-
-  }
+  <app-menu-list [hidden]="activeTab() !== 'menu'"></app-menu-list>
+  <app-customer-cart [hidden]="activeTab() !== 'cart'"></app-customer-cart>
+  <app-customer-orders [hidden]="activeTab() !== 'orders'"></app-customer-orders>
 
 </div>
 
