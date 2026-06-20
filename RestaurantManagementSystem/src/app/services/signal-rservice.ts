@@ -18,10 +18,12 @@ export class SignalRService {
     return this.hubConnection.start();
   }
   onSessionClosed(callback: () => void): void {
-
-  this.hubConnection?.on(
-    'SessionClosed',
-    callback
-  );
-}
+    this.hubConnection?.on(
+      'SessionClosed',
+      callback
+    );
+  }
+  onCartUpdated(callback:()=>void):void{
+    this.hubConnection?.on('CartUpdated',callback);
+  }
 }

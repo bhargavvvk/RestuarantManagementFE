@@ -62,7 +62,7 @@ export class MenuList {
       }
 
     });
-     this.loadCart();
+     this.menuService.loadCart();
   }
   loadMenuItemsWithoutSearch() {
 
@@ -78,14 +78,6 @@ export class MenuList {
       }
     });
   }
-  loadCart() {
-    this.menuService.getCart().subscribe({
-        next: cartItems => {
-          this.menuService.cartItems.set(cartItems);
-          console.log(this.menuService.cartItems());
-        }
-      });
-  }
   getQuantity(menuItemId: number): number {
     return this.menuService
       .getCartItem(menuItemId)
@@ -99,7 +91,7 @@ export class MenuList {
 
         next: () => {
 
-          this.loadCart();
+          this.menuService.loadCart();
 
         },
 
@@ -120,7 +112,7 @@ export class MenuList {
     this.menuService .updateCartItem(cartItem.id,cartItem.quantity + 1)
       .subscribe({
         next: () => {
-          this.loadCart();
+          this.menuService.loadCart();
         },
         error: err => {
           console.error(err);
@@ -136,7 +128,7 @@ export class MenuList {
     if (cartItem.quantity === 1) {
       this.menuService.removeCartItem(cartItem.id).subscribe({
           next: () => {
-            this.loadCart();
+            this.menuService.loadCart();
           },
           error: err => {
             console.error(err);
@@ -147,7 +139,7 @@ export class MenuList {
     this.menuService.updateCartItem(cartItem.id,cartItem.quantity - 1)
               .subscribe({
                 next: () => {
-                  this.loadCart();
+                  this.menuService.loadCart();
                 },
                 error: err => {
                   console.error(err);

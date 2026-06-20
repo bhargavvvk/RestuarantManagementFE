@@ -10,6 +10,7 @@ import { MenuFilter } from "../../../components/menu/menu-filter/menu-filter";
 import { MenuList } from "../../../components/menu/menu-list/menu-list";
 import { CustomerCart } from "../../../components/customer/customer-cart/customer-cart";
 import { CustomerOrders } from "../../../components/customer/customer-orders/customer-orders";
+import { MenuService } from '../../../services/menu-service';
 
 @Component({
   selector: 'app-customer-operations',
@@ -25,6 +26,7 @@ export class CustomerOperations {
   private customerService=inject(Customer);
    private customerSession=inject(CustomerSession);
    private router=inject(Router);
+   private menuService = inject(MenuService);
   tableIdentifier = '';
   activeTab = signal<'menu' | 'cart' | 'orders'>('menu');
   ngOnInit(): void {
@@ -39,6 +41,9 @@ export class CustomerOperations {
     this.signalR.onSessionClosed(() => {
       this.customerSession.clearSession();
       this.router.navigate(['/join',this.tableIdentifier]);
+  });
+  this.signalR.onCartUpdated(() => {
+    this.menuService.loadCart();
   });
   }
   private loadTableInfo(): void {

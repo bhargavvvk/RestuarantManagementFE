@@ -74,4 +74,11 @@ export class MenuService {
     return this.cartItems()
       .find(item => item.menuItemId === menuItemId);
   }
+    loadCart(): void {
+    this.getCart().subscribe({
+      next: cartItems => {
+        this.cartItems.set(cartItems);
+      }
+    });
+  }
 }
