@@ -26,22 +26,15 @@ export class SignalRService {
   onCartUpdated(callback:()=>void):void{
     this.hubConnection?.on('CartUpdated',callback);
   }
-  onOrderPlaced(callback: () => void): void {
+  onOrderPlaced(callback: (data: { tableNumber: string; orderNumber: string; message: string }) => void): void {
     this.hubConnection?.on('OrderPlaced', callback);
   }
-  onOrderModified(
-    callback: (data: any) => void): void {
-    this.hubConnection?.on(
-      'OrderModified',
-      callback
-    );
+  onOrderModified(callback: (data: { tableNumber: string; orderNumber: string; message: string }) => void): void {
+    this.hubConnection?.on('OrderModified', callback);
   }
 
-  onOrderCancelled(callback: (data: any) => void): void {
-    this.hubConnection?.on(
-      'OrderCancelled',
-      callback
-    );
+  onOrderCancelled(callback: (data: { tableNumber: string; orderNumber: string; message: string }) => void): void {
+    this.hubConnection?.on('OrderCancelled', callback);
   }
 
   onOrderItemStatusReady(callback: () => void): void {
@@ -59,5 +52,33 @@ export class SignalRService {
   }
   onBillStatusChanged(callback:()=>void):void{
     this.hubConnection?.on('BillStatusChanged', callback);
+  }
+  onReceiveOrderPlaced(
+    callback: (data: any) => void
+  ): void {
+
+    this.hubConnection?.on(
+      'ReceiveOrderPlaced',
+      callback
+    );
+
+  }
+  onItemMarkedServed(
+    callback: (data: any) => void
+  ): void {
+
+    this.hubConnection?.on(
+      'ItemServed',
+      callback
+    );
+
+  }
+
+  joinGroup(group: string): Promise<void> {
+    return this.hubConnection!.invoke('JoinGroup', group);
+  }
+
+  leaveGroup(group: string): Promise<void> {
+    return this.hubConnection!.invoke('LeaveGroup', group);
   }
 }

@@ -49,9 +49,9 @@ export class CustomerOperations {
     this.signalR.onCartUpdated(() => {
       this.menuService.loadCart();
     });
-    this.signalR.onOrderPlaced(() => {
+    this.signalR.onOrderPlaced((data) => {
       this.notification.success(
-        ' New Order placed!'
+        `Table ${data.tableNumber} | Order #${data.orderNumber} — ${data.message}`
       );
       this.menuService.loadCart();
       this.menuService.loadOrderData();
@@ -64,7 +64,7 @@ export class CustomerOperations {
     });
     this.signalR.onOrderCancelled(data => {
       this.notification.success(
-        `Order ${data.orderId}: ${data.message}`
+        `Order #${data.orderNumber}: ${data.message}`
       );
       this.menuService.loadOrderData();
     });

@@ -15,7 +15,7 @@
     </div>
 
     <span class="placed-at">
-     {{ order().placedAt| date:'h:mm a' }}
+      {{ order().placedAt | date:'h:mm a' }}
     </span>
 
   </div>
@@ -26,25 +26,22 @@
 
       <div class="order-item">
 
-        {{ item.itemName }} x{{ item.quantity }}
+        <span>
+          {{ item.itemName }} x{{ item.quantity }}
+        </span>
+
+        <span class="item-status-badge" [ngClass]="getStatusClass(item.status)">
+          {{ getStatusLabel(item.status) }}
+        </span>
+
+        <span class="material-symbols-outlined ready-icon">
+          check_circle
+        </span>
 
       </div>
 
     }
 
   </div>
-
-<button
-  type="button"
-  class="start-button"
-  (click)="startPreparing.emit(order().orderId)">
-
-    <span class="material-symbols-outlined">
-      play_arrow
-    </span>
-
-    Start Preparing
-
-  </button>
 
 </div>

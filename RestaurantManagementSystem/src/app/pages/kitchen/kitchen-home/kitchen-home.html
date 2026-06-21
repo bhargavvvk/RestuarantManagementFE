@@ -1,11 +1,11 @@
 <app-kitchen-header
-  [totalOrders]="42">
+  [totalOrders]="todayOrderCount()">
 </app-kitchen-header>
 
 <div class="kitchen-container">
 
   <div class="mobile-orders-count">
-    Today's Orders: 42
+    Today's Orders: {{ todayOrderCount() }}
   </div>
 
   <div class="tabs">
@@ -40,21 +40,52 @@
   </div>
 
   <p class="summary-text">
-    12 Orders Waiting to be Prepared
+    {{ summaryText() }}
   </p>
 
   <div [hidden]="selectedTab() !== 'queue'">
 
     <div class="orders-grid">
 
-      @for(order of queueOrders(); track order.orderNumber) {
+      @for(order of queueOrders(); track order.orderId) {
 
-        <app-kitchen-order-card
-          [tableNumber]="order.tableNumber"
-          [orderNumber]="order.orderNumber"
-          [placedAt]="order.placedAt"
-          [items]="order.items">
-        </app-kitchen-order-card>
+  <app-kitchen-order-card
+  [order]="order"
+    (startPreparing)="onStartPreparing($event)">
+    </app-kitchen-order-card>
+
+      }
+
+    </div>
+
+  </div>
+
+  <div [hidden]="selectedTab() !== 'preparing'">
+
+    <div class="orders-grid">
+
+      @for(order of preparingOrders(); track order.orderId) {
+
+       <app-preparing-order-card
+        [order]="order"
+        (itemReady)="onItemReady($event)">
+        </app-preparing-order-card>
+
+      }
+
+    </div>
+
+  </div>
+
+  <div [hidden]="selectedTab() !== 'ready'">
+
+    <div class="orders-grid">
+
+      @for(order of readyOrders(); track order.orderId) {
+
+        <app-ready-order-card
+          [order]="order">
+        </app-ready-order-card>
 
       }
 

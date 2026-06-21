@@ -1,0 +1,128 @@
+:host {
+  display: block;
+}
+
+.order-card {
+  width: 350px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 1.5rem;
+
+  border-left: 8px solid #f39c12;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 1rem;
+}
+
+.card-header h3 {
+  margin: 0;
+
+  font-size: 1.5rem;
+}
+
+.order-id {
+  color: #586062;
+  font-size: 0.85rem;
+}
+
+.placed-at {
+  color: #586062;
+  font-size: 0.85rem;
+}
+
+.items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: #fff1ed;
+
+  border-radius: 8px;
+
+  padding: 1rem;
+}
+
+.ready-item {
+  background: rgba(39, 174, 96, 0.08);
+}
+
+.ready-icon {
+  color: #27ae60;
+}
+
+.mark-ready-btn {
+  border: none;
+
+  background: #27ae60;
+
+  color: white;
+
+  border-radius: 6px;
+
+  padding: 0.4rem 0.75rem;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.items-summary {
+  margin-top: 1rem;
+
+  padding-top: 1rem;
+
+  border-top: 1px solid #ececec;
+
+  text-align: center;
+
+  font-weight: 700;
+
+  color: #cc4d29;
+}
+
+.item-status-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #e0e0e0;
+  color: #555;
+}
+
+.status-queued {
+  background: #e0e0e0;
+  color: #555;
+}
+
+.status-preparing {
+  background: rgba(243, 156, 18, 0.15);
+  color: #f39c12;
+}
+
+.status-ready {
+  background: rgba(39, 174, 96, 0.15);
+  color: #27ae60;
+}
+
+.status-served {
+  background: rgba(108, 117, 125, 0.15);
+  color: #6c757d;
+}

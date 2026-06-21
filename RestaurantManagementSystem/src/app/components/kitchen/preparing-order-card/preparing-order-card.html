@@ -1,0 +1,80 @@
+<div class="order-card">
+
+  <div class="card-header">
+
+    <div>
+
+      <h3>
+        Table {{ order().tableNumber }}
+      </h3>
+
+      <div class="order-id">
+        ORDER #{{ order().orderNumber }}
+      </div>
+
+    </div>
+
+    <span class="placed-at">
+      {{ order().placedAt | date:'h:mm a' }}
+    </span>
+
+  </div>
+
+  <div class="items-container">
+
+    @for(item of order().items; track item.orderItemId) {
+
+      <div
+        class="order-item"
+        [class.ready-item]="item.status === 2 || item.status === 3">
+
+        <span>
+          {{ item.itemName }} x{{ item.quantity }}
+        </span>
+
+        <span class="item-status-badge"
+          [ngClass]="getStatusClass(item.status)">
+          {{ getStatusLabel(item.status) }}
+        </span>
+
+        @if(item.status === 2 || item.status === 3) {
+
+          <span class="material-symbols-outlined ready-icon">
+            check
+          </span>
+
+        } @else {
+
+          <button
+  type="button"
+  class="mark-ready-btn"
+  (click)="itemReady.emit({
+    orderId: order().orderId,
+    itemId: item.orderItemId
+  })">
+
+  MARK READY
+
+</button>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+  <div class="items-summary">
+
+    Items Ready:
+
+    {{ order().items.filter(i => i.status === 2 || i.status === 3).length }}
+
+    /
+
+    {{ order().items.length }}
+
+  </div>
+
+</div>

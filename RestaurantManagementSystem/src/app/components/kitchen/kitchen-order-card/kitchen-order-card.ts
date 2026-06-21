@@ -1,22 +1,17 @@
-import { Component, input } from '@angular/core';
-
-export interface KitchenOrderItem {
-  name: string;
-  quantity: number;
-}
+import { Component, input, output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { KitchenOrder } from '../../../models/kitchen.models';
 
 @Component({
   selector: 'app-kitchen-order-card',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './kitchen-order-card.html',
   styleUrl: './kitchen-order-card.css'
 })
 export class KitchenOrderCard {
 
-  tableNumber = input.required<number>();
+  order = input.required<KitchenOrder>();
 
-  orderNumber = input.required<number>();
+  startPreparing = output<number>();
 
-  placedAt = input.required<string>();
-  items = input.required<KitchenOrderItem[]>();
 }
