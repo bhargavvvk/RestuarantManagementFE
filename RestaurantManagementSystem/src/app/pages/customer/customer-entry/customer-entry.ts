@@ -1,8 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from '../../../services/customer';
 import { TableInfo } from '../../../models/customer.models';
-import { single } from 'rxjs';
 import { Header } from "../../../components/customer/header/header";
 import { JoinSessionCard } from "../../../components/customer/join-session-card/join-session-card";
 import { CreateSessionCard } from "../../../components/customer/create-session-card/create-session-card";

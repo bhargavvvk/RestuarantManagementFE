@@ -1,0 +1,86 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="top-accent"></div>
+
+    <div class="logo-container">
+      <span class="material-symbols-outlined logo-icon">
+        restaurant
+      </span>
+    </div>
+
+    <h1 class="login-title">Login</h1>
+
+    <p class="login-subtitle">
+      Access the Staff Portal
+    </p>
+
+    <form (ngSubmit)="login()">
+
+      <!-- Username -->
+      <div class="form-group">
+        <label class="form-label">Username</label>
+
+        <div class="input-wrapper">
+          <span class="material-symbols-outlined input-icon">
+            badge
+          </span>
+          <input
+            type="text"
+            name="username"
+            class="form-input"
+            placeholder="Username"
+            [ngModel]="username()"
+            (ngModelChange)="username.set($event)">
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="form-label">Password</label>
+
+        <div class="input-wrapper">
+          <span class="material-symbols-outlined input-icon">
+            lock
+          </span>
+
+            <input
+            [type]="showPassword() ? 'text' : 'password'"
+            name="password"
+            class="form-input password-input"
+            placeholder="Enter your password"
+            [ngModel]="password()"
+            (ngModelChange)="password.set($event)">
+
+       <button
+        type="button"
+        class="password-toggle"
+        (click)="togglePassword()">
+
+        <span class="material-symbols-outlined">
+        {{ showPassword() ? 'visibility' : 'visibility_off' }}
+        </span>
+
+          </button>
+        </div>
+      </div>
+        @if(errorMessage()) {
+        <div class="error-message">
+            {{ errorMessage() }}
+        </div>
+        }
+      <!-- Login Button -->
+        <button
+        type="submit"
+        class="login-button"
+       [disabled]="!isFormValid() || isLoading()">
+
+        <span>{{ isLoading() ? 'Logging In...' : 'Login' }}</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+
+      </button>
+
+    </form>
+
+  </div>
+</div>

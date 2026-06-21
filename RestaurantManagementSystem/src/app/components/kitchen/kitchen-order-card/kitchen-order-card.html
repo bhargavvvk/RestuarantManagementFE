@@ -1,0 +1,49 @@
+<div class="order-card">
+
+  <div class="card-header">
+
+    <div>
+
+      <h3>
+        Table {{ tableNumber() }}
+      </h3>
+
+      <div class="order-id">
+        ORDER #{{ orderNumber() }}
+      </div>
+
+    </div>
+
+    <div class="placed-at">
+      Placed: {{ placedAt() }}
+    </div>
+
+  </div>
+
+  <div class="items-container">
+
+    @for(item of items(); track item.name) {
+
+      <div class="order-item">
+
+        {{ item.name }} x{{ item.quantity }}
+
+      </div>
+
+    }
+
+  </div>
+
+  <button
+    type="button"
+    class="start-button">
+
+    <span class="material-symbols-outlined">
+      play_arrow
+    </span>
+
+    Start Preparing
+
+  </button>
+
+</div>

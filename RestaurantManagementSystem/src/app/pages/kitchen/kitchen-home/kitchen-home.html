@@ -1,0 +1,65 @@
+<app-kitchen-header
+  [totalOrders]="42">
+</app-kitchen-header>
+
+<div class="kitchen-container">
+
+  <div class="mobile-orders-count">
+    Today's Orders: 42
+  </div>
+
+  <div class="tabs">
+
+    <button
+      class="tab-button"
+      [class.active]="selectedTab() === 'queue'"
+      (click)="selectedTab.set('queue')">
+
+      Queue
+
+    </button>
+
+    <button
+      class="tab-button"
+      [class.active]="selectedTab() === 'preparing'"
+      (click)="selectedTab.set('preparing')">
+
+      Preparing
+
+    </button>
+
+    <button
+      class="tab-button"
+      [class.active]="selectedTab() === 'ready'"
+      (click)="selectedTab.set('ready')">
+
+      Ready
+
+    </button>
+
+  </div>
+
+  <p class="summary-text">
+    12 Orders Waiting to be Prepared
+  </p>
+
+  <div [hidden]="selectedTab() !== 'queue'">
+
+    <div class="orders-grid">
+
+      @for(order of queueOrders(); track order.orderNumber) {
+
+        <app-kitchen-order-card
+          [tableNumber]="order.tableNumber"
+          [orderNumber]="order.orderNumber"
+          [placedAt]="order.placedAt"
+          [items]="order.items">
+        </app-kitchen-order-card>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

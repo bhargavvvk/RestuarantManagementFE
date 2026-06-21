@@ -1,0 +1,117 @@
+:host {
+  display: block;
+}
+
+.order-card {
+  width: 100%;
+  max-width: 380px;
+
+  background: #ffffff;
+
+  border-radius: 12px;
+
+  padding: 1.5rem;
+
+  border-left: 8px solid #586062;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 1rem;
+
+  margin-bottom: 1.25rem;
+}
+
+.card-header h3 {
+  margin: 0;
+
+  font-size: 2rem;
+  font-weight: 700;
+
+  color: #251915;
+}
+
+.order-id {
+  margin-top: 0.25rem;
+
+  font-size: 0.875rem;
+  font-weight: 700;
+
+  color: #586062;
+}
+
+.placed-at {
+  color: #586062;
+
+  font-size: 0.95rem;
+
+  white-space: nowrap;
+}
+
+.items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  margin-bottom: 1.5rem;
+}
+
+.order-item {
+  background: #fff1ed;
+
+  padding: 1rem;
+
+  border-radius: 8px;
+
+  font-weight: 700;
+
+  color: #251915;
+}
+
+.start-button {
+  width: 100%;
+
+  border: none;
+
+  background: #cc4d29;
+
+  color: white;
+
+  border-radius: 12px;
+
+  padding: 1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.start-button:hover {
+  background: #b54222;
+}
+
+@media (max-width: 768px) {
+
+  .order-card {
+    max-width: none;
+  }
+
+  .card-header h3 {
+    font-size: 1.75rem;
+  }
+
+  .placed-at {
+    font-size: 0.875rem;
+  }
+}

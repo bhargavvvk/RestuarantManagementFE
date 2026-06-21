@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --surface-warm: #FAF9F6;
+  --surface-container-lowest: #ffffff;
+  --surface-container: #ffe9e4;
+
+  --primary: #aa3512;
+  --primary-container: #cc4d29;
+
+  --on-surface: #251915;
+  --on-surface-variant: #58413b;
+
+  --outline-variant: #e0bfb7;
+}

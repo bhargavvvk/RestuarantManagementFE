@@ -1,0 +1,95 @@
+:host {
+  display: block;
+}
+
+.kitchen-header {
+  height: 80px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 1.5rem;
+
+  background: rgba(255, 248, 246, 0.95);
+
+  border-bottom: 1px solid rgba(224, 191, 183, 0.3);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-icon {
+  color: #cc4d29;
+}
+
+.header-brand h1 {
+  margin: 0;
+
+  color: #cc4d29;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.orders-chip {
+  background: #fbe3dd;
+
+  color: #cc4d29;
+
+  padding: 0.5rem 1rem;
+
+  border-radius: 999px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  border: none;
+
+  background: #fbe3dd;
+
+  color: #251915;
+
+  padding: 0.5rem 1rem;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+
+  .kitchen-header {
+    padding: 0 1rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .header-brand h1 {
+    font-size: 1.25rem;
+  }
+
+  .logout-button {
+    padding: 0.5rem 0.75rem;
+  }
+}
