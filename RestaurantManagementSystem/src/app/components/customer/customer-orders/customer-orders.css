@@ -1,0 +1,153 @@
+.orders-page {
+  padding: 0 0.75rem 5rem;
+}
+
+.page-title {
+  margin: 0;
+  padding: 0.65rem 0.25rem;
+
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  color: #251915;
+}
+
+/* ── Order Card ── */
+
+.order-card {
+  background: #FFF8F6;
+  border-radius: 12px;
+  border-left: 4px solid #F59E0B;
+
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.order-header {
+  margin-bottom: 8px;
+}
+
+.order-header span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  border-top: 1px solid #EDE0DC;
+  padding-top: 8px;
+  margin-top: 4px;
+}
+
+.item-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #251915;
+}
+
+.item-meta {
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: #58413B;
+}
+
+.item-right {
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.subtotal {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #251915;
+}
+
+.status-chip {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.placed   { background: #F3F4F6; color: #6B7280; }
+.preparing{ background: #FEF3C7; color: #D97706; }
+.ready    { background: #DBEAFE; color: #2563EB; }
+.served   { background: #DCFCE7; color: #16A34A; }
+.cancelled{ background: #FEE2E2; color: #DC2626; }
+
+.instructions {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed #EDE0DC;
+
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #7a6b65;
+}
+
+/* ── Bill Card ── */
+
+.bill-card {
+  background: #FFF1ED;
+  border-radius: 12px;
+
+  padding: 0.65rem 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 12px;
+
+  font-size: 1rem;
+  font-weight: 700;
+  color: #251915;
+}
+
+.payment-status {
+  padding: 3px 10px;
+  border-radius: 999px;
+
+  background: #FEF3C7;
+  color: #D97706;
+
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 0.875rem;
+  color: #58413B;
+
+  margin-bottom: 6px;
+}
+
+.bill-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #E0BFB7;
+
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #251915;
+}
+

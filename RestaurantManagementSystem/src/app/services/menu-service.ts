@@ -1,8 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import { CartItem, Category, MenuItem } from '../models/customer.models';
+import { CartItem, Category, CustomerBill, CustomerOrder, MenuItem } from '../models/customer.models';
 import { baseUrl } from '../../environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,9 @@ export class MenuService {
   selectedCategoryId=signal<number | null>(null);
   vegOnly = signal(false);
   cartItems = signal<CartItem[]>([]);
+  orders = signal<CustomerOrder[]>([]);
+  bill = signal<CustomerBill | null>(null);
+  ordersLoading = signal(false);
   getCategories() {
      return this.http.get<Category[]>(`${baseUrl}/Menu/categories`);
   }
@@ -88,5 +91,51 @@ export class MenuService {
         specialInstructions
       }
     );
+  }
+  getOrders() {
+    return this.http.get<CustomerOrder[]>(
+      `${baseUrl}/CustomerOrder`
+    );
+  }
+
+  getBillSummary() {
+    return this.http.get<CustomerBill>(
+      `${baseUrl}/Bill/Customer`
+    );
+  }
+  loadOrderData() {
+
+    this.ordersLoading.set(true);
+    forkJoin({
+      orders: this.getOrders(),
+      bill: this.getBillSummary()
+    }).subscribe({
+      next: result => {
+
+        this.orders.set(result.orders);
+        this.bill.set(result.bill);
+
+        this.ordersLoading.set(false);
+      },
+      error: () => {
+
+        this.ordersLoading.set(false);
+
+      }
+    });
+
+  }
+  loadOrders() {
+    this.getOrders()
+      .subscribe(orders => {
+        this.orders.set(orders);
+      });
+  }
+
+  loadBill() {
+    this.getBillSummary()
+      .subscribe(bill => {
+        this.bill.set(bill);
+      });
   }
 }

@@ -38,6 +38,7 @@ export class CustomerOperations {
     this.loadTableInfo();
     this.validateSession();
     this.menuService.loadCart();
+    this.menuService.loadOrderData();
     this.signalR.startConnection()
     .then(() => console.log('SignalR Connected'))
     .catch(err => console.error(err));
@@ -53,8 +54,29 @@ export class CustomerOperations {
         ' New Order placed!'
       );
       this.menuService.loadCart();
-
+      this.menuService.loadOrderData();
     });
+    this.signalR.onOrderModified(data => {
+      this.notification.success(
+        data.message
+      );
+       this.menuService.loadOrderData();
+    });
+    this.signalR.onOrderCancelled(data => {
+      this.notification.success(
+        `Order ${data.orderId}: ${data.message}`
+      );
+      this.menuService.loadOrderData();
+    });
+    this.signalR.onOrderItemStatusReady(() => {
+      this.menuService.loadOrders();
+    });
+    this.signalR.onOrderStatusPreparing(() => {
+      this.menuService.loadOrders();
+    });
+    this.signalR.onBillStatusChanged(()=>{
+      this.menuService.loadBill();
+    })
   }
   private loadTableInfo(): void {
     this.customerService

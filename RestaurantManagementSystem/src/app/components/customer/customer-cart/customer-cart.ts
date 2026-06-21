@@ -1,8 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { MenuService } from '../../../services/menu-service';
+import { NotificationServices } from '../../../services/notification-services';
 import { CartItem } from '../../../models/customer.models';
 import { MatIconModule } from '@angular/material/icon';
-import { NotificationServices } from '../../../services/notification-services';
 
 @Component({
   selector: 'app-customer-cart',
@@ -23,25 +23,44 @@ export class CustomerCart {
   );
 
   increaseQuantity(item: CartItem): void {
-    this.menuService.updateCartItem(item.id, item.quantity + 1).subscribe();
+    this.menuService.updateCartItem(item.id, item.quantity + 1).subscribe({
+      error: (err) => {
+        this.notification.error(err.error?.Message);
+      }
+    });
   }
 
   decreaseQuantity(item: CartItem): void {
     if (item.quantity === 1) {
-      this.menuService.removeCartItem(item.id).subscribe();
+      this.menuService.removeCartItem(item.id).subscribe({
+        error: (err) => {
+          this.notification.error(err.error?.Message);
+        }
+      });
       return;
     }
-    this.menuService.updateCartItem(item.id, item.quantity - 1).subscribe();
+    this.menuService.updateCartItem(item.id, item.quantity - 1).subscribe({
+      error: (err) => {
+        this.notification.error(err.error?.Message);
+      }
+    });
   }
 
   removeItem(item: CartItem): void {
-    this.menuService.removeCartItem(item.id).subscribe();
+    this.menuService.removeCartItem(item.id).subscribe({
+      error: (err) => {
+        this.notification.error(err.error?.Message);
+      }
+    });
   }
 
   placeOrder(): void {
     this.menuService.placeOrder(this.specialInstructions()).subscribe({
       next: () => {
         this.specialInstructions.set('');
+      },
+      error: (err) => {
+        this.notification.error(err.error?.Message);
       }
     });
   }

@@ -1,9 +1,10 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { MenuCard } from "../menu-card/menu-card";
 import { MenuService } from '../../../services/menu-service';
+import { NotificationServices } from '../../../services/notification-services';
 import { MenuItem } from '../../../models/customer.models';
 import { MatIconModule } from '@angular/material/icon';
-import { Subject, debounceTime, switchMap } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-menu-list',
@@ -13,6 +14,7 @@ import { Subject, debounceTime, switchMap } from 'rxjs';
 })
 export class MenuList {
   private menuService = inject(MenuService);
+  private notification = inject(NotificationServices);
   menuItems = signal<MenuItem[]>([]);
 
   constructor() {
@@ -64,8 +66,8 @@ export class MenuList {
 
   addToCart(menuItemId: number) {
     this.menuService.addToCart(menuItemId).subscribe({
-      error: err => {
-        console.error(err);
+      error: (err) => {
+        this.notification.error(err.error?.Message);
       }
     });
   }
@@ -74,8 +76,8 @@ export class MenuList {
     const cartItem = this.getCartItem(menuItemId);
     if (!cartItem) return;
     this.menuService.updateCartItem(cartItem.id, cartItem.quantity + 1).subscribe({
-      error: err => {
-        console.error(err);
+      error: (err) => {
+        this.notification.error(err.error?.Message);
       }
     });
   }
@@ -85,15 +87,15 @@ export class MenuList {
     if (!cartItem) return;
     if (cartItem.quantity === 1) {
       this.menuService.removeCartItem(cartItem.id).subscribe({
-        error: err => {
-          console.error(err);
+        error: (err) => {
+          this.notification.error(err.error?.Message);
         }
       });
       return;
     }
     this.menuService.updateCartItem(cartItem.id, cartItem.quantity - 1).subscribe({
-      error: err => {
-        console.error(err);
+      error: (err) => {
+        this.notification.error(err.error?.Message);
       }
     });
   }

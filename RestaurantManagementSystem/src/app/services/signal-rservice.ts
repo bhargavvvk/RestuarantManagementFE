@@ -29,4 +29,35 @@ export class SignalRService {
   onOrderPlaced(callback: () => void): void {
     this.hubConnection?.on('OrderPlaced', callback);
   }
+  onOrderModified(
+    callback: (data: any) => void): void {
+    this.hubConnection?.on(
+      'OrderModified',
+      callback
+    );
+  }
+
+  onOrderCancelled(callback: (data: any) => void): void {
+    this.hubConnection?.on(
+      'OrderCancelled',
+      callback
+    );
+  }
+
+  onOrderItemStatusReady(callback: () => void): void {
+    this.hubConnection?.on(
+      'OrderItemStatusReady',
+      callback
+    );
+  }
+
+  onOrderStatusPreparing(callback: () => void): void {
+    this.hubConnection?.on(
+      'OrderStatusPreparing',
+      callback
+    );
+  }
+  onBillStatusChanged(callback:()=>void):void{
+    this.hubConnection?.on('BillStatusChanged', callback);
+  }
 }

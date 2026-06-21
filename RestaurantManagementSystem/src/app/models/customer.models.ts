@@ -52,3 +52,38 @@ export interface CartItem {
   price: number;
   isAvailable: boolean;
 }
+export interface CustomerOrderItem {
+  orderItemId: number;
+  itemName: string;
+  itemPrice: number;
+  quantity: number;
+  status: number;
+}
+export interface CustomerOrder {
+  orderId: number;
+  orderNumber: string;
+  totalAmount: number;
+  placedAt: string;
+  specialInstructions: string;
+  items: CustomerOrderItem[];
+}
+export interface CustomerBill {
+  billNumber: string;
+
+  foodTotal: number;
+
+  cgstPercentage: number;
+  cgstAmount: number;
+
+  sgstPercentage: number;
+  sgstAmount: number;
+
+  serviceChargePercentage: number;
+  serviceChargeAmount: number;
+
+  grandTotal: number;
+
+  paymentStatus: number;
+
+  generatedAt: string;
+}

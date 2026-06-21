@@ -1,7 +1,7 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: linear-gradient(180deg, #FFF8F6 0%, #FFFFFF 100%);
+  background: #ffffff;
 }
 
 .top-section {
@@ -26,7 +26,7 @@ app-customer-bottom-nav {
   padding-top: 250px;
   padding-bottom: 120px;
   min-height: 100vh;
-  background: linear-gradient(180deg, #FFF8F6 0%, #FFFFFF 100%);
+  background: #ffffff;
 }
 .menu-content {
   padding-top: 250px;
