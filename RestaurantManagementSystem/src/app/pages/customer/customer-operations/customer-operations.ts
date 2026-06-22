@@ -40,10 +40,14 @@ export class CustomerOperations {
     this.menuService.loadCart();
     this.menuService.loadOrderData();
     this.signalR.startConnection()
-    .catch(err => this.notification.error('SignalR connection failed: ' + err.message));
+      .then(() => this.registerSignalRListeners())
+      .catch(err => this.notification.error('SignalR connection failed: ' + err.message));
+  }
+
+  private registerSignalRListeners(): void {
     this.signalR.onSessionClosed(() => {
       this.customerSession.clearSession();
-      this.router.navigate(['/join',this.tableIdentifier]);
+      this.router.navigate(['/join', this.tableIdentifier]);
     });
     this.signalR.onCartUpdated(() => {
       this.menuService.loadCart();
@@ -56,10 +60,8 @@ export class CustomerOperations {
       this.menuService.loadOrderData();
     });
     this.signalR.onOrderModified(data => {
-      this.notification.success(
-        data.message
-      );
-       this.menuService.loadOrderData();
+      this.notification.success(data.message);
+      this.menuService.loadOrderData();
     });
     this.signalR.onOrderCancelled(data => {
       this.notification.success(
@@ -73,9 +75,9 @@ export class CustomerOperations {
     this.signalR.onOrderStatusPreparing(() => {
       this.menuService.loadOrders();
     });
-    this.signalR.onBillStatusChanged(()=>{
+    this.signalR.onBillStatusChanged(() => {
       this.menuService.loadBill();
-    })
+    });
   }
   private loadTableInfo(): void {
     this.customerService

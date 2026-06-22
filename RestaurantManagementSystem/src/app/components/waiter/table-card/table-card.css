@@ -1,0 +1,110 @@
+.table-card {
+  border-radius: 20px;
+  border: 2px solid transparent;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 16px;
+  width: 100%;
+  background: white;
+  transition: transform 0.1s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.table-card:active {
+  transform: scale(0.96);
+}
+
+.table-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+  color: #251915;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background-color: rgba(255,255,255,0.8);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Available */
+
+.card-available {
+  border-color: #27AE60;
+  background-color: rgba(39,174,96,0.02);
+}
+
+.card-available .dot {
+  background-color: #27AE60;
+}
+
+.card-available .text {
+  color: #27AE60;
+}
+
+/* Occupied */
+
+.card-occupied {
+  border-color: #CC4D29;
+  background-color: rgba(204,77,41,0.02);
+}
+
+.card-occupied .dot {
+  background-color: #CC4D29;
+}
+
+.card-occupied .text {
+  color: #CC4D29;
+}
+
+/* Unavailable */
+
+.card-unavailable {
+  border-color: #F39C12;
+  background-color: rgba(243,156,18,0.08);
+}
+
+.card-unavailable .dot {
+  background-color: #F39C12;
+}
+
+.card-unavailable .text {
+  color: #F39C12;
+}
+
+/* Bill Requested */
+
+.card-bill {
+  border-color: #2980B9;
+  background-color: rgba(41,128,185,0.02);
+}
+
+.card-bill .dot {
+  background-color: #2980B9;
+}
+
+.card-bill .text {
+  color: #2980B9;
+}

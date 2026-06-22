@@ -1,0 +1,18 @@
+<div
+  class="table-card"
+  [class]="cardClass"
+  (click)="onClick()">
+
+  <h2 class="table-id">
+    {{ table.tableNumber }}
+  </h2>
+
+  <div class="status-badge">
+    <div class="dot"></div>
+
+    <span class="text">
+      {{ table.status }}
+    </span>
+  </div>
+
+</div>

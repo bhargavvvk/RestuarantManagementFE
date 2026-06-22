@@ -1,1 +1,113 @@
-<p>waiter-home works!</p>
+<header class="top-app-bar">
+  <h1 class="header-title">
+    Table Dashboard
+  </h1>
+</header>
+
+<main class="main-content">
+
+  @if (selectedTab() === 'tables') {
+
+    <!-- Status Legend -->
+    <div class="status-legend">
+
+      <div class="legend-item">
+        <div
+          class="legend-dot"
+          style="background-color: #27AE60">
+        </div>
+
+        <span class="legend-text">
+          Available
+        </span>
+      </div>
+
+      <div class="legend-item">
+        <div
+          class="legend-dot"
+          style="background-color: #CC4D29">
+        </div>
+
+        <span class="legend-text">
+          Occupied
+        </span>
+      </div>
+
+      <div class="legend-item">
+        <div
+          class="legend-dot"
+          style="background-color: #F39C12">
+        </div>
+
+        <span class="legend-text">
+          Unavailable
+        </span>
+      </div>
+
+    </div>
+
+    <div class="container-fluid p-0">
+
+      <div class="row g-3">
+
+        @for (table of tables(); track table.tableId) {
+
+          <div class="col-6 col-md-4 col-lg-5-cols">
+
+            <app-table-card [table]="table"> </app-table-card>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+  @if (selectedTab() === 'requests') {
+
+    <div class="requests-placeholder">
+      Requests
+    </div>
+
+  }
+
+</main>
+
+<nav class="bottom-nav">
+
+  <button
+    type="button"
+    class="nav-item"
+    [class.active]="selectedTab() === 'tables'"
+    (click)="setTab('tables')">
+
+    <span class="material-symbols-outlined">
+      table_bar
+    </span>
+
+    <span class="nav-label">
+      Tables
+    </span>
+
+  </button>
+
+  <button
+    type="button"
+    class="nav-item"
+    [class.active]="selectedTab() === 'requests'"
+    (click)="setTab('requests')">
+
+    <span class="material-symbols-outlined">
+      front_hand
+    </span>
+
+    <span class="nav-label">
+      Requests
+    </span>
+
+  </button>
+
+</nav>

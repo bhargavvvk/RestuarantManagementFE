@@ -7,6 +7,13 @@ import { hubUrl } from '../../environment';
 export class SignalRService {
   private hubConnection?: signalR.HubConnection;
   startConnection(): Promise<void> {
+    if (
+      this.hubConnection &&
+      this.hubConnection.state === signalR.HubConnectionState.Connected
+    ) {
+      return Promise.resolve();
+    }
+
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${hubUrl}/notificationHub`, {
         accessTokenFactory: () =>
@@ -72,5 +79,22 @@ export class SignalRService {
       callback
     );
 
+  }
+  onTableAssigned(
+    callback: (message: string) => void
+  ): void {
+    this.hubConnection?.on('tableassinged', callback);
+  }
+
+  onTableRemoved(
+    callback: (message: string) => void
+  ): void {
+    this.hubConnection?.on('tableremoved', callback);
+  }
+
+  onSessionCreated(
+    callback: (message: string) => void
+  ): void {
+    this.hubConnection?.on('SessionCreated', callback);
   }
 }
