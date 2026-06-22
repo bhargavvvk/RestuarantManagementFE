@@ -68,9 +68,7 @@ export class Kitchen {
         next: count => {
           this.todayOrderCount.set(count);
         },
-        error: error => {
-          console.error(error);
-        }
+        error: () => {}
       });
   }
   loadQueueOrders(): void {
@@ -89,9 +87,7 @@ export class Kitchen {
 
         },
 
-        error: error => {
-          console.error(error);
-        }
+        error: () => {}
 
       });
   }
@@ -111,9 +107,7 @@ export class Kitchen {
 
         },
 
-        error: error => {
-          console.error(error);
-        }
+        error: () => {}
 
       });
   }
@@ -133,9 +127,7 @@ export class Kitchen {
 
         },
 
-        error: error => {
-          console.error(error);
-        }
+        error: () => {}
 
       });
 

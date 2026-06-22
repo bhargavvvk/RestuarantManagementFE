@@ -40,8 +40,7 @@ export class CustomerOperations {
     this.menuService.loadCart();
     this.menuService.loadOrderData();
     this.signalR.startConnection()
-    .then(() => console.log('SignalR Connected'))
-    .catch(err => console.error(err));
+    .catch(err => this.notification.error('SignalR connection failed: ' + err.message));
     this.signalR.onSessionClosed(() => {
       this.customerSession.clearSession();
       this.router.navigate(['/join',this.tableIdentifier]);
@@ -84,38 +83,31 @@ export class CustomerOperations {
       .subscribe({
         next: response => {
           this.tableNumber.set(response.tableNumber)
-          console.log('Table Response:', response);
         },
         error: error => {
-          console.error(error);
+          this.notification.error(error.message)
         }
       });
   }
   validateSession(): void {
-  this.customerService
-    .validateSession()
-    .subscribe({
-      next: (response) => {
-       if (
-        !response.isActive ||
-        response.tableIdentifier !== this.tableIdentifier
-      ) {
-        this.router.navigate([
-          '/join',
-          this.tableIdentifier
-        ]);
-        return;
-      }
-      console.log('Session Valid', response);
-    },
-      error: () => {
-        this.customerSession.clearSession();
-        this.router.navigate(['/join', this.tableIdentifier]);
-      }
-    });
-}
+    this.customerService
+      .validateSession()
+      .subscribe({
+        next: (response) => {
+          if (
+            !response.isActive ||
+            response.tableIdentifier !== this.tableIdentifier
+          ) {
+            this.router.navigate(['/join', this.tableIdentifier]);
+          }
+        },
+        error: () => {
+          this.customerSession.clearSession();
+          this.router.navigate(['/join', this.tableIdentifier]);
+        }
+      });
+  }
   changeTab(tab: 'menu' | 'cart' | 'orders') {
     this.activeTab.set(tab);
-      console.log(tab);
   }
 }

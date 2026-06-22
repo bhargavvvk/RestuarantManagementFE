@@ -50,7 +50,6 @@ export class CreateSessionCard {
       ).then((response) => {
         this.customerSession.setToken(response.token);
         this.customerSession.setSessionOtp(response.sessionOtp);
-        console.log('Session Created:', response);
        this.router.navigate(['/join',this.tableIdentifier(),'operations']);
       }).catch((error) => {
         this.serverError.set(

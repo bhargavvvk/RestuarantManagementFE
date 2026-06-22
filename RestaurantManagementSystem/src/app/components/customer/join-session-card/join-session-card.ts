@@ -113,8 +113,6 @@ export class JoinSessionCard {
 
         this.customerSession.setSessionOtp(response.sessionOtp);
 
-        console.log('Session Joined:', response);
-
        this.router.navigate(['/join',this.tableIdentifier(),'operations']);
 
       } catch (error) {

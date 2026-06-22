@@ -32,7 +32,7 @@ type KitchenTab =
   templateUrl: './kitchen-home.html',
   styleUrl: './kitchen-home.css'
 })
-export class KitchenHome implements OnInit, OnDestroy {
+export class KitchenHome implements OnInit {
 
   private readonly kitchenService = inject(Kitchen);
   private readonly notification = inject(NotificationServices);
@@ -135,15 +135,12 @@ export class KitchenHome implements OnInit, OnDestroy {
 
       });
   }
-  ngOnDestroy(): void {
-    this.signalRService.leaveGroup('kitchen');
-  }
+
 
   private registerSignalRListeners(): void {
 
     this.signalRService.startConnection().then(() => {
 
-      this.signalRService.joinGroup('kitchen');
 
       this.signalRService.onOrderPlaced((data) => {
         this.zone.run(() => {

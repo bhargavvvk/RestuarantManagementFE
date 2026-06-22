@@ -43,7 +43,6 @@ export class MenuList {
         this.menuItems.set(items);
       },
       error: err => {
-        console.error(err);
       }
     });
   }

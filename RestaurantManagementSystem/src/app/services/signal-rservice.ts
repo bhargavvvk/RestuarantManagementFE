@@ -73,12 +73,4 @@ export class SignalRService {
     );
 
   }
-
-  joinGroup(group: string): Promise<void> {
-    return this.hubConnection!.invoke('JoinGroup', group);
-  }
-
-  leaveGroup(group: string): Promise<void> {
-    return this.hubConnection!.invoke('LeaveGroup', group);
-  }
 }

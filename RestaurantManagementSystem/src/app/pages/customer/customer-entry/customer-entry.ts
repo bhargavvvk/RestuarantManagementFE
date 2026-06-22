@@ -35,7 +35,6 @@ export class CustomerEntry {
           this.hasTableError.set(false);
         },
         error: err => {
-          console.error(err);
           this.hasTableError.set(true);
           this.isLoading.set(false);
         },
