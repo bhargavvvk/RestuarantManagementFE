@@ -1,0 +1,103 @@
+.veg-toggle {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  height: 40px;
+
+  padding: 0 10px;
+
+  background: #fbe3dd;
+  border-radius: 20px;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.veg-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Green square veg indicator */
+.veg-indicator {
+  flex-shrink: 0;
+
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid #12a64a;
+  border-radius: 3px;
+
+  background: white;
+
+  position: relative;
+}
+
+.veg-indicator::after {
+  content: '';
+
+  width: 7px;
+  height: 7px;
+
+  background: #12a64a;
+  border-radius: 50%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.veg-label {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Manrope', sans-serif;
+
+  color: #2d2421;
+}
+
+/* Toggle switch */
+.switch-track {
+  flex-shrink: 0;
+
+  width: 36px;
+  height: 20px;
+
+  background: #d4b3ab;
+  border-radius: 999px;
+
+  position: relative;
+
+  transition: background 0.2s;
+}
+
+.switch-track::after {
+  content: '';
+
+  width: 14px;
+  height: 14px;
+
+  background: white;
+  border-radius: 50%;
+
+  position: absolute;
+  top: 3px;
+  left: 3px;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  transition: transform 0.2s;
+}
+
+.veg-toggle input:checked ~ .switch-track {
+  background: #12a64a;
+}
+
+.veg-toggle input:checked ~ .switch-track::after {
+  transform: translateX(16px);
+}

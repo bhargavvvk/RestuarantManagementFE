@@ -1,0 +1,13 @@
+<div class="chips-container">
+
+  @for (category of categories(); track category.id) {
+
+    <button
+      class="chip"
+      [class.selected]="menuService.selectedCategoryId() === category.id"
+      (click)="selectCategory(category.id)">
+      {{ category.name }}
+    </button>
+  }
+
+</div>

@@ -34,7 +34,7 @@
 
 </header>
 
-<main class="table-content">
+<div class="sticky-controls">
 
   <div class="tab-navigation">
 
@@ -43,9 +43,7 @@
       class="tab-button"
       [class.active]="selectedTab() === 'menu'"
       (click)="setTab('menu')">
-
       Menu
-
     </button>
 
     <button
@@ -53,9 +51,7 @@
       class="tab-button"
       [class.active]="selectedTab() === 'cart'"
       (click)="setTab('cart')">
-
       Cart
-
     </button>
 
     <button
@@ -63,9 +59,7 @@
       class="tab-button"
       [class.active]="selectedTab() === 'orders'"
       (click)="setTab('orders')">
-
       Orders
-
     </button>
 
     <button
@@ -73,11 +67,31 @@
       class="tab-button"
       [class.active]="selectedTab() === 'bill'"
       (click)="setTab('bill')">
-
       Bill
-
     </button>
 
+  </div>
+
+  <app-waiter-menu-filter [hidden]="selectedTab() !== 'menu'"></app-waiter-menu-filter>
+
+</div>
+
+<main class="page-content">
+
+  <div [hidden]="selectedTab() !== 'menu'">
+    <app-waiter-menu-list></app-waiter-menu-list>
+  </div>
+
+  <div [hidden]="selectedTab() !== 'cart'">
+    <div class="placeholder">Cart Coming Soon</div>
+  </div>
+
+  <div [hidden]="selectedTab() !== 'orders'">
+    <div class="placeholder">Orders Coming Soon</div>
+  </div>
+
+  <div [hidden]="selectedTab() !== 'bill'">
+    <div class="placeholder">Bill Coming Soon</div>
   </div>
 
 </main>

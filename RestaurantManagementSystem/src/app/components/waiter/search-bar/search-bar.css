@@ -1,0 +1,46 @@
+:host {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  height: 40px;
+
+  padding: 0 14px;
+
+  border-radius: 20px;
+
+  background: #fbe3dd;
+}
+
+.search-container i {
+  flex-shrink: 0;
+
+  color: #58413b;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.search-container input {
+  flex: 1;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #58413b;
+
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Manrope', sans-serif;
+}
+
+.search-container input::placeholder {
+  color: #a07d75;
+}

@@ -54,7 +54,7 @@ export class CustomerOperations {
     });
     this.signalR.onOrderPlaced((data) => {
       this.notification.success(
-        `Table ${data.tableNumber} | Order #${data.orderNumber} — ${data.message}`
+        `New Order Placed`
       );
       this.menuService.loadCart();
       this.menuService.loadOrderData();

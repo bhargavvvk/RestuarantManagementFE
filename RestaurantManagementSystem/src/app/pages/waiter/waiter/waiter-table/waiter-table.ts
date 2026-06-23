@@ -2,15 +2,18 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Waiter } from '../../../../services/waiter';
 import { Auth } from '../../../../services/auth';
+import { WaiterMenuList } from "../../../../components/waiter/waiter-menu-list/waiter-menu-list";
+import { WaiterTableService } from '../../../../services/waiter-table';
+import { WaiterMenuFilter } from "../../../../components/waiter/waiter-menu-filter/waiter-menu-filter";
 
 @Component({
   selector: 'app-waiter-table',
-  imports: [],
+  imports: [WaiterMenuList, WaiterMenuFilter],
   templateUrl: './waiter-table.html',
   styleUrl: './waiter-table.css',
 })
 export class WaiterTable {
-
+  private readonly waiterTableService=inject(WaiterTableService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly waiter = inject(Waiter);
@@ -19,6 +22,9 @@ export class WaiterTable {
     Number(this.route.snapshot.paramMap.get('tableId'));
    ngOnInit(): void {
     this.validateAccess();
+    this.waiterTableService
+    .loadCart(this.tableId)
+    .subscribe();
   }
   private validateAccess(): void {
 
