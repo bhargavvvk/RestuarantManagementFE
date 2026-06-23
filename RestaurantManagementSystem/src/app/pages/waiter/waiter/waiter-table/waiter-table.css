@@ -1,0 +1,180 @@
+:host {
+  display: block;
+}
+
+.top-app-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+
+  background-color: rgba(255, 248, 246, 0.9);
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
+
+  z-index: 1000;
+
+  border-bottom: 1px solid #ffe9e4;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-button {
+  border: none;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  color: #251915;
+  cursor: pointer;
+}
+
+.back-button .material-symbols-outlined {
+  font-size: 24px;
+}
+
+.header-title {
+  margin: 0;
+
+  color: #cc4d29;
+
+  font-family: 'Manrope', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+
+  background: #fbe3dd;
+  color: #251915;
+
+  padding: 8px 16px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.logout-button .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.table-content {
+  padding-top: 100px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 100px;
+}
+
+.tab-navigation {
+  display: flex;
+  gap: 8px;
+
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  padding-bottom: 4px;
+}
+
+.tab-navigation::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-button {
+  flex-shrink: 0;
+
+  min-width: 72px;
+  height: 36px;
+
+  border: none;
+
+  background: #ffe9e4;
+  color: #251915;
+
+  border-radius: 8px;
+
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.tab-button.active {
+  background: #cc4d29;
+  color: white;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+
+  width: 100%;
+  height: 72px;
+
+  background-color: #faf9f6;
+
+  border-top: 1px solid #e0bfb7;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+
+  padding-bottom: 8px;
+
+  z-index: 1000;
+}
+
+.nav-item {
+  width: 80px;
+  height: 52px;
+
+  border: none;
+  background: transparent;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: #58413b;
+
+  transition: all 0.2s ease;
+}
+
+.nav-item.active {
+  background-color: #cc4d29;
+  color: white;
+  border-radius: 16px;
+}
+
+.nav-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.material-symbols-outlined {
+  font-size: 24px;
+}

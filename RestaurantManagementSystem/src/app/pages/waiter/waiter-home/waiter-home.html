@@ -1,7 +1,22 @@
 <header class="top-app-bar">
+
   <h1 class="header-title">
     Table Dashboard
   </h1>
+
+  <button
+    type="button"
+    class="logout-button"
+    (click)="logout()">
+
+    <span class="material-symbols-outlined">
+      logout
+    </span>
+
+    Logout
+
+  </button>
+
 </header>
 
 <main class="main-content">
@@ -54,7 +69,10 @@
 
           <div class="col-6 col-md-4 col-lg-5-cols">
 
-            <app-table-card [table]="table"> </app-table-card>
+          <app-table-card
+            [table]="table"
+            (tableClicked)="openTable(table.tableId)">
+        </app-table-card>
 
           </div>
 
@@ -67,10 +85,27 @@
   }
 
   @if (selectedTab() === 'requests') {
+    @if (requests().length > 0) {
 
-    <div class="requests-placeholder">
-      Requests
-    </div>
+  @for (
+    request of requests();
+    track request.requestId
+  ) {
+
+    <app-request-card
+      [request]="request"
+      (complete)="completeRequest($event)">
+    </app-request-card>
+
+  }
+
+} @else {
+
+  <div class="requests-placeholder">
+    No Active Requests
+  </div>
+
+}
 
   }
 

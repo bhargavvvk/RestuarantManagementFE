@@ -1,6 +1,7 @@
 <div
   class="table-card"
   [class]="cardClass"
+  [class.disabled]="!isClickable"
   (click)="onClick()">
 
   <h2 class="table-id">

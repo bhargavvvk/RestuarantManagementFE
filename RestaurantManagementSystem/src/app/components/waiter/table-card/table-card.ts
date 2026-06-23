@@ -21,7 +21,15 @@ export class TableCard {
   tableClicked = new EventEmitter<number>();
 
   onClick(): void {
-    this.tableClicked.emit(this.table.tableId);
+
+    if (!this.isClickable) {
+      return;
+    }
+
+    this.tableClicked.emit(
+      this.table.tableId
+    );
+
   }
 
   get cardClass(): string {
@@ -44,5 +52,16 @@ export class TableCard {
       default:
         return 'card-available';
     }
+  }
+  get isClickable(): boolean {
+
+    const status =
+      this.table.status.toLowerCase();
+
+    return !(
+      status === 'available' ||
+      status === 'unavailable'
+    );
+
   }
 }

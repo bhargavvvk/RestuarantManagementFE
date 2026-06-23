@@ -6,6 +6,7 @@ import { WaiterHome } from './pages/waiter/waiter-home/waiter-home';
 import { KitchenHome } from './pages/kitchen/kitchen-home/kitchen-home';
 import { AdminHome } from './pages/admin/admin-home/admin-home';
 import { authGuard } from './guards/auth-guard';
+import { WaiterTable } from './pages/waiter/waiter/waiter-table/waiter-table';
 
 export const routes: Routes = [
   {
@@ -57,6 +58,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
     data: {
       roles: ['Admin']
+    }
+  },
+  {
+    path:'waiter/tables/:tableId',
+    component: WaiterTable,
+    canActivate: [authGuard],
+    data:{
+      roles: ['Waiter']
     }
   }
 ];

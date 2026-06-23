@@ -97,4 +97,14 @@ export class SignalRService {
   ): void {
     this.hubConnection?.on('SessionCreated', callback);
   }
+  onReceiveCustomerRequest(
+    callback: () => void
+  ): void {
+
+    this.hubConnection?.on(
+      'ReceiveCustomerRequest',
+      callback
+    );
+
+  }
 }

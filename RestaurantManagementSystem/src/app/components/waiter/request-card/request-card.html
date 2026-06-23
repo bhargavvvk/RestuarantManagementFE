@@ -1,0 +1,49 @@
+<div class="request-card">
+
+ <div
+  class="status-indicator"
+  [ngClass]="cardClass">
+</div>
+
+  <div class="request-header">
+
+    <span class="table-badge">
+      {{ request.tableNumber }}
+    </span>
+
+    <span class="request-time">
+      {{ request.requestedAt | date:'shortTime' }}
+    </span>
+
+  </div>
+
+  <div class="request-body">
+
+    <div class="icon-circle">
+
+      <span class="material-symbols-outlined">
+        {{ icon }}
+      </span>
+
+    </div>
+
+    <h3 class="request-title">
+      {{ title }}
+    </h3>
+
+  </div>
+
+  <button
+    type="button"
+    class="btn-complete"
+    (click)="onComplete()">
+
+    <span class="material-symbols-outlined">
+      check_circle
+    </span>
+
+    COMPLETE
+
+  </button>
+
+</div>

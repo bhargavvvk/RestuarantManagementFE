@@ -35,7 +35,9 @@ body {
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
 
   z-index: 1000;
 
@@ -50,6 +52,31 @@ body {
   font-family: 'Manrope', sans-serif;
   font-size: 20px;
   font-weight: 800;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+
+  background: #fbe3dd;
+  color: var(--on-surface);
+
+  padding: 8px 16px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.logout-button .material-symbols-outlined {
+  font-size: 20px;
 }
 
 /* Main */

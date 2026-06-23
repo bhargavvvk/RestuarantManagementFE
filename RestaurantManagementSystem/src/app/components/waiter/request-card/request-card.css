@@ -1,0 +1,137 @@
+.request-card {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e0bfb7;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.status-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.call-waiter {
+  background-color: #f39c12;
+}
+
+.need-water {
+  background-color: #2980b9;
+}
+
+.bill-request {
+  background-color: #27ae60;
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.table-badge {
+  background: #ffe9e4;
+  color: #cc4d29;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.request-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff1ed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.request-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.btn-complete {
+  width: 100%;
+  margin-top: 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #cc4d29;
+  color: white;
+
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  font-weight: 700;
+}
+
+@media (max-width: 576px) {
+
+  .request-card {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .request-header {
+    margin-bottom: 10px;
+  }
+
+  .table-badge {
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+
+  .request-time {
+    font-size: 12px;
+  }
+
+  .request-body {
+    gap: 10px;
+  }
+
+  .icon-circle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .icon-circle .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .request-title {
+    font-size: 16px;
+  }
+
+  .btn-complete {
+    height: 40px;
+    margin-top: 12px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .btn-complete .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+}

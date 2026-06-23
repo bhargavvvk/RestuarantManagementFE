@@ -1,0 +1,117 @@
+<header class="top-app-bar">
+
+  <div class="header-left">
+
+    <button
+      type="button"
+      class="back-button"
+      (click)="goBack()">
+
+      <span class="material-symbols-outlined">
+        arrow_back
+      </span>
+
+    </button>
+
+    <h1 class="header-title">
+      Table {{ tableId }}
+    </h1>
+
+  </div>
+
+  <button
+    type="button"
+    class="logout-button"
+    (click)="logout()">
+
+    <span class="material-symbols-outlined">
+      logout
+    </span>
+
+    Logout
+
+  </button>
+
+</header>
+
+<main class="table-content">
+
+  <div class="tab-navigation">
+
+    <button
+      type="button"
+      class="tab-button"
+      [class.active]="selectedTab() === 'menu'"
+      (click)="setTab('menu')">
+
+      Menu
+
+    </button>
+
+    <button
+      type="button"
+      class="tab-button"
+      [class.active]="selectedTab() === 'cart'"
+      (click)="setTab('cart')">
+
+      Cart
+
+    </button>
+
+    <button
+      type="button"
+      class="tab-button"
+      [class.active]="selectedTab() === 'orders'"
+      (click)="setTab('orders')">
+
+      Orders
+
+    </button>
+
+    <button
+      type="button"
+      class="tab-button"
+      [class.active]="selectedTab() === 'bill'"
+      (click)="setTab('bill')">
+
+      Bill
+
+    </button>
+
+  </div>
+
+</main>
+
+<nav class="bottom-nav">
+
+  <button
+    type="button"
+    class="nav-item active"
+    (click)="goToTables()">
+
+    <span class="material-symbols-outlined">
+      table_bar
+    </span>
+
+    <span class="nav-label">
+      Tables
+    </span>
+
+  </button>
+
+  <button
+    type="button"
+    class="nav-item"
+    (click)="goToRequests()">
+
+    <span class="material-symbols-outlined">
+      front_hand
+    </span>
+
+    <span class="nav-label">
+      Requests
+    </span>
+
+  </button>
+
+</nav>

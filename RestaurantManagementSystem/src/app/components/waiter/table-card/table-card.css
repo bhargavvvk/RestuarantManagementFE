@@ -19,6 +19,15 @@
   transform: scale(0.96);
 }
 
+.table-card.card-disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.table-card.card-disabled:active {
+  transform: none;
+}
+
 .table-id {
   font-family: 'JetBrains Mono', monospace;
   font-size: 22px;
@@ -94,17 +103,8 @@
   color: #F39C12;
 }
 
-/* Bill Requested */
 
-.card-bill {
-  border-color: #2980B9;
-  background-color: rgba(41,128,185,0.02);
-}
-
-.card-bill .dot {
-  background-color: #2980B9;
-}
-
-.card-bill .text {
-  color: #2980B9;
+.table-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
