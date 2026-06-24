@@ -102,6 +102,13 @@ export class WaiterTableService {
     );
 
   }
+  placeOrder(tableId: number, specialInstructions: string) {
+    return this.http.post(
+      `${baseUrl}/Waiter/tables/${tableId}/orders`,
+      { specialInstructions },
+      { responseType: 'text' }
+    );
+  }
   getCartItem(menuItemId: number) {
 
     return this.cart()
@@ -123,7 +130,6 @@ export class WaiterTableService {
     categoryId?: number,
     foodType?: number
   ) {
-
     return this.getMenu(
       search,
       categoryId,

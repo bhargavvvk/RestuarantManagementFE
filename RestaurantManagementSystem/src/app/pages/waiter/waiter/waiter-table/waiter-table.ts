@@ -1,82 +1,95 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Waiter } from '../../../../services/waiter';
 import { Auth } from '../../../../services/auth';
 import { WaiterMenuList } from "../../../../components/waiter/waiter-menu-list/waiter-menu-list";
 import { WaiterTableService } from '../../../../services/waiter-table';
 import { WaiterMenuFilter } from "../../../../components/waiter/waiter-menu-filter/waiter-menu-filter";
+import { SignalRService } from '../../../../services/signal-rservice';
+import { WaiterCart } from "../../../../components/waiter/waiter-cart/waiter-cart";
+import { NotificationServices } from '../../../../services/notification-services';
 
 @Component({
   selector: 'app-waiter-table',
-  imports: [WaiterMenuList, WaiterMenuFilter],
+  imports: [WaiterMenuList, WaiterMenuFilter, WaiterCart],
   templateUrl: './waiter-table.html',
   styleUrl: './waiter-table.css',
 })
-export class WaiterTable {
-  private readonly waiterTableService=inject(WaiterTableService);
+export class WaiterTable implements OnDestroy {
+  private readonly waiterTableService = inject(WaiterTableService);
+  private readonly notification=inject(NotificationServices);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly waiter = inject(Waiter);
   private readonly auth = inject(Auth);
-  readonly tableId =
-    Number(this.route.snapshot.paramMap.get('tableId'));
-   ngOnInit(): void {
-    this.validateAccess();
-    this.waiterTableService
-    .loadCart(this.tableId)
-    .subscribe();
-  }
-  private validateAccess(): void {
+  private readonly signalR = inject(SignalRService);
 
-  const table = this.waiter.tables()
-      .find(
-        t => t.tableId === this.tableId
-      );
+  readonly tableId = Number(this.route.snapshot.paramMap.get('tableId'));
+  private sessionId: number | null = null;
+
+  ngOnInit(): void {
+    const table = this.validateAccess();
+    if (!table) return;
+    this.sessionId = table.sessionId;
+    this.waiterTableService.loadCart(this.tableId).subscribe();
+    if (this.sessionId !== null) {
+      const id = this.sessionId;
+      this.signalR.startConnection()
+        .then(() => this.signalR.joinSessionGroup(id))
+        .then(() => this.registerSignalRListeners())
+        .catch(() => {});
+    }
+  }
+  private registerSignalRListeners(): void {
+    this.signalR.onCartUpdated(() => {
+      this.waiterTableService.loadCart(this.tableId).subscribe();
+    });
+    this.signalR.onOrderPlaced(() => {
+      this.notification.success('New Order Placed');
+      this.waiterTableService.loadCart(this.tableId).subscribe();
+    });
+    this.signalR.onOrderModified(data => {
+      this.notification.success(data.message);
+    });
+    this.signalR.onOrderCancelled(data => {
+      this.notification.success(`Order #${data.orderNumber}: ${data.message}`);
+    });
+    this.signalR.onOrderItemStatusReady(() => {});
+    this.signalR.onOrderStatusPreparing(() => {});
+    this.signalR.onBillStatusChanged(() => {});
+  }
+  ngOnDestroy(): void {
+    if (this.sessionId !== null) {
+      this.signalR.leaveSessionGroup(this.sessionId).catch(() => {});
+    }
+  }
+
+  private validateAccess() {
+    const table = this.waiter.tables().find(t => t.tableId === this.tableId);
 
     if (!table) {
-
-      this.router.navigate([
-        'waiter'
-      ]);
-
-      return;
-
+      this.router.navigate(['waiter']);
+      return null;
     }
 
-    const status =
-      table.status.toLowerCase();
+    const status = table.status.toLowerCase();
 
-    if (
-      status === 'available' ||
-      status === 'unavailable'
-    ) {
-
-      this.router.navigate([
-        'waiter'
-      ]);
-
+    if (status === 'available' || status === 'unavailable') {
+      this.router.navigate(['waiter']);
+      return null;
     }
 
+    return table;
   }
-  readonly selectedTab =
-    signal<'menu' | 'cart' | 'orders' | 'bill'>(
-      'menu'
-    );
 
-  setTab(
-    tab: 'menu' | 'cart' | 'orders' | 'bill'
-  ): void {
+  readonly selectedTab = signal<'menu' | 'cart' | 'orders' | 'bill'>('menu');
 
+  setTab(tab: 'menu' | 'cart' | 'orders' | 'bill'): void {
     this.selectedTab.set(tab);
-
   }
 
   goBack(): void {
-
-    this.router.navigate([
-      'waiter'
-    ]);
-
+    this.router.navigate(['waiter']);
   }
 
   logout(): void {
@@ -84,24 +97,10 @@ export class WaiterTable {
   }
 
   goToTables(): void {
-
-    this.router.navigate([
-      'waiter'
-    ]);
-
+    this.router.navigate(['waiter']);
   }
 
   goToRequests(): void {
-
-    this.router.navigate(
-      ['waiter'],
-      {
-        queryParams: {
-          tab: 'requests'
-        }
-      }
-    );
-
+    this.router.navigate(['waiter'], { queryParams: { tab: 'requests' } });
   }
-
 }

@@ -107,4 +107,12 @@ export class SignalRService {
     );
 
   }
+
+  joinSessionGroup(sessionId: number): Promise<void> {
+    return this.hubConnection!.invoke('JoinSessionGroup', sessionId);
+  }
+
+  leaveSessionGroup(sessionId: number): Promise<void> {
+    return this.hubConnection!.invoke('LeaveSessionGroup', sessionId);
+  }
 }

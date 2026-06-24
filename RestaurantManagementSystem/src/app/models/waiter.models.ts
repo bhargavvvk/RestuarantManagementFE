@@ -2,6 +2,7 @@ export interface WaiterTable {
   tableId: number;
   tableNumber: string;
   status: string;
+  sessionId: number | null;
 }
 export interface WaiterRequest {
   requestId: number;
