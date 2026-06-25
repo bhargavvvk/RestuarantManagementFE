@@ -57,7 +57,7 @@ export class CustomerOperations {
         `New Order Placed`
       );
       this.menuService.loadCart();
-      this.menuService.loadOrderData();
+      this.menuService.loadOrders();
     });
     this.signalR.onOrderModified(data => {
       this.notification.success(data.message);
@@ -77,6 +77,10 @@ export class CustomerOperations {
     });
     this.signalR.onBillStatusChanged(() => {
       this.menuService.loadBill();
+    });
+    this.signalR.onItemMarkedServed((message: string) => {
+      this.notification.success(message);
+      this.menuService.loadOrders();
     });
   }
   private loadTableInfo(): void {

@@ -44,7 +44,7 @@ export class SignalRService {
     this.hubConnection?.on('OrderCancelled', callback);
   }
 
-  onOrderItemStatusReady(callback: () => void): void {
+  onOrderItemStatusReady(callback: (data: { orderNumber: string; tableNumber: string; itemName: string }) => void): void {
     this.hubConnection?.on(
       'OrderItemStatusReady',
       callback

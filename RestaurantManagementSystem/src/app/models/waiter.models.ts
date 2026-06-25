@@ -37,3 +37,38 @@ export interface MenuItem {
   categoryId: number;
   categoryName: string;
 }
+export interface WaiterOrderItem {
+  orderItemId: number;
+  itemName: string;
+  itemPrice: number;
+  quantity: number;
+  status: number;
+}
+export interface WaiterOrder {
+  orderId: number;
+  orderNumber: string;
+  totalAmount: number;
+  placedAt: string;
+  specialInstructions: string;
+  items: WaiterOrderItem[];
+}
+export interface WaiterBill {
+  billNumber: string;
+  foodTotal: number;
+  cgstPercentage: number;
+  cgstAmount: number;
+  sgstPercentage: number;
+  sgstAmount: number;
+  serviceChargePercentage: number;
+  serviceChargeAmount: number;
+  grandTotal: number;
+  paymentStatus: number;
+  generatedAt: string;
+}
+export interface ServedOrderItemResponse {
+  orderItemId: number;
+  itemName: string;
+  itemPrice: number;
+  quantity: number;
+  status: number;
+}

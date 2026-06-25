@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, Subject, switchMap, tap } from 'rxjs';
-import { MenuCategory, WaiterCartItem } from '../models/waiter.models';
+import { Observable, single, Subject, switchMap, tap } from 'rxjs';
+import { MenuCategory, ServedOrderItemResponse, WaiterBill, WaiterCartItem, WaiterOrder } from '../models/waiter.models';
 import { baseUrl } from '../../environment';
 import { MenuItem } from '../models/customer.models';
 
@@ -15,6 +15,8 @@ export class WaiterTableService {
   readonly vegOnly =signal(false);
   readonly search =signal('');
   readonly searchTrigger =new Subject<void>();
+  readonly orders = signal<WaiterOrder[]>([]);
+  readonly bill=signal<WaiterBill|null>(null);
   private readonly http = inject(HttpClient);
 
   getCart(tableId: number): Observable<WaiterCartItem[]> {
@@ -109,6 +111,26 @@ export class WaiterTableService {
       { responseType: 'text' }
     );
   }
+  getOrders(tableId :number) {
+      return this.http.get<WaiterOrder[]>(
+        `${baseUrl}/waiter/tables/${tableId}/orders`
+      );
+    }
+  getBill(tableId: number) {
+    return this.http.get<WaiterBill>(
+      `${baseUrl}/Waiter/tables/${tableId}/bill`
+    );
+  }
+  markServed(
+  tableId: number,
+  orderItemId: number
+  ) {
+    return this.http.put<ServedOrderItemResponse>(
+      `${baseUrl}/Waiter/tables/${tableId}/orders/items/${orderItemId}/serve`,
+      {}
+    );
+
+  }
   getCartItem(menuItemId: number) {
 
     return this.cart()
@@ -125,6 +147,26 @@ export class WaiterTableService {
     );
 
   }
+  loadBill(tableId: number): void {
+
+    this.getBill(tableId)
+      .subscribe({
+        next: bill => {
+          this.bill.set(bill);
+        }
+      });
+
+  }
+  loadOrders(tableId: number): void {
+
+    this.getOrders(tableId)
+      .subscribe({
+        next: orders => {
+          this.orders.set(orders);
+        }
+      });
+
+  }
     getMenuItems(
     search?: string,
     categoryId?: number,
@@ -136,5 +178,25 @@ export class WaiterTableService {
       undefined,
       foodType === 0 ? 'Veg' : undefined
     );
+  }
+  updateOrderItemStatus(
+  orderItemId: number,
+  status: number
+  ): void {
+
+    this.orders.update(orders =>
+      orders.map(order => ({
+        ...order,
+        items: order.items.map(item =>
+          item.orderItemId === orderItemId
+            ? {
+                ...item,
+                status
+              }
+            : item
+        )
+      }))
+    );
+
   }
 }

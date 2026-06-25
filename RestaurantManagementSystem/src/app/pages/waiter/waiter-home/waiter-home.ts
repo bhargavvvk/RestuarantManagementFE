@@ -34,7 +34,6 @@ export class WaiterHome implements OnInit {
   private readonly auth = inject(Auth);
   readonly tables = this.waiter.tables;
   readonly requests = this.waiter.requests;
-
   readonly selectedTab = signal<'tables' | 'requests'>('tables');
 
   ngOnInit(): void {
@@ -106,6 +105,14 @@ export class WaiterHome implements OnInit {
       this.waiter.loadRequests()
         .subscribe();
 
+    });
+
+    this.signalR.onOrderItemStatusReady(data => {
+      this.zone.run(() => {
+        this.notification.success(
+          `Table ${data.tableNumber} | Order #${data.orderNumber} — ${data.itemName} is ready`
+        );
+      });
     });
   }
 

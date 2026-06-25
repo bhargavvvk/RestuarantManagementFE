@@ -8,10 +8,11 @@ import { WaiterMenuFilter } from "../../../../components/waiter/waiter-menu-filt
 import { SignalRService } from '../../../../services/signal-rservice';
 import { WaiterCart } from "../../../../components/waiter/waiter-cart/waiter-cart";
 import { NotificationServices } from '../../../../services/notification-services';
+import { WaiterOrder } from "../../../../components/waiter/waiter-order/waiter-order";
 
 @Component({
   selector: 'app-waiter-table',
-  imports: [WaiterMenuList, WaiterMenuFilter, WaiterCart],
+  imports: [WaiterMenuList, WaiterMenuFilter, WaiterCart, WaiterOrder],
   templateUrl: './waiter-table.html',
   styleUrl: './waiter-table.css',
 })
@@ -32,6 +33,8 @@ export class WaiterTable implements OnDestroy {
     if (!table) return;
     this.sessionId = table.sessionId;
     this.waiterTableService.loadCart(this.tableId).subscribe();
+    this.waiterTableService.loadOrders(this.tableId);
+    this.waiterTableService.loadBill(this.tableId);
     if (this.sessionId !== null) {
       const id = this.sessionId;
       this.signalR.startConnection()
@@ -47,16 +50,19 @@ export class WaiterTable implements OnDestroy {
     this.signalR.onOrderPlaced(() => {
       this.notification.success('New Order Placed');
       this.waiterTableService.loadCart(this.tableId).subscribe();
+      this.waiterTableService.loadOrders(this.tableId);
     });
     this.signalR.onOrderModified(data => {
       this.notification.success(data.message);
+      this.waiterTableService.loadOrders(this.tableId);
     });
     this.signalR.onOrderCancelled(data => {
       this.notification.success(`Order #${data.orderNumber}: ${data.message}`);
+      this.waiterTableService.loadOrders(this.tableId);
     });
-    this.signalR.onOrderItemStatusReady(() => {});
-    this.signalR.onOrderStatusPreparing(() => {});
-    this.signalR.onBillStatusChanged(() => {});
+    this.signalR.onOrderItemStatusReady(data => {
+      this.waiterTableService.loadOrders(this.tableId);
+    });
   }
   ngOnDestroy(): void {
     if (this.sessionId !== null) {

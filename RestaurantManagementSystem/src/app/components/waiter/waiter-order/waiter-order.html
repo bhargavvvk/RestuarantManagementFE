@@ -1,1 +1,74 @@
-<p>waiter-order works!</p>
+<div class="orders-page">
+
+  <h2 class="page-title">
+    Orders
+  </h2>
+
+  @for(order of orders(); track order.orderId) {
+
+    <div class="order-card">
+
+      <div class="order-header">
+
+        <span>
+          ORDER #{{ order.orderNumber }}• {{ formatTime(order.placedAt) }}
+        </span>
+
+      </div>
+
+      @for(item of order.items; track item.orderItemId) {
+
+        <div class="order-item">
+
+          <div>
+
+            <div class="item-name">
+              {{ item.itemName }}
+            </div>
+
+            <div class="item-meta">
+              ₹{{ item.itemPrice }} × {{ item.quantity }}
+            </div>
+
+          </div>
+
+          <div class="item-right">
+
+            <div class="subtotal">
+              ₹{{ item.itemPrice * item.quantity }}
+            </div>
+            <span
+              class="status-chip"
+              [class]="getItemStatusClass(item.status)">
+
+              {{ getItemStatus(item.status) }}
+
+            </span>
+
+          </div>
+        </div>
+           @if(item.status === 2) {
+            <button
+                class="mark-served-btn"
+                (click)="markServed(item.orderItemId)">
+
+                MARK SERVED
+            </button>
+
+        }
+      }
+
+      @if(order.specialInstructions) {
+
+        <div class="instructions">
+
+          ⓘ Cooking Instructions:
+          {{ order.specialInstructions }}
+
+        </div>
+
+      }
+
+    </div>
+  }
+</div>
