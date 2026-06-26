@@ -24,7 +24,7 @@ export class SignalRService {
 
     return this.hubConnection.start();
   }
-  onSessionClosed(callback: () => void): void {
+  onSessionClosed(callback: (message: string) => void): void {
     this.hubConnection?.on(
       'SessionClosed',
       callback
@@ -61,7 +61,7 @@ export class SignalRService {
     this.hubConnection?.on('BillStatusChanged', callback);
   }
   onReceiveOrderPlaced(
-    callback: (data: any) => void
+    callback: (data: { tableNumber: string; message: string }) => void
   ): void {
 
     this.hubConnection?.on(
@@ -106,6 +106,16 @@ export class SignalRService {
       callback
     );
 
+  }
+
+  onReceiveOrderCancelled(
+    callback: (data: { tableNumber: string; message: string }) => void
+  ): void {
+    this.hubConnection?.on('ReceiveOrderCancelled', callback);
+  }
+
+  stopConnection(): Promise<void> {
+    return this.hubConnection?.stop() ?? Promise.resolve();
   }
 
   joinSessionGroup(sessionId: number): Promise<void> {

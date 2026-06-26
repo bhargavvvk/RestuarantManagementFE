@@ -78,20 +78,20 @@
 
 <main class="page-content">
 
-  <div [hidden]="selectedTab() !== 'menu'">
+  <div class="padded-tab" [hidden]="selectedTab() !== 'menu'">
     <app-waiter-menu-list></app-waiter-menu-list>
   </div>
 
   <div [hidden]="selectedTab() !== 'cart'">
-    <app-waiter-cart> </app-waiter-cart>
+    <app-waiter-cart></app-waiter-cart>
   </div>
 
-  <div [hidden]="selectedTab() !== 'orders'">
-    <app-waiter-order> </app-waiter-order>
+  <div class="padded-tab" [hidden]="selectedTab() !== 'orders'">
+    <app-waiter-order></app-waiter-order>
   </div>
 
   <div [hidden]="selectedTab() !== 'bill'">
-    <div class="placeholder">Bill Coming Soon</div>
+    <app-waiter-bill></app-waiter-bill>
   </div>
 
 </main>

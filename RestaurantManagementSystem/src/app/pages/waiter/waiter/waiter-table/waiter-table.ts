@@ -9,10 +9,11 @@ import { SignalRService } from '../../../../services/signal-rservice';
 import { WaiterCart } from "../../../../components/waiter/waiter-cart/waiter-cart";
 import { NotificationServices } from '../../../../services/notification-services';
 import { WaiterOrder } from "../../../../components/waiter/waiter-order/waiter-order";
+import { WaiterBill } from "../../../../components/waiter/waiter-bill/waiter-bill";
 
 @Component({
   selector: 'app-waiter-table',
-  imports: [WaiterMenuList, WaiterMenuFilter, WaiterCart, WaiterOrder],
+  imports: [WaiterMenuList, WaiterMenuFilter, WaiterCart, WaiterOrder, WaiterBill],
   templateUrl: './waiter-table.html',
   styleUrl: './waiter-table.css',
 })
@@ -51,6 +52,7 @@ export class WaiterTable implements OnDestroy {
       this.notification.success('New Order Placed');
       this.waiterTableService.loadCart(this.tableId).subscribe();
       this.waiterTableService.loadOrders(this.tableId);
+      this.waiterTableService.loadBill(this.tableId);
     });
     this.signalR.onOrderModified(data => {
       this.notification.success(data.message);
@@ -92,6 +94,9 @@ export class WaiterTable implements OnDestroy {
 
   setTab(tab: 'menu' | 'cart' | 'orders' | 'bill'): void {
     this.selectedTab.set(tab);
+    if (tab === 'bill') {
+      this.waiterTableService.loadPaymentMethods();
+    }
   }
 
   goBack(): void {

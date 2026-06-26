@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, single, Subject, switchMap, tap } from 'rxjs';
-import { MenuCategory, ServedOrderItemResponse, WaiterBill, WaiterCartItem, WaiterOrder } from '../models/waiter.models';
+import { MenuCategory, PaymentMethod, ServedOrderItemResponse, WaiterBill, WaiterCartItem, WaiterOrder } from '../models/waiter.models';
 import { baseUrl } from '../../environment';
 import { MenuItem } from '../models/customer.models';
 
@@ -17,6 +17,7 @@ export class WaiterTableService {
   readonly searchTrigger =new Subject<void>();
   readonly orders = signal<WaiterOrder[]>([]);
   readonly bill=signal<WaiterBill|null>(null);
+  readonly paymentMethods = signal<PaymentMethod[]>([]);
   private readonly http = inject(HttpClient);
 
   getCart(tableId: number): Observable<WaiterCartItem[]> {
@@ -196,6 +197,45 @@ export class WaiterTableService {
             : item
         )
       }))
+    );
+  }
+  getPaymentMethods() {
+    return this.http.get<PaymentMethod[]>(
+      `${baseUrl}/Bill/payment-methods`
+    );
+  }
+  loadPaymentMethods(): void {
+    this.getPaymentMethods()
+      .subscribe({
+        next: methods => {
+          this.paymentMethods.set(methods);
+        }
+      });
+  }
+  markBillPaid(
+    tableId: number,
+    paymentMethod: number
+  ) {
+
+    return this.http.put<WaiterBill>(
+      `${baseUrl}/Waiter/tables/${tableId}/bill/pay`,
+      {
+        paymentMethod
+      }
+    );
+
+  }
+  updateBill(
+    bill: WaiterBill
+  ): void {
+    this.bill.set(bill);
+  }
+  closeSession(
+    tableId: number
+  ) {
+    return this.http.put(
+      `${baseUrl}/Waiter/tables/${tableId}/close-session`,
+      {}
     );
 
   }

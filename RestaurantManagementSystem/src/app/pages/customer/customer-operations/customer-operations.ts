@@ -47,7 +47,9 @@ export class CustomerOperations {
   private registerSignalRListeners(): void {
     this.signalR.onSessionClosed(() => {
       this.customerSession.clearSession();
-      this.router.navigate(['/join', this.tableIdentifier]);
+      this.signalR.stopConnection().then(() => {
+        this.router.navigate(['/join', this.tableIdentifier]);
+      });
     });
     this.signalR.onCartUpdated(() => {
       this.menuService.loadCart();
@@ -58,6 +60,7 @@ export class CustomerOperations {
       );
       this.menuService.loadCart();
       this.menuService.loadOrders();
+      this.menuService.loadBill();
     });
     this.signalR.onOrderModified(data => {
       this.notification.success(data.message);

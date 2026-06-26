@@ -72,3 +72,7 @@ export interface ServedOrderItemResponse {
   quantity: number;
   status: number;
 }
+export interface PaymentMethod {
+  value: number;
+  name: string;
+}

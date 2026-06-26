@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { baseUrl } from '../../environment';
-import { WaiterRequest, WaiterTable } from '../models/waiter.models';
+import { PaymentMethod, WaiterBill, WaiterRequest, WaiterTable } from '../models/waiter.models';
 
 
 @Injectable({
@@ -34,6 +34,7 @@ export class Waiter {
       {}
     );
   }
+  
   removeRequest(requestId: number): void {
 
     this.requests.update(requests =>
@@ -59,13 +60,29 @@ export class Waiter {
       })
     );
   }
-clear(): void {
+  clear(): void {
 
-  this.tables.set([]);
-  this.requests.set([]);
+    this.tables.set([]);
+    this.requests.set([]);
 
-  this.isLoaded.set(false);
-  this.requestsLoaded.set(false);
+    this.isLoaded.set(false);
+    this.requestsLoaded.set(false);
 
-}
+  }
+  setTableAvailable(
+  tableId: number
+  ): void {
+
+    this.tables.update(tables =>
+      tables.map(table =>
+        table.tableId === tableId
+          ? {
+              ...table,
+              status: 'Available'
+            }
+          : table
+      )
+    );
+
+  }
 }

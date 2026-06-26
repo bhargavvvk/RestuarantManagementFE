@@ -1,0 +1,123 @@
+<div class="bill-card">
+
+  @if (bill()) {
+
+        <div class="bill-header">
+
+        Bill Summary
+
+        <span class="payment-status">
+
+            {{ bill()!.paymentStatus === 1
+                ? 'Paid'
+                : 'Pending' }}
+
+        </span>
+
+        </div>
+
+        <div class="bill-row">
+        <span>Food Total</span>
+        <span>₹{{ bill()!.foodTotal }}</span>
+        </div>
+
+        <div class="bill-row">
+        <span>
+            CGST ({{ bill()!.cgstPercentage }}%)
+        </span>
+
+        <span>
+            ₹{{ bill()!.cgstAmount }}
+        </span>
+        </div>
+
+        <div class="bill-row">
+        <span>
+            SGST ({{ bill()!.sgstPercentage }}%)
+        </span>
+
+        <span>
+            ₹{{ bill()!.sgstAmount }}
+        </span>
+        </div>
+
+        <div class="bill-row">
+        <span>
+            Service Charge
+            ({{ bill()!.serviceChargePercentage }}%)
+        </span>
+
+        <span>
+            ₹{{ bill()!.serviceChargeAmount }}
+        </span>
+        </div>
+
+        <div class="bill-total">
+
+        <span>
+            Grand Total
+        </span>
+
+        <span>
+            ₹{{ bill()!.grandTotal }}
+        </span>
+
+        </div>
+
+  } @else {
+    <div class="bill-loading">Loading bill...</div>
+  }
+
+</div>
+    <div class="payment-section">
+
+    <label class="payment-label">
+      SELECT PAYMENT METHOD
+    </label>
+
+    <select
+    class="payment-select"
+    [value]="selectedPaymentMethod()"
+    (change)="onPaymentMethodChange($event)">
+
+    @for(method of paymentMethods();
+        track method.value) {
+
+        <option
+        [value]="method.value">
+
+        {{ method.name }}
+
+        </option>
+
+    }
+
+    </select>
+ <button
+  class="btn-mark-paid"
+  [disabled]="bill()?.paymentStatus === 1"
+  (click)="markPaid()">
+
+  MARK PAID
+
+</button>
+
+  </div>
+
+  <div class="close-session-section">
+
+   <button
+  class="btn-outline-close"
+  [disabled]="bill()?.paymentStatus !== 1"
+  (click)="closeSession()">
+
+  <span class="material-symbols-outlined">
+    logout
+  </span>
+
+  CLOSE SESSION
+
+</button>
+
+  </div>
+

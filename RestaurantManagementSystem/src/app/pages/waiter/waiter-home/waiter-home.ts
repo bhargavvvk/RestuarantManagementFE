@@ -6,6 +6,7 @@ import { TableCard } from '../../../components/waiter/table-card/table-card';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RequestCard } from "../../../components/waiter/request-card/request-card";
 import { Auth } from '../../../services/auth';
+import { WaiterTableService } from '../../../services/waiter-table';
 
 @Component({
   selector: 'app-waiter-home',
@@ -26,6 +27,7 @@ export class WaiterHome implements OnInit {
 
   }
   private readonly waiter = inject(Waiter);
+  private readonly waiterTable=inject(WaiterTableService);
   private readonly signalR = inject(SignalRService);
   private readonly notification = inject(NotificationServices);
   private readonly zone = inject(NgZone);
@@ -111,6 +113,14 @@ export class WaiterHome implements OnInit {
       this.zone.run(() => {
         this.notification.success(
           `Table ${data.tableNumber} | Order #${data.orderNumber} — ${data.itemName} is ready`
+        );
+      });
+    });
+
+    this.signalR.onReceiveOrderPlaced(data => {
+      this.zone.run(() => {
+        this.notification.success(
+          `Table ${data.tableNumber} | New Order  placed`
         );
       });
     });

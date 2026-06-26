@@ -141,10 +141,9 @@ export class KitchenHome implements OnInit {
 
     this.signalRService.startConnection().then(() => {
 
-
       this.signalRService.onOrderPlaced((data) => {
         this.zone.run(() => {
-          this.notification.success(`Table ${data.tableNumber} | Order #${data.orderNumber} — ${data.message}`);
+          this.notification.success(`Table ${data.tableNumber} |is ${data.message}`);
           this.kitchenService.loadQueueOrders();
           this.kitchenService.loadTodayOrderCount();
         });
@@ -182,12 +181,26 @@ export class KitchenHome implements OnInit {
 
       this.signalRService.onItemMarkedServed((message: string) => {
         this.zone.run(() => {
-          this.notification.success(message);
           this.kitchenService.loadPreparingOrders();
           this.kitchenService.loadReadyOrders();
         });
       });
 
+      this.signalRService.onSessionClosed((message: string) => {
+        this.zone.run(() => {
+          this.notification.success(message);
+          this.kitchenService.loadReadyOrders();
+        });
+      });
+
+      this.signalRService.onReceiveOrderCancelled((data) => {
+        this.zone.run(() => {
+          this.notification.error(`Table ${data.tableNumber} — ${data.message}`);
+          this.kitchenService.loadQueueOrders();
+          this.kitchenService.loadPreparingOrders();
+        });
+      });
+      
     }).catch(err => {
 
       this.notification.error('SignalR connection failed: ' + err.message);

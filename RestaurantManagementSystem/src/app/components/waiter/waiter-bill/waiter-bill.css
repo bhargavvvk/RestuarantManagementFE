@@ -1,0 +1,149 @@
+:host {
+  display: block;
+  padding: 12px 12px 32px;
+}
+
+.bill-card {
+  background: #FFF1ED;
+  border-radius: 12px;
+
+  padding: 0.65rem 0.75rem;
+}
+
+.bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 12px;
+
+  font-size: 1rem;
+  font-weight: 700;
+  color: #251915;
+}
+
+.payment-status {
+  padding: 3px 10px;
+  border-radius: 999px;
+
+  background: #FEF3C7;
+  color: #D97706;
+
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 0.875rem;
+  color: #58413B;
+
+  margin-bottom: 6px;
+}
+
+.bill-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #E0BFB7;
+
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #251915;
+}
+
+.payment-section {
+  margin-top: 24px;
+}
+
+.payment-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #6B7280;
+
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.payment-select {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 16px;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: #FFE9E4;
+
+  color: #251915;
+
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+
+  appearance: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2358413b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+  background-position: calc(100% - 16px) center;
+}
+
+.btn-mark-paid {
+  width: 100%;
+  height: 48px;
+
+  margin-top: 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #CC4D29;
+  color: white;
+
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.btn-mark-paid:active {
+  transform: scale(0.98);
+}
+
+.close-session-section {
+  margin-top: 28px;
+  padding-top: 24px;
+
+  border-top: 1px dashed #E0BFB7;
+}
+
+.btn-outline-close {
+  width: 100%;
+  height: 48px;
+
+  border: 2px solid #CC4D29;
+  border-radius: 10px;
+
+  background: white;
+  color: #CC4D29;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
