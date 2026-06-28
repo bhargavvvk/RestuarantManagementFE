@@ -75,30 +75,33 @@
       SELECT PAYMENT METHOD
     </label>
 
-    <select
-    class="payment-select"
-    [value]="selectedPaymentMethod()"
-    (change)="onPaymentMethodChange($event)">
+    @if (bill()?.paymentStatus === 1) {
 
-    @for(method of paymentMethods();
-        track method.value) {
+      <div class="payment-method-paid">
+        {{ paymentMethods().find(m => m.value === selectedPaymentMethod())?.name ?? 'N/A' }}
+      </div>
 
-        <option
-        [value]="method.value">
+    } @else {
 
-        {{ method.name }}
+      <select
+        class="payment-select"
+        [value]="selectedPaymentMethod()"
+        (change)="onPaymentMethodChange($event)">
 
-        </option>
+        @for(method of paymentMethods(); track method.value) {
+          <option [value]="method.value">{{ method.name }}</option>
+        }
+
+      </select>
 
     }
-
-    </select>
  <button
   class="btn-mark-paid"
+  [class.paid]="bill()?.paymentStatus === 1"
   [disabled]="bill()?.paymentStatus === 1"
   (click)="markPaid()">
 
-  MARK PAID
+  {{ bill()?.paymentStatus === 1 ? 'BILL PAID' : 'MARK PAID' }}
 
 </button>
 
@@ -108,6 +111,7 @@
 
    <button
   class="btn-outline-close"
+  [class.disabled]="bill()?.paymentStatus !== 1"
   [disabled]="bill()?.paymentStatus !== 1"
   (click)="closeSession()">
 

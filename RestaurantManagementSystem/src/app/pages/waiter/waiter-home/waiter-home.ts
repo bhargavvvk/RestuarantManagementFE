@@ -120,8 +120,17 @@ export class WaiterHome implements OnInit {
     this.signalR.onReceiveOrderPlaced(data => {
       this.zone.run(() => {
         this.notification.success(
-          `Table ${data.tableNumber} | New Order  placed`
+          `Table ${data.tableNumber} | New Order placed`
         );
+      });
+    });
+
+    this.signalR.onTableStatusChanged(data => {
+      this.zone.run(() => {
+        this.notification.success(
+          `Table ${data.tableNumber} is now ${data.status}`
+        );
+        this.waiter.loadTables().subscribe();
       });
     });
   }

@@ -4,17 +4,18 @@
 }
 .request-container {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
   padding: 12px 16px;
+  max-width: 360px;
+  margin: 0 auto;
 }
 
 .request-card {
-  flex: 0 0 calc((100vw - 52px) / 3);
-  height: 95px;
+  flex: 1;
   min-width: 80px;
-  max-width: 100px;
-  height: 60px;
+  max-width: 110px;
+  height: 72px;
   border: 1px solid #E0BFB7;
   border-radius: 16px;
   background: #FBE3DD;
@@ -24,7 +25,8 @@
   align-items: center;
   gap: 8px;
 }
-.request-card:active{
+
+.request-card:active {
   background: #eae4e3;
 }
 

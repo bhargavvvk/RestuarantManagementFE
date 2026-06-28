@@ -60,7 +60,12 @@ export class CustomerCart {
         this.specialInstructions.set('');
       },
       error: (err) => {
-        this.notification.error(err.error?.Message);
+        try {
+          const parsed = typeof err.error === 'string' ? JSON.parse(err.error) : err.error;
+          this.notification.error(parsed?.Message ?? parsed?.message ?? 'Failed to place order');
+        } catch {
+          this.notification.error('Failed to place order');
+        }
       }
     });
   }

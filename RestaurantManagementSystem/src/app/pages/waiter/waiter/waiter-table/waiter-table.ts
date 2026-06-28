@@ -65,11 +65,15 @@ export class WaiterTable implements OnDestroy {
     this.signalR.onOrderItemStatusReady(data => {
       this.waiterTableService.loadOrders(this.tableId);
     });
+    this.signalR.onMenuUpdated(() => {
+        this.waiterTableService.searchTrigger.next();
+    });
   }
   ngOnDestroy(): void {
     if (this.sessionId !== null) {
       this.signalR.leaveSessionGroup(this.sessionId).catch(() => {});
     }
+    this.signalR.offTableListeners();
   }
 
   private validateAccess() {

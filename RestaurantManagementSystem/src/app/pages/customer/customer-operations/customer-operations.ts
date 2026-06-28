@@ -85,6 +85,10 @@ export class CustomerOperations {
       this.notification.success(message);
       this.menuService.loadOrders();
     });
+
+    this.signalR.onMenuUpdated(() => {
+      this.menuService.searchTrigger.next();
+    });
   }
   private loadTableInfo(): void {
     this.customerService

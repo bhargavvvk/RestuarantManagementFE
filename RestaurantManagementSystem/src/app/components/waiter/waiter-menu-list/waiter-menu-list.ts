@@ -1,9 +1,9 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, OnDestroy, signal } from '@angular/core';
 import { MenuCard } from "../../menu/menu-card/menu-card";
 import { WaiterTableService } from '../../../services/waiter-table';
 import { NotificationServices } from '../../../services/notification-services';
 import { MenuItem } from '../../../models/waiter.models';
-import { debounceTime, switchMap } from 'rxjs';
+import { debounceTime, Subject, switchMap, takeUntil } from 'rxjs';
 import { MatIcon } from "@angular/material/icon";
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,15 +13,17 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './waiter-menu-list.html',
   styleUrl: './waiter-menu-list.css',
 })
-export class WaiterMenuList {
-  private readonly route =inject(ActivatedRoute);
+export class WaiterMenuList implements OnDestroy {
+  private readonly route = inject(ActivatedRoute);
   private menuService = inject(WaiterTableService);
   private notification = inject(NotificationServices);
-  readonly tableId=Number(this.route.snapshot.paramMap.get('tableId'))
+  private readonly destroy$ = new Subject<void>();
+  readonly tableId = Number(this.route.snapshot.paramMap.get('tableId'));
   menuItems = signal<MenuItem[]>([]);
+
   constructor() {
     effect(() => {
-       const categoryId=this.menuService.selectedCategoryId();
+      const categoryId = this.menuService.selectedCategoryId();
       this.menuService.vegOnly();
       if (categoryId === null) return;
       this.loadMenuItemsWithoutSearch();
@@ -31,6 +33,7 @@ export class WaiterMenuList {
   ngOnInit() {
     this.menuService.searchTrigger.pipe(
       debounceTime(1000),
+      takeUntil(this.destroy$),
       switchMap(() => {
         const search = this.menuService.search().trim();
         return this.menuService.getMenuItems(
@@ -44,10 +47,13 @@ export class WaiterMenuList {
     ).subscribe({
       next: items => {
         this.menuItems.set(items);
-      },
-      error: err => {
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   loadMenuItemsWithoutSearch() {

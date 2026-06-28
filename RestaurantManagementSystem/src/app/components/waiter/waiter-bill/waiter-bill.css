@@ -99,6 +99,25 @@
   background-position: calc(100% - 16px) center;
 }
 
+.payment-method-paid {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 16px;
+
+  border-radius: 10px;
+
+  background-color: #f0e8e6;
+  color: #9e7b74;
+
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+}
+
 .btn-mark-paid {
   width: 100%;
   height: 48px;
@@ -114,10 +133,22 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   font-weight: 700;
+
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
 .btn-mark-paid:active {
   transform: scale(0.98);
+}
+
+.btn-mark-paid.paid,
+.btn-mark-paid:disabled {
+  background: #c4a89e;
+  color: #f5eeec;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
 }
 
 .close-session-section {
@@ -145,5 +176,17 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   font-weight: 700;
+
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-outline-close.disabled,
+.btn-outline-close:disabled {
+  border-color: #c4a89e;
+  color: #c4a89e;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
 }
 

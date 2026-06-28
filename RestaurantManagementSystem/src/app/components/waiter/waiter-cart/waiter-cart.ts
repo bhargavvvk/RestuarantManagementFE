@@ -58,13 +58,17 @@ export class WaiterCart {
   }
 
   placeOrder(): void {
-    this.menuService.placeOrder(this.tableId,this.specialInstructions()).subscribe({
+    this.menuService.placeOrder(this.tableId, this.specialInstructions()).subscribe({
       next: () => {
         this.specialInstructions.set('');
       },
       error: (err) => {
-        console.log("error block running")
-        this.notification.error("error");
+        try {
+          const parsed = typeof err.error === 'string' ? JSON.parse(err.error) : err.error;
+          this.notification.error(parsed?.Message ?? parsed?.message ?? 'Failed to place order');
+        } catch {
+          this.notification.error('Failed to place order');
+        }
       }
     });
   } 
