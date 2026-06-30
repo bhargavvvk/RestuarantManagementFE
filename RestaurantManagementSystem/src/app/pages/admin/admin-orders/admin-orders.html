@@ -1,0 +1,29 @@
+<div class="orders-page">
+  <app-admin-orders-summary
+    [totalCount]="totalCount()"
+    [selectedDate]="selectedDate()"
+    [isSearching]="isSearching()"
+    (dateChanged)="onDateChanged($event)" />
+
+  <app-admin-orders-toolbar
+    [searchQuery]="searchInput()"
+    (searchChanged)="onSearchChanged($event)"
+    (searchCleared)="onSearchCleared()" />
+
+  <app-admin-orders-table
+    [orders]="orders()"
+    [selectedOrderId]="selectedOrderId()"
+    [loading]="loading()"
+    [paginationLabel]="paginationLabel()"
+    [hasPreviousPage]="hasPreviousPage()"
+    [hasNextPage]="hasNextPage()"
+    (viewDetails)="onViewDetails($event)"
+    (previousPage)="onPreviousPage()"
+    (nextPage)="onNextPage()" />
+</div>
+
+<app-admin-order-detail-drawer
+  [isOpen]="drawerOpen()"
+  [order]="orderDetail()"
+  [loading]="detailLoading()"
+  (closed)="onCloseDrawer()" />

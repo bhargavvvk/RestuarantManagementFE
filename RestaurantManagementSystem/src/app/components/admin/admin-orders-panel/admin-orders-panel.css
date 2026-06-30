@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.orders-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  color: #251915;
+}
+
+.section-header h3 .material-symbols-outlined {
+  color: #cc4d29;
+}
+
+.order-count {
+  background: #fbe3dd;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #666;
+}
+
+.empty-state {
+  padding: 32px;
+  text-align: center;
+  color: #666;
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #ececec;
+}

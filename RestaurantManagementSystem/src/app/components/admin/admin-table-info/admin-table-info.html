@@ -1,0 +1,27 @@
+<section class="info-section">
+  <div class="info-card">
+    <p class="label">Table Number</p>
+    <p class="value table-number">{{ detail().tableNumber }}</p>
+    <div class="status-row">
+      <span class="status-dot occupied"></span>
+      <span class="status-text">{{ detail().status }}</span>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <p class="label">Assigned Waiter</p>
+    <div class="waiter-row">
+      <div class="waiter-avatar">
+        <span class="material-symbols-outlined">person_pin</span>
+      </div>
+      <p class="value">{{ detail().assignedWaiterName }}</p>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <p class="label">Session Start</p>
+    <p class="value session-time">
+      {{ formatTime(detail().sessionStartedAt) }}
+    </p>
+  </div>
+</section>

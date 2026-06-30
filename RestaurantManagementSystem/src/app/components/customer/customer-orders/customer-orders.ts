@@ -2,6 +2,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { MenuService } from '../../../services/menu-service';
 import { CustomerBill, CustomerOrder } from '../../../models/customer.models';
 import { forkJoin } from 'rxjs';
+import { formatTime12Hour } from '../../../utils/date.utils';
 
 @Component({
   selector: 'app-customer-orders',
@@ -64,11 +65,5 @@ export class CustomerOrders {
       ? 'Paid'
       : 'Pending';
   }
-  formatTime(date: string): string {
-    return new Date(date)
-      .toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-  }
+  formatTime = formatTime12Hour;
 }

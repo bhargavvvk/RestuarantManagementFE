@@ -1,0 +1,78 @@
+<section class="billing-section print-area">
+  <div class="section-header">
+    <h3>
+      <span class="material-symbols-outlined">payments</span>
+      Billing Summary
+    </h3>
+  </div>
+
+  @if (bill()) {
+    <div class="bill-card">
+      <div class="bill-header">
+        <p class="bill-title">Invoice Details</p>
+        <span
+          class="payment-badge"
+          [class.paid]="bill()!.paymentStatus === 1">
+          {{ paymentStatusLabel() }}
+        </span>
+      </div>
+
+      <div class="bill-body">
+        <div class="bill-row">
+          <span>Food Total</span>
+          <span class="amount">₹ {{ bill()!.foodTotal | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="bill-row small">
+          <span>CGST ({{ bill()!.cgstPercentage }}%)</span>
+          <span>₹ {{ bill()!.cgstAmount | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="bill-row small">
+          <span>SGST ({{ bill()!.sgstPercentage }}%)</span>
+          <span>₹ {{ bill()!.sgstAmount | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="service-charge-row no-print">
+          <div class="service-charge-left">
+            <label class="switch">
+              <input
+                type="checkbox"
+                [checked]="isServiceChargeIncluded()"
+                (change)="onServiceChargeToggle($event)">
+              <span class="slider"></span>
+            </label>
+            <div>
+              <span class="service-label">Service Charge</span>
+              <span class="service-sub">
+                {{ bill()!.serviceChargePercentage }}% APPLIED
+              </span>
+            </div>
+          </div>
+          <span>₹ {{ bill()!.serviceChargeAmount | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="bill-row small print-only">
+          <span>Service Charge ({{ bill()!.serviceChargePercentage }}%)</span>
+          <span>₹ {{ bill()!.serviceChargeAmount | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="bill-total">
+          <span>Grand Total</span>
+          <span class="grand-total">
+            ₹ {{ bill()!.grandTotal | number:'1.2-2' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="bill-actions no-print">
+        <button class="print-btn" type="button" (click)="onPrint()">
+          <span class="material-symbols-outlined">print</span>
+          Print Bill
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="empty-state">Loading bill...</div>
+  }
+</section>

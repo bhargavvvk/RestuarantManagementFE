@@ -1,0 +1,358 @@
+:host{
+    display:block;
+}
+
+.table-card{
+
+    background:#ffffff;
+
+    border:1px solid #e5e5e5;
+
+    border-radius:14px;
+
+    padding:20px;
+
+    transition:.2s;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+
+}
+
+.table-card.clickable{
+    cursor:pointer;
+}
+
+.table-card:hover,
+.table-card.clickable:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+
+}
+
+.table-number{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    text-align:center;
+
+    color:#251915;
+
+}
+
+.status-badge{
+
+    align-self:center;
+
+    padding:6px 14px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+}
+
+.available{
+
+    background:#E9F8EE;
+
+    color:#27AE60;
+
+}
+
+.occupied{
+
+    background:#FFF6E5;
+
+    color:#F39C12;
+
+}
+
+.unavailable{
+
+    background:#FDECEC;
+
+    color:#BA1A1A;
+
+}
+
+hr{
+
+    margin:0;
+
+    border:none;
+
+    border-top:1px solid #ececec;
+
+}
+
+.card-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.availability{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.availability label:first-child{
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    font-weight:700;
+
+    color:#666;
+
+}
+
+/* Switch */
+
+.switch{
+
+    position:relative;
+
+    width:44px;
+
+    height:24px;
+
+}
+
+.switch input{
+
+    display:none;
+
+}
+
+.slider{
+
+    position:absolute;
+
+    inset:0;
+
+    background:#d8d8d8;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.slider::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:18px;
+
+    height:18px;
+
+    left:3px;
+
+    top:3px;
+
+    border-radius:50%;
+
+    background:white;
+
+    transition:.25s;
+
+}
+
+input:checked + .slider{
+
+    background:#27AE60;
+
+}
+
+input:checked + .slider::before{
+
+    transform:translateX(20px);
+
+}
+
+.delete-btn{
+
+    border:none;
+
+    background:transparent;
+
+    color:#BA1A1A;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.delete-btn:hover{
+
+    color:#8f0000;
+
+}
+.delete-btn:disabled{
+
+    opacity:.4;
+
+    cursor:not-allowed;
+
+}
+
+.switch input:disabled + .slider{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
+
+/* ==========================
+   Confirmation Dialog
+========================== */
+
+.dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn .15s ease;
+}
+
+.dialog-box {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 32px 28px 28px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
+    animation: slideUp .2s ease;
+}
+
+.dialog-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(204, 77, 41, 0.10);
+    color: #CC4D29;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.dialog-icon .material-symbols-outlined {
+    font-size: 28px;
+}
+
+.dialog-icon.danger {
+    background: rgba(186, 26, 26, 0.10);
+    color: #BA1A1A;
+}
+
+.dialog-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A1C1E;
+    text-align: center;
+}
+
+.dialog-message {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.dialog-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.dialog-btn {
+    flex: 1;
+    padding: 11px 0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+    border: none;
+}
+
+.dialog-btn.cancel {
+    background: #f2f2f2;
+    color: #444;
+}
+
+.dialog-btn.cancel:hover {
+    background: #e8e8e8;
+}
+
+.dialog-btn.confirm {
+    background: #CC4D29;
+    color: white;
+}
+
+.dialog-btn.confirm:hover {
+    background: #b03e1f;
+}
+
+.dialog-btn.confirm.danger {
+    background: #BA1A1A;
+}
+
+.dialog-btn.confirm.danger:hover {
+    background: #8f0000;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(12px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}

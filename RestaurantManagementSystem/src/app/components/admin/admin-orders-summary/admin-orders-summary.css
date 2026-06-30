@@ -1,0 +1,71 @@
+.summary-bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.summary-copy h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #251915;
+}
+
+.summary-copy .count {
+  color: #cc4d29;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #58413b;
+}
+
+.date-picker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid #e0bfb7;
+  border-radius: 12px;
+  background: #fff1ed;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.date-picker:hover {
+  background: #f5ddd7;
+}
+
+.date-picker .material-symbols-outlined {
+  font-size: 20px;
+  color: #cc4d29;
+}
+
+.date-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #251915;
+  white-space: nowrap;
+}
+
+.date-picker .chevron {
+  color: #58413b;
+}
+
+.date-picker input[type='date'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .summary-copy h3 {
+    font-size: 17px;
+  }
+}

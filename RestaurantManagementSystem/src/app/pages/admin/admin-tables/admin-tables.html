@@ -1,0 +1,129 @@
+<section class="summary-section">
+  <div class="summary-card total">
+    <span class="summary-title">Total Tables</span>
+    <h2>{{ dashboard()?.summary?.totalTables }}</h2>
+  </div>
+
+  <div class="summary-card available">
+    <span class="summary-title">Available Tables</span>
+    <h2>{{ dashboard()?.summary?.availableTables }}</h2>
+  </div>
+
+  <div class="summary-card occupied">
+    <span class="summary-title">Occupied Tables</span>
+    <h2>{{ dashboard()?.summary?.occupiedTables }}</h2>
+  </div>
+
+  <div class="summary-card unavailable">
+    <span class="summary-title">Not Available</span>
+    <h2>{{ dashboard()?.summary?.unavailableTables }}</h2>
+  </div>
+</section>
+
+<section class="toolbar-section">
+
+  <!-- Desktop: pill filter buttons -->
+  <div class="filters desktop-filters">
+    <button
+      class="filter-btn"
+      [class.active]="selectedFilter() === TableFilter.All"
+      (click)="setFilter(TableFilter.All)">
+      All Tables
+    </button>
+    <button
+      class="filter-btn"
+      [class.active]="selectedFilter() === TableFilter.Occupied"
+      (click)="setFilter(TableFilter.Occupied)">
+      Occupied
+    </button>
+    <button
+      class="filter-btn"
+      [class.active]="selectedFilter() === TableFilter.Available"
+      (click)="setFilter(TableFilter.Available)">
+      Available
+    </button>
+    <button
+      class="filter-btn"
+      [class.active]="selectedFilter() === TableFilter.Unavailable"
+      (click)="setFilter(TableFilter.Unavailable)">
+      Unavailable
+    </button>
+  </div>
+
+  <!-- Mobile/Tablet: dropdown -->
+  <div class="filter-dropdown-wrapper mobile-filters">
+    <button class="filter-dropdown-trigger" (click)="toggleFilterDropdown()">
+      <span class="material-symbols-outlined">filter_list</span>
+      <span class="trigger-label">{{ selectedFilterLabel }}</span>
+      <span class="material-symbols-outlined chevron" [class.rotated]="filterDropdownOpen()">
+        expand_more
+      </span>
+    </button>
+
+    @if (filterDropdownOpen()) {
+      <div class="filter-dropdown-backdrop" (click)="closeFilterDropdown()"></div>
+      <ul class="filter-dropdown-menu">
+        <li
+          [class.active]="selectedFilter() === TableFilter.All"
+          (click)="setFilter(TableFilter.All)">
+          All Tables
+        </li>
+        <li
+          [class.active]="selectedFilter() === TableFilter.Occupied"
+          (click)="setFilter(TableFilter.Occupied)">
+          Occupied
+        </li>
+        <li
+          [class.active]="selectedFilter() === TableFilter.Available"
+          (click)="setFilter(TableFilter.Available)">
+          Available
+        </li>
+        <li
+          [class.active]="selectedFilter() === TableFilter.Unavailable"
+          (click)="setFilter(TableFilter.Unavailable)">
+          Unavailable
+        </li>
+      </ul>
+    }
+  </div>
+
+  <div class="actions">
+    <button class="secondary-btn" (click)="openAssignWaiter()">
+      <span class="material-symbols-outlined">group</span>
+      <span class="btn-label">Assign Waiter</span>
+    </button>
+    <button class="primary-btn" (click)="openAddTable()">
+      <span class="material-symbols-outlined">add</span>
+      <span class="btn-label">New Table</span>
+    </button>
+  </div>
+
+</section>
+
+<section class="tables-section">
+  <div class="tables-grid">
+    @for (table of filteredTables(); track table.id) {
+      <app-admin-table-card
+        [table]="table"
+        (availabilityChanged)="toggleAvailability(table.id, $event)"
+        (deleteClicked)="deleteTable($event)"
+        (tableClicked)="openTableDetail($event)">
+      </app-admin-table-card>
+    }
+  </div>
+</section>
+
+<app-admin-table-modal
+  [waiters]="waiters()"
+  [isOpen]="showAddTableModal()"
+  (closed)="closeAddTable()"
+  (tableCreated)="createTable($event)">
+</app-admin-table-modal>
+
+<app-assign-waiter-modal
+  [waiters]="waiters()"
+  [tables]="dashboard()?.tables ?? []"
+  [isOpen]="showAssignWaiterModal()"
+  (closed)="closeAssignWaiter()"
+  (assignRequested)="assignWaiter($event)">
+</app-assign-waiter-modal>

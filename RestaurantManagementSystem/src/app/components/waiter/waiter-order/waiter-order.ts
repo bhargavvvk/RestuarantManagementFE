@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { NotificationServices } from '../../../services/notification-services';
 import { WaiterTableService } from '../../../services/waiter-table';
 import { ActivatedRoute } from '@angular/router';
+import { formatTime12Hour } from '../../../utils/date.utils';
 
 @Component({
   selector: 'app-waiter-order',
@@ -61,13 +62,7 @@ export class WaiterOrder {
     }
 
   }
-  formatTime(date: string): string {
-    return new Date(date)
-      .toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-  }
+  formatTime = formatTime12Hour;
   markServed(
   orderItemId: number
   ): void {

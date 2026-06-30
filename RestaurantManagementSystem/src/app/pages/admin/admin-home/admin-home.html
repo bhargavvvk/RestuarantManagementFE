@@ -1,1 +1,81 @@
-<p>admin-home works!</p>
+<div class="admin-layout">
+
+  @if (navOpen()) {
+    <div class="nav-backdrop" (click)="closeNav()"></div>
+  }
+
+  <aside class="sidebar" [class.open]="navOpen()">
+    <div class="sidebar-header">
+      <h2>Admin Portal</h2>
+      <!-- close button visible only on mobile -->
+      <button class="sidebar-close" type="button" (click)="closeNav()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a
+        class="nav-item"
+        routerLink="tables"
+        routerLinkActive="active"
+        (click)="closeNav()">
+        <span class="material-symbols-outlined">table_restaurant</span>
+        <span>Tables</span>
+      </a>
+
+      <a
+        class="nav-item"
+        routerLink="orders"
+        routerLinkActive="active"
+        (click)="closeNav()">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span>Orders</span>
+      </a>
+
+      <button class="nav-item" type="button" (click)="closeNav()">
+        <span class="material-symbols-outlined">payments</span>
+        <span>Bills</span>
+      </button>
+
+      <button class="nav-item" type="button" (click)="closeNav()">
+        <span class="material-symbols-outlined">restaurant_menu</span>
+        <span>Menu</span>
+      </button>
+
+      <button class="nav-item" type="button" (click)="closeNav()">
+        <span class="material-symbols-outlined">inventory_2</span>
+        <span>Inventory</span>
+      </button>
+
+      <button class="nav-item" type="button" (click)="closeNav()">
+        <span class="material-symbols-outlined">group</span>
+        <span>Users</span>
+      </button>
+
+      <button class="nav-item" type="button" (click)="closeNav()">
+        <span class="material-symbols-outlined">request_quote</span>
+        <span>Tax Configuration</span>
+      </button>
+    </nav>
+  </aside>
+
+  <div class="content-wrapper">
+    <header class="topbar">
+      <!-- hamburger — mobile/tablet only -->
+      <button class="hamburger" type="button" (click)="toggleNav()">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <h1>{{ pageTitle() }}</h1>
+
+      <button class="logout-btn" type="button" (click)="logout()">
+        Logout
+      </button>
+    </header>
+
+    <main class="page-content">
+      <router-outlet />
+    </main>
+  </div>
+
+</div>

@@ -1,0 +1,36 @@
+<div class="table-detail-page">
+
+  <div class="page-header no-print">
+    <a class="back-btn" routerLink="/admin/tables">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <h2>
+      @if (tableDetail()) {
+        {{ tableDetail()!.tableNumber }} Details
+      } @else {
+        Table Details
+      }
+    </h2>
+  </div>
+
+  @if (loading() && !tableDetail()) {
+    <div class="loading-state">Loading table details...</div>
+  } @else if (tableDetail()) {
+
+    <app-admin-table-info [detail]="tableDetail()!" />
+
+    <div class="content-grid">
+      <app-admin-orders-panel
+        [orders]="orders()"
+        (cancelOrder)="cancelOrder($event)"
+        (cancelItem)="cancelOrderItem($event.orderId, $event.orderItemId)"
+        (reduceQuantity)="reduceQuantity($event.orderId, $event.item)" />
+
+      <app-admin-bill-summary
+        [bill]="bill()"
+        (serviceChargeToggle)="onServiceChargeToggle($event)"
+        (printRequested)="printBill()" />
+    </div>
+  }
+
+</div>

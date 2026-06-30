@@ -1,0 +1,163 @@
+:host {
+  display: block;
+}
+
+.order-card {
+  background: white;
+  border: 1px solid #fbe3dd;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.order-card.accent-preparing {
+  border-left: 4px solid #f39c12;
+}
+
+.order-card.accent-ready {
+  border-left: 4px solid #27ae60;
+}
+
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  background: #fff1ed;
+  border-bottom: 1px solid #fbe3dd;
+}
+
+.order-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.order-number {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #666;
+}
+
+.order-time {
+  font-size: 12px;
+  color: #586062;
+}
+
+.order-instructions {
+  margin: 0;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-style: italic;
+  color: #666;
+  background: #fff8f6;
+  border-bottom: 1px solid #fbe3dd;
+}
+
+.cancel-order-btn {
+  border: 1px solid #ba1a1a;
+  background: white;
+  color: #ba1a1a;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cancel-order-btn:hover {
+  background: rgba(186, 26, 26, 0.08);
+}
+
+.order-items-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-items-table td {
+  padding: 16px 20px;
+  vertical-align: middle;
+  border-top: 1px solid #fbe3dd;
+}
+
+.item-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #251915;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  color: #251915;
+}
+
+.qty-btn:hover {
+  background: #fff1ed;
+}
+
+.qty-badge {
+  background: #ffe9e4;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.item-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.status-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.status-badge.placed { color: #666; }
+.status-badge.preparing { color: #f39c12; }
+.status-badge.ready { color: #27ae60; }
+.status-badge.served { color: #2980b9; }
+.status-badge.cancelled { color: #ba1a1a; }
+
+.cancel-item-btn {
+  border: none;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  vertical-align: middle;
+  padding: 4px;
+}
+
+.cancel-item-btn:hover:not(:disabled) {
+  color: #ba1a1a;
+}
+
+.cancel-item-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+@media print {
+  .order-card {
+    break-inside: avoid;
+  }
+}

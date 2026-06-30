@@ -1,0 +1,76 @@
+@if (isOpen()) {
+  <div class="drawer-backdrop" (click)="closed.emit()"></div>
+}
+
+<aside class="drawer" [class.open]="isOpen()">
+  <div class="drawer-header">
+    <div>
+      <h4>Order Details</h4>
+      @if (order(); as detail) {
+        <p class="order-number">#{{ detail.orderNumber }}</p>
+      }
+    </div>
+    <button class="close-btn" type="button" (click)="closed.emit()">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <div class="drawer-content">
+    @if (loading()) {
+      <div class="loading-state">Loading order details...</div>
+    } @else if (order(); as detail) {
+      <div class="info-grid">
+        <div>
+          <p class="label">Table</p>
+          <p class="value">{{ detail.tableNumber }}</p>
+        </div>
+        <div>
+          <p class="label">Placed At</p>
+          <p class="value">{{ formatTime(detail.placedAt) }}</p>
+        </div>
+        <div>
+          <p class="label">Status</p>
+          <p class="value status" [class]="getStatusClass(detail.status)">
+            {{ detail.status }}
+          </p>
+        </div>
+        <div>
+          <p class="label">Bill No.</p>
+          <p class="value">{{ detail.billNumber ? '#' + detail.billNumber : '—' }}</p>
+        </div>
+        <div>
+          <p class="label">Order Total</p>
+          <p class="value">₹ {{ detail.orderTotal | number:'1.2-2' }}</p>
+        </div>
+        <div>
+          <p class="label">Bill Total</p>
+          <p class="value bill-total">
+            @if (detail.billTotal !== null) {
+              ₹ {{ detail.billTotal | number:'1.2-2' }}
+            } @else {
+              —
+            }
+          </p>
+        </div>
+        @if (detail.paymentMethod) {
+          <div class="full-width">
+            <p class="label">Payment Method</p>
+            <p class="value">{{ detail.paymentMethod }}</p>
+          </div>
+        }
+      </div>
+
+      <div class="items-section">
+        <h5>Order Items</h5>
+        <ul>
+          @for (item of detail.items; track item.itemName) {
+            <li>
+              <span class="item-name">{{ item.itemName }}</span>
+              <span class="item-qty">x{{ item.quantity }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</aside>

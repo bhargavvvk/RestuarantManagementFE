@@ -1,0 +1,21 @@
+<section class="orders-section">
+  <div class="section-header">
+    <h3>
+      <span class="material-symbols-outlined">receipt_long</span>
+      Active Orders
+    </h3>
+    <span class="order-count">{{ orderCount() }} Orders Total</span>
+  </div>
+
+  @if (orders().length === 0) {
+    <div class="empty-state">No active orders for this table.</div>
+  }
+
+  @for (order of orders(); track order.orderId) {
+    <app-admin-order-card
+      [order]="order"
+      (cancelOrder)="cancelOrder.emit($event)"
+      (cancelItem)="cancelItem.emit($event)"
+      (reduceQuantity)="reduceQuantity.emit($event)" />
+  }
+</section>

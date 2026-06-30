@@ -1,0 +1,80 @@
+<div
+  class="table-card"
+  [class.clickable]="table().status === 'Occupied'"
+  (click)="onCardClick()">
+
+    <div class="table-number">
+        {{ table().tableNumber }}
+    </div>
+
+    <span class="status-badge"
+        [class.available]="table().status === 'Available'"
+        [class.occupied]="table().status === 'Occupied'"
+        [class.unavailable]="table().status === 'Unavailable'">
+
+        {{ table().status }}
+
+    </span>
+
+    <hr>
+
+    <div class="card-footer" (click)="$event.stopPropagation()">
+
+        <div class="availability">
+
+            <label>
+                Availability
+            </label>
+
+            <label class="switch">
+
+               <input
+                type="checkbox"
+                [checked]="table().status === 'Available' || table().status === 'Occupied'"
+                [disabled]="table().status === 'Occupied'"
+                (change)="onAvailabilityChanged($event)">
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+        <button
+            class="delete-btn"
+            [disabled]="table().status === 'Occupied'"
+            (click)="onDelete()">
+
+            <span class="material-symbols-outlined">
+                delete
+            </span>
+
+        </button>
+    </div>
+
+</div>
+
+<!-- Confirmation Dialog -->
+@if (dialogVisible()) {
+    <div class="dialog-backdrop" (click)="closeDialog()">
+        <div class="dialog-box" (click)="$event.stopPropagation()">
+
+            <div class="dialog-icon" [class.danger]="isDestructive">
+                <span class="material-symbols-outlined">
+                    {{ isDestructive ? 'delete_forever' : 'swap_horiz' }}
+                </span>
+            </div>
+
+            <h3 class="dialog-title">{{ dialogTitle }}</h3>
+            <p class="dialog-message">{{ dialogMessage }}</p>
+
+            <div class="dialog-actions">
+                <button class="dialog-btn cancel" (click)="closeDialog()">
+                    Cancel
+                </button>
+                <button class="dialog-btn confirm" [class.danger]="isDestructive" (click)="confirmDialog()">
+                    {{ isDestructive ? 'Delete' : 'Confirm' }}
+                </button>
+            </div>
+
+        </div>
+    </div>
+}

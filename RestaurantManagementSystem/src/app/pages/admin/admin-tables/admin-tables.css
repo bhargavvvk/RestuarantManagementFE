@@ -1,0 +1,328 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+/* ================================
+   Summary Cards
+================================ */
+
+.summary-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid #ececec;
+  min-width: 0;
+}
+
+.summary-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.summary-card h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1c1e;
+}
+
+.summary-card.available {
+  background: rgba(39, 174, 96, 0.08);
+  border-color: rgba(39, 174, 96, 0.25);
+}
+.summary-card.available h2,
+.summary-card.available .summary-title { color: #27ae60; }
+
+.summary-card.occupied {
+  background: rgba(243, 156, 18, 0.10);
+  border-color: rgba(243, 156, 18, 0.25);
+}
+.summary-card.occupied h2,
+.summary-card.occupied .summary-title { color: #f39c12; }
+
+.summary-card.unavailable {
+  background: rgba(186, 26, 26, 0.08);
+  border-color: rgba(186, 26, 26, 0.2);
+}
+.summary-card.unavailable h2,
+.summary-card.unavailable .summary-title { color: #ba1a1a; }
+
+/* ================================
+   Toolbar
+================================ */
+
+.toolbar-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  min-width: 0;
+}
+
+/* ================================
+   Desktop filter pills
+================================ */
+
+.desktop-filters {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.mobile-filters {
+  display: none;
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 9px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+  border: 1px solid #ddd;
+  background: white;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  background: #cc4d29;
+  color: white;
+  border-color: #cc4d29;
+}
+
+.filter-btn:hover { transform: translateY(-1px); }
+
+/* ================================
+   Filter Dropdown  (mobile / tablet)
+================================ */
+
+.filter-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1a1c1e;
+  width: 100%;
+}
+
+.filter-dropdown-trigger .material-symbols-outlined {
+  font-size: 18px;
+  color: #cc4d29;
+  flex-shrink: 0;
+}
+
+.trigger-label {
+  flex: 1;
+  text-align: left;
+}
+
+.chevron {
+  font-size: 18px !important;
+  color: #888 !important;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.chevron.rotated { transform: rotate(180deg); }
+
+.filter-dropdown-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+}
+
+.filter-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: white;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  min-width: 180px;
+  z-index: 50;
+  animation: dropIn 0.15s ease;
+}
+
+.filter-dropdown-menu li {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #333;
+  transition: 0.15s;
+}
+
+.filter-dropdown-menu li:hover { background: #fff1ee; color: #cc4d29; }
+.filter-dropdown-menu li.active { background: #cc4d29; color: white; font-weight: 600; }
+
+/* ================================
+   Action buttons
+================================ */
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.primary-btn,
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 9px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.primary-btn { background: #cc4d29; color: white; border: none; }
+.secondary-btn { background: white; border: 1px solid #ddd; color: #1a1c1e; }
+.primary-btn:hover, .secondary-btn:hover { transform: translateY(-1px); }
+
+/* ================================
+   Tables Grid
+================================ */
+
+.tables-section { min-height: 200px; }
+
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* ================================
+   Tablet  768px – 1024px
+================================ */
+
+@media (max-width: 1024px) {
+  .summary-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .summary-card {
+    padding: 14px 16px;
+    border-radius: 12px;
+  }
+
+  .summary-card h2 { font-size: 26px; }
+  .summary-title  { font-size: 11px; }
+
+  /* swap pill filters for dropdown */
+  .desktop-filters { display: none; }
+  .mobile-filters  { display: block; }
+
+  .toolbar-section { margin-bottom: 20px; }
+
+  /* icon-only action buttons on tablet */
+  .btn-label { display: none; }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .tables-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+}
+
+/* ================================
+   Mobile  ≤ 600px
+================================ */
+
+@media (max-width: 600px) {
+  .summary-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .summary-card {
+    padding: 12px 14px;
+    border-radius: 12px;
+  }
+
+  .summary-card h2 { font-size: 24px; }
+  .summary-title  { font-size: 10px; margin-bottom: 4px; }
+
+  /* toolbar: filter left, buttons right — single row */
+  .toolbar-section {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .mobile-filters { flex: 1; min-width: 0; }
+
+  /* shrink action buttons to icon-only circles */
+  .btn-label { display: none; }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .primary-btn .material-symbols-outlined,
+  .secondary-btn .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  .tables-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

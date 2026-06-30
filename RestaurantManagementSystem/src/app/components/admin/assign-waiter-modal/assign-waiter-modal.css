@@ -1,0 +1,154 @@
+:host {
+    display: block;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1000;
+    padding: 24px;
+}
+
+.modal-container {
+    width: 100%;
+    max-width: 520px;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 24px;
+    border-bottom: 1px solid #ececec;
+    background: #f8f8f8;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #CC4D29;
+    font-size: 22px;
+}
+
+.icon-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.modal-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.form-group select {
+    padding: 12px 14px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group select:focus {
+    border-color: #CC4D29;
+}
+
+.assignment-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 4px;
+    border-top: 1px solid #ececec;
+}
+
+.current-assignment {
+    padding: 14px 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: #fafafa;
+}
+
+.assignment-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.assignment-value {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.assignment-value.unassigned {
+    color: #888;
+    font-weight: 500;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 16px;
+    padding: 22px 24px;
+    border-top: 1px solid #ececec;
+    background: #f8f8f8;
+}
+
+.modal-footer button {
+    flex: 1;
+}
+
+.secondary-btn {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.primary-btn {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #CC4D29;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.primary-btn:hover:not(:disabled) {
+    background: #b74220;
+}
+
+.primary-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}

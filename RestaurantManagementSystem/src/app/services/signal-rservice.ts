@@ -111,6 +111,7 @@ export class SignalRService {
     this.hubConnection?.off('OrderCancelled');
     this.hubConnection?.off('OrderItemStatusReady');
     this.hubConnection?.off('OrderStatusPreparing');
+    this.hubConnection?.off('ItemServed');
     this.hubConnection?.off('BillStatusChanged');
     this.hubConnection?.off('MenuUpdated');
   }

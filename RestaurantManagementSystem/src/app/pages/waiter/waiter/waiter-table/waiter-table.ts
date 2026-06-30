@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Waiter } from '../../../../services/waiter';
 import { Auth } from '../../../../services/auth';
@@ -17,7 +17,7 @@ import { WaiterBill } from "../../../../components/waiter/waiter-bill/waiter-bil
   templateUrl: './waiter-table.html',
   styleUrl: './waiter-table.css',
 })
-export class WaiterTable implements OnDestroy {
+export class WaiterTable implements OnInit, OnDestroy {
   private readonly waiterTableService = inject(WaiterTableService);
   private readonly notification=inject(NotificationServices);
   private readonly route = inject(ActivatedRoute);
@@ -30,6 +30,23 @@ export class WaiterTable implements OnDestroy {
   private sessionId: number | null = null;
 
   ngOnInit(): void {
+    if (this.waiter.isLoaded()) {
+      this.initTable();
+      return;
+    }
+
+    this.waiter.loadTables().subscribe({
+      next: () => this.initTable(),
+      error: error => {
+        this.notification.error(
+          error.error?.message ?? 'Failed to load tables'
+        );
+        this.router.navigate(['waiter']);
+      }
+    });
+  }
+
+  private initTable(): void {
     const table = this.validateAccess();
     if (!table) return;
     this.sessionId = table.sessionId;
@@ -48,26 +65,48 @@ export class WaiterTable implements OnDestroy {
     this.signalR.onCartUpdated(() => {
       this.waiterTableService.loadCart(this.tableId).subscribe();
     });
+
     this.signalR.onOrderPlaced(() => {
       this.notification.success('New Order Placed');
       this.waiterTableService.loadCart(this.tableId).subscribe();
-      this.waiterTableService.loadOrders(this.tableId);
-      this.waiterTableService.loadBill(this.tableId);
+      this.reloadOrdersAndBill();
     });
+
     this.signalR.onOrderModified(data => {
       this.notification.success(data.message);
-      this.waiterTableService.loadOrders(this.tableId);
+      this.reloadOrdersAndBill();
     });
+
     this.signalR.onOrderCancelled(data => {
       this.notification.success(`Order #${data.orderNumber}: ${data.message}`);
-      this.waiterTableService.loadOrders(this.tableId);
+      this.reloadOrdersAndBill();
     });
-    this.signalR.onOrderItemStatusReady(data => {
-      this.waiterTableService.loadOrders(this.tableId);
+
+    this.signalR.onOrderItemStatusReady((data) => {
+      this.reloadOrdersAndBill();
+      this.notification.success(`${data.itemName} is ready for Table ${data.tableNumber}`);
     });
+
+    this.signalR.onOrderStatusPreparing(() => {
+      this.reloadOrdersAndBill();
+    });
+
+    this.signalR.onItemMarkedServed(() => {
+      this.reloadOrdersAndBill();
+    });
+
+    this.signalR.onBillStatusChanged(() => {
+      this.waiterTableService.loadBill(this.tableId);
+    });
+
     this.signalR.onMenuUpdated(() => {
-        this.waiterTableService.searchTrigger.next();
+      this.waiterTableService.searchTrigger.next();
     });
+  }
+
+  private reloadOrdersAndBill(): void {
+    this.waiterTableService.loadOrders(this.tableId);
+    this.waiterTableService.loadBill(this.tableId);
   }
   ngOnDestroy(): void {
     if (this.sessionId !== null) {

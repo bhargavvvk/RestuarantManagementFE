@@ -1,0 +1,99 @@
+<div class="orders-panel">
+  @if (loading()) {
+    <div class="loading-state">Loading orders...</div>
+  } @else if (orders().length === 0) {
+    <div class="empty-state">No orders found.</div>
+  } @else {
+
+    <!-- Desktop table -->
+    <div class="table-wrapper desktop-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Order Name</th>
+            <th>Table Number</th>
+            <th>Order Placed Time</th>
+            <th>Status</th>
+            <th class="actions-col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of orders(); track order.orderId) {
+            <tr [class.selected]="isSelected(order.orderId)">
+              <td class="order-number">#{{ order.orderNumber }}</td>
+              <td class="table-number">{{ order.tableNumber }}</td>
+              <td class="placed-time">{{ formatTime(order.placedAt) }}</td>
+              <td>
+                <span class="status-badge" [class]="getStatusClass(order.status)">
+                  {{ order.status }}
+                </span>
+              </td>
+              <td class="actions-col">
+                <button
+                  class="details-btn"
+                  [class.primary]="isSelected(order.orderId)"
+                  type="button"
+                  (click)="viewDetails.emit(order.orderId)">
+                  View Details
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile card list -->
+    <div class="mobile-cards">
+      @for (order of orders(); track order.orderId) {
+        <div class="order-card" [class.selected]="isSelected(order.orderId)">
+          <div class="card-row main-row">
+            <span class="order-number">#{{ order.orderNumber }}</span>
+            <span class="status-badge" [class]="getStatusClass(order.status)">
+              {{ order.status }}
+            </span>
+          </div>
+          <div class="card-row meta-row">
+            <span class="meta-item">
+              <span class="material-symbols-outlined">table_restaurant</span>
+              {{ order.tableNumber }}
+            </span>
+            <span class="meta-item">
+              <span class="material-symbols-outlined">schedule</span>
+              {{ formatTime(order.placedAt) }}
+            </span>
+          </div>
+          <div class="card-row action-row">
+            <button
+              class="details-btn"
+              [class.primary]="isSelected(order.orderId)"
+              type="button"
+              (click)="viewDetails.emit(order.orderId)">
+              View Details
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="pagination">
+      <span class="pagination-label">{{ paginationLabel() }}</span>
+      <div class="pagination-actions">
+        <button
+          class="page-btn"
+          type="button"
+          [disabled]="!hasPreviousPage()"
+          (click)="previousPage.emit()">
+          Previous
+        </button>
+        <button
+          class="page-btn primary"
+          type="button"
+          [disabled]="!hasNextPage()"
+          (click)="nextPage.emit()">
+          Next
+        </button>
+      </div>
+    </div>
+  }
+</div>
