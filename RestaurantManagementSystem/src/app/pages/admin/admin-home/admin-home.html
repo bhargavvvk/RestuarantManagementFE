@@ -32,10 +32,14 @@
         <span>Orders</span>
       </a>
 
-      <button class="nav-item" type="button" (click)="closeNav()">
+      <a
+        class="nav-item"
+        routerLink="bills"
+        routerLinkActive="active"
+        (click)="closeNav()">
         <span class="material-symbols-outlined">payments</span>
         <span>Bills</span>
-      </button>
+      </a>
 
       <button class="nav-item" type="button" (click)="closeNav()">
         <span class="material-symbols-outlined">restaurant_menu</span>
@@ -61,7 +65,6 @@
 
   <div class="content-wrapper">
     <header class="topbar">
-      <!-- hamburger — mobile/tablet only -->
       <button class="hamburger" type="button" (click)="toggleNav()">
         <span class="material-symbols-outlined">menu</span>
       </button>

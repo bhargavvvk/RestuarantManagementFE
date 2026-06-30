@@ -10,6 +10,8 @@ import { AdminTableDetail } from './pages/admin/admin-table-detail/admin-table-d
 import { AdminOrders } from './pages/admin/admin-orders/admin-orders';
 import { authGuard } from './guards/auth-guard';
 import { WaiterTable } from './pages/waiter/waiter/waiter-table/waiter-table';
+import { AdminBill } from './pages/admin/admin-bill/admin-bill';
+import { Title } from '@angular/platform-browser';
 
 export const routes: Routes = [
   {
@@ -81,7 +83,12 @@ export const routes: Routes = [
       {
         path: 'orders',
         component: AdminOrders,
-        data: { title: 'Orders Management' }
+        data: { title: 'Orders Dashboard' }
+      },
+      {
+        path:'bills',
+        component: AdminBill,
+        data: {title: 'Bill Dashboard'}
       }
     ]
   },
