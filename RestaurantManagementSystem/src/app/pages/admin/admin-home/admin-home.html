@@ -40,12 +40,14 @@
         <span class="material-symbols-outlined">payments</span>
         <span>Bills</span>
       </a>
-
-      <button class="nav-item" type="button" (click)="closeNav()">
-        <span class="material-symbols-outlined">restaurant_menu</span>
-        <span>Menu</span>
-      </button>
-
+          <a
+        class="nav-item"
+        routerLink="menu"
+        routerLinkActive="active"
+        (click)="closeNav()">
+       <span class="material-symbols-outlined">restaurant_menu</span>
+     <span>Menu</span>
+      </a>
       <button class="nav-item" type="button" (click)="closeNav()">
         <span class="material-symbols-outlined">inventory_2</span>
         <span>Inventory</span>

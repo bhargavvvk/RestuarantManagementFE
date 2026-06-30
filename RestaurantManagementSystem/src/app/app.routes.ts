@@ -12,6 +12,7 @@ import { authGuard } from './guards/auth-guard';
 import { WaiterTable } from './pages/waiter/waiter/waiter-table/waiter-table';
 import { AdminBill } from './pages/admin/admin-bill/admin-bill';
 import { Title } from '@angular/platform-browser';
+import { AdminMenu } from './pages/admin/admin-menu/admin-menu';
 
 export const routes: Routes = [
   {
@@ -88,7 +89,12 @@ export const routes: Routes = [
       {
         path:'bills',
         component: AdminBill,
-        data: { title: 'Bills Management' }
+        data: { title: 'Bills Dashboard' }
+      },
+       {
+        path:'menu',
+        component: AdminMenu,
+        data: { title: 'Menu Management' }
       }
     ]
   },

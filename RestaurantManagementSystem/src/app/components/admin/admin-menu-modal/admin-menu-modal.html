@@ -1,0 +1,309 @@
+<div
+    class="offcanvas offcanvas-end"
+    tabindex="-1"
+    [class.show]="isOpen()"
+    [style.visibility]="isOpen() ? 'visible' : 'hidden'">
+
+    <!-- Header -->
+
+    <div class="offcanvas-header">
+
+        <h5 class="offcanvas-title">
+            {{ isEditMode() ? 'Edit Menu Item' : 'Add Menu Item' }}
+        </h5>
+
+        <button
+            type="button"
+            class="btn-close"
+            (click)="onClose()">
+        </button>
+
+    </div>
+
+    <div class="offcanvas-body">
+
+        <form (submit)="$event.preventDefault(); onSave()">
+
+            <!-- Image Upload Area -->
+
+            <div class="image-upload-section">
+
+                @if (imagePreview()) {
+
+                    <div class="image-preview-container">
+
+                        <img
+                            [src]="imagePreview()!"
+                            class="image-preview"
+                            alt="Preview">
+
+                        <label
+                            class="image-change-btn"
+                            [for]="'imageInput'">
+
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+
+                            Change Photo
+
+                        </label>
+
+                    </div>
+
+                } @else {
+
+                    <label
+                        class="image-upload-placeholder"
+                        [for]="'imageInput'">
+
+                        <span class="material-symbols-outlined upload-icon">
+                            cloud_upload
+                        </span>
+
+                        <span class="upload-label">
+                            Upload High-Res Photo
+                        </span>
+
+                        <span class="upload-hint">
+                            JPG, PNG or WEBP · Max 5 MB
+                        </span>
+
+                    </label>
+
+                }
+
+                <input
+                    id="imageInput"
+                    type="file"
+                    class="d-none"
+                    accept="image/*"
+                    (change)="onImageSelected($event)">
+
+            </div>
+
+            <!-- Item Name -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Item Name <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    maxlength="50"
+                    class="form-control"
+                    [ngModel]="form().name"
+                    (ngModelChange)="update('name', $event)"
+                    name="name"
+                    placeholder="e.g. Classic Beef Slider">
+
+                <div class="char-count">
+                    {{ form().name.length }}/50
+                </div>
+
+            </div>
+
+            <!-- Category -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Category <span class="required">*</span>
+                </label>
+
+                <select
+                    class="form-select"
+                    name="category"
+                    [ngModel]="form().categoryId"
+                    (ngModelChange)="update('categoryId', +$event)">
+
+                    <option [ngValue]="0" disabled>
+                        Select a category...
+                    </option>
+
+                    @for (category of categories(); track category.id) {
+
+                        <option [ngValue]="category.id">
+                            {{ category.name }}
+                        </option>
+
+                    }
+
+                </select>
+
+            </div>
+
+            <!-- Price -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Price (₹) <span class="required">*</span>
+                </label>
+
+                <div class="price-input-wrapper">
+
+                    <span class="price-symbol">₹</span>
+
+                    <input
+                        type="number"
+                        class="form-control price-input"
+                        min="1"
+                        step="0.01"
+                        [ngModel]="form().price"
+                        (ngModelChange)="update('price', +$event)"
+                        name="price"
+                        placeholder="0.00">
+
+                </div>
+
+            </div>
+
+            <!-- Description -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Description
+                    <span class="optional">(optional)</span>
+                </label>
+
+                <textarea
+                    rows="3"
+                    maxlength="200"
+                    class="form-control"
+                    placeholder="Describe the flavors..."
+                    name="description"
+                    [ngModel]="form().description"
+                    (ngModelChange)="update('description', $event)">
+                </textarea>
+
+                <div class="char-count">
+                    {{ (form().description ?? '').length }}/200
+                </div>
+
+            </div>
+
+            <!-- Food Type -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Food Type
+                </label>
+
+                <div class="food-type-group">
+
+                    <label
+                        class="food-type-option"
+                        [class.selected]="form().foodType === FoodType.Veg">
+
+                        <input
+                            type="radio"
+                            [value]="FoodType.Veg"
+                            name="foodType"
+                            [ngModel]="form().foodType"
+                            (ngModelChange)="update('foodType', +$event)">
+
+                        <span class="food-dot veg-dot"></span>
+
+                        Veg
+
+                    </label>
+
+                    <label
+                        class="food-type-option"
+                        [class.selected]="form().foodType === FoodType.NonVeg">
+
+                        <input
+                            type="radio"
+                            [value]="FoodType.NonVeg"
+                            name="foodType"
+                            [ngModel]="form().foodType"
+                            (ngModelChange)="update('foodType', +$event)">
+
+                        <span class="food-dot nonveg-dot"></span>
+
+                        Non-Veg
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <!-- Initially Available toggle -->
+
+            <div class="availability-toggle-row mb-4">
+
+                <div>
+
+                    <div class="toggle-label">
+                        Initially Available
+                    </div>
+
+                    <div class="toggle-hint">
+                        Show this item on the customer menu
+                    </div>
+
+                </div>
+
+                <label class="toggle-switch">
+
+                    <input
+                        type="checkbox"
+                        [checked]="form().isAvailable !== false"
+                        (change)="onAvailableToggle($event)">
+
+                    <span class="toggle-track"></span>
+
+                </label>
+
+            </div>
+
+            <hr>
+
+            <!-- Action Buttons -->
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="btn btn-ghost"
+                    (click)="onClose()">
+
+                    Cancel
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-publish"
+                    [disabled]="!isValid() || isSubmitting()">
+
+                    @if (isSubmitting()) {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                    }
+
+                    {{ isEditMode() ? 'Save Changes' : 'Publish to Menu' }}
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@if (isOpen()) {
+
+    <div
+        class="offcanvas-backdrop fade show"
+        (click)="onClose()">
+    </div>
+
+}

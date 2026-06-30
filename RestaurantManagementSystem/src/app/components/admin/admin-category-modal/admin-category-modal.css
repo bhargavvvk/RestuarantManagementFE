@@ -1,0 +1,438 @@
+:host {
+    display: block;
+}
+
+/* ── Panel ────────────────────────────────────────────────────────────────── */
+
+.offcanvas {
+    width: 460px;
+    background: #fff8f6;
+    border-left: 1px solid #e0bfb7;
+    transition: transform .3s ease;
+}
+
+.offcanvas-header {
+    background: #fff1ed;
+    border-bottom: 1px solid rgba(140, 113, 106, 0.15);
+    padding: 1.5rem;
+}
+
+.offcanvas-title {
+    margin: 0;
+    font-family: "Manrope", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #251915;
+}
+
+.btn-close {
+    box-shadow: none;
+}
+
+.offcanvas-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* ── Add Category Button ─────────────────────────────────────────────────── */
+
+.btn-add-category {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    padding: .85rem 1.25rem;
+    background: transparent;
+    border: 2px dashed #e0bfb7;
+    border-radius: 14px;
+    color: #aa3512;
+    font-weight: 700;
+    font-size: .95rem;
+    cursor: pointer;
+    transition: all .2s;
+    margin-bottom: 1.5rem;
+}
+
+.btn-add-category:hover {
+    background: #fff1ed;
+    border-color: #cc4d29;
+    border-style: solid;
+}
+
+.btn-add-category .material-symbols-outlined {
+    font-size: 22px;
+}
+
+/* ── Add Form Card ────────────────────────────────────────────────────────── */
+
+.add-form-card {
+    background: white;
+    border: 1px solid #e0bfb7;
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,.04);
+}
+
+.add-form-title {
+    font-family: "Manrope", sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #251915;
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: .4rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #8c716a;
+}
+
+.required {
+    color: #cc4d29;
+}
+
+.optional {
+    font-weight: 500;
+    text-transform: none;
+    color: #a09390;
+}
+
+.form-control {
+    border: 1px solid #e0bfb7;
+    border-radius: 10px;
+    background: #fff;
+    min-height: 42px;
+    color: #251915;
+    transition: .2s ease;
+    font-size: .9rem;
+    padding: .6rem .9rem;
+}
+
+.form-control:focus {
+    border-color: #aa3512;
+    box-shadow: 0 0 0 .18rem rgba(170, 53, 18, .12);
+    outline: none;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.char-count {
+    text-align: right;
+    font-size: .72rem;
+    color: #a09390;
+    margin-top: .25rem;
+}
+
+.add-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: .75rem;
+    margin-top: 1rem;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid #e0bfb7;
+    border-radius: 10px;
+    color: #586062;
+    font-weight: 600;
+    padding: .5rem 1rem;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-ghost:hover {
+    background: #f5ddd7;
+    border-color: #e0bfb7;
+}
+
+.btn-xs {
+    padding: .4rem .9rem;
+    font-size: .85rem;
+}
+
+.btn-primary-sm {
+    background: #cc4d29;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    padding: .5rem 1.25rem;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-primary-sm:hover:not(:disabled) {
+    background: #aa3512;
+}
+
+.btn-primary-sm:disabled {
+    background: #c1c8ca;
+    cursor: not-allowed;
+}
+
+.btn-save-xs {
+    background: #cc4d29;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 700;
+    padding: .38rem 1rem;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-save-xs:hover:not(:disabled) {
+    background: #aa3512;
+}
+
+.btn-save-xs:disabled {
+    background: #c1c8ca;
+    cursor: not-allowed;
+}
+
+/* ── Category List ────────────────────────────────────────────────────────── */
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.empty-categories {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: #a09390;
+}
+
+.empty-categories .material-symbols-outlined {
+    font-size: 48px;
+    color: #e0bfb7;
+    display: block;
+    margin-bottom: .75rem;
+}
+
+.empty-categories p {
+    margin: 0;
+    font-size: .9rem;
+}
+
+/* ── Category Row ─────────────────────────────────────────────────────────── */
+
+.category-row {
+    background: white;
+    border: 1px solid #e8e2df;
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: box-shadow .2s;
+}
+
+.category-row:hover {
+    box-shadow: 0 3px 12px rgba(0,0,0,.07);
+}
+
+.category-row.editing {
+    border-color: #cc4d29;
+    background: #fff8f6;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* ── Category Info ───────────────────────────────────────────────────────── */
+
+.cat-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.cat-name-row {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .3rem;
+}
+
+.cat-name {
+    font-family: "Manrope", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #251915;
+}
+
+.cat-status {
+    font-family: "JetBrains Mono", monospace;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+}
+
+.status-active {
+    color: #166534;
+}
+
+.status-inactive {
+    color: #9b1c1c;
+}
+
+/* ── Category Actions ────────────────────────────────────────────────────── */
+
+.cat-actions {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-shrink: 0;
+}
+
+/* ── Icon Buttons ─────────────────────────────────────────────────────────── */
+
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    border: 1px solid #e0bfb7;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #8c716a;
+    transition: all .2s;
+}
+
+.btn-icon:hover {
+    background: #fff1ed;
+    border-color: #cc4d29;
+    color: #cc4d29;
+}
+
+.btn-icon .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.btn-icon-danger {
+    color: #cc4d29;
+    border-color: #ffd7cd;
+}
+
+.btn-icon-danger:hover {
+    background: #fff1f2;
+    border-color: #cc4d29;
+    color: #9b1c1c;
+}
+
+/* ── Toggle Switch ───────────────────────────────────────────────────────── */
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-track {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #d1d5db;
+    transition: background .25s;
+}
+
+.toggle-track::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: transform .25s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+.toggle-switch input:checked + .toggle-track {
+    background: #cc4d29;
+}
+
+.toggle-switch input:checked + .toggle-track::before {
+    transform: translateX(20px);
+}
+
+/* ── Inline Edit ─────────────────────────────────────────────────────────── */
+
+.edit-inline {
+    width: 100%;
+}
+
+.edit-inline-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: .5rem;
+    margin-top: .75rem;
+}
+
+/* ── Backdrop ─────────────────────────────────────────────────────────────── */
+
+.offcanvas-backdrop {
+    background: rgba(26, 28, 30, .45);
+}
+
+/* ── Spinner ──────────────────────────────────────────────────────────────── */
+
+.spinner-border-sm {
+    width: .85rem;
+    height: .85rem;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e0bfb7;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+    .offcanvas {
+        width: 100%;
+    }
+
+}

@@ -1,0 +1,364 @@
+:host {
+    display: block;
+}
+
+/* ── Panel ────────────────────────────────────────────────────────────────── */
+
+.offcanvas {
+    width: 520px;
+    background: #fff8f6;
+    border-left: 1px solid #e0bfb7;
+    transition: transform .3s ease;
+}
+
+.offcanvas-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(140, 113, 106, .15);
+    background: #fff1ed;
+}
+
+.offcanvas-title {
+    margin: 0;
+    font-family: "Manrope", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #251915;
+}
+
+.btn-close {
+    box-shadow: none;
+}
+
+.offcanvas-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* ── Image Banner (Read Only) ──────────────────────────────────────────────── */
+
+.image-banner-container {
+    height: 180px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+    border: 1px solid #e0bfb7;
+}
+
+.image-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ── Form Labels ───────────────────────────────────────────────────────────── */
+
+.form-label {
+    display: block;
+    margin-bottom: .4rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #8c716a;
+}
+
+.required {
+    color: #cc4d29;
+}
+
+.optional {
+    font-weight: 500;
+    text-transform: none;
+    color: #a09390;
+}
+
+.char-count {
+    text-align: right;
+    font-size: .72rem;
+    color: #a09390;
+    margin-top: .25rem;
+}
+
+/* ── Form Controls ──────────────────────────────────────────────────────────── */
+
+.form-control,
+.form-select {
+    background: #ffffff;
+    border: 1px solid #e0bfb7;
+    border-radius: 12px;
+    min-height: 48px;
+    color: #251915;
+    padding: .8rem 1rem;
+    transition: .2s ease;
+    font-size: .95rem;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #aa3512;
+    box-shadow: 0 0 0 .2rem rgba(170, 53, 18, .12);
+    outline: none;
+}
+
+/* ── Price Input ──────────────────────────────────────────────────────────── */
+
+.price-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.price-symbol {
+    position: absolute;
+    left: 1rem;
+    font-weight: 700;
+    color: #8c716a;
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.price-input {
+    padding-left: 2.25rem !important;
+}
+
+/* ── Food Type ────────────────────────────────────────────────────────────── */
+
+.food-type-group {
+    display: flex;
+    gap: .75rem;
+}
+
+.food-type-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .75rem 1rem;
+    border: 2px solid #e0bfb7;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: .9rem;
+    color: #58413b;
+    transition: all .2s;
+    background: white;
+}
+
+.food-type-option input[type="radio"] {
+    display: none;
+}
+
+.food-type-option:hover {
+    background: #fff1ed;
+    border-color: #e8bfb7;
+}
+
+.food-type-option.selected {
+    border-color: #cc4d29;
+    background: #fff1ed;
+    color: #aa3512;
+}
+
+.food-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+}
+
+.veg-dot {
+    background: #27ae60;
+    border-color: #27ae60;
+}
+
+.nonveg-dot {
+    background: #cc4d29;
+    border-color: #cc4d29;
+}
+
+/* ── Availability Toggle Row ──────────────────────────────────────────────── */
+
+.availability-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: white;
+    border: 1px solid #e0bfb7;
+    border-radius: 14px;
+    padding: .9rem 1.1rem;
+}
+
+.toggle-label {
+    font-family: "Manrope", sans-serif;
+    font-weight: 700;
+    color: #251915;
+    font-size: .95rem;
+    margin-bottom: .15rem;
+}
+
+.toggle-hint {
+    font-size: .78rem;
+    color: #a09390;
+}
+
+/* ── Custom Toggle ────────────────────────────────────────────────────────── */
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    cursor: pointer;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-track {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #d1d5db;
+    transition: background .25s;
+}
+
+.toggle-track::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: transform .25s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+.toggle-switch input:checked + .toggle-track {
+    background: #cc4d29;
+}
+
+.toggle-switch input:checked + .toggle-track::before {
+    transform: translateX(22px);
+}
+
+/* ── Divider ──────────────────────────────────────────────────────────────── */
+
+hr {
+    border-color: #e0bfb7;
+    opacity: .5;
+    margin: 1.25rem 0;
+}
+
+/* ── Action Buttons ──────────────────────────────────────────────────────── */
+
+.modal-actions {
+    display: flex;
+    gap: .75rem;
+}
+
+.btn-ghost {
+    flex: 0 0 auto;
+    background: transparent;
+    border: 1px solid #e0bfb7;
+    border-radius: 12px;
+    color: #586062;
+    font-weight: 700;
+    padding: .8rem 1.5rem;
+    font-size: .95rem;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-ghost:hover {
+    background: #f5ddd7;
+    border-color: #e0bfb7;
+}
+
+.btn-publish {
+    flex: 1;
+    background: #cc4d29;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 800;
+    padding: .9rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.btn-publish:hover:not(:disabled) {
+    background: #aa3512;
+}
+
+.btn-publish:disabled {
+    background: #c1c8ca;
+    cursor: not-allowed;
+}
+
+/* ── Spinner ─────────────────────────────────────────────────────────────── */
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ── Backdrop ─────────────────────────────────────────────────────────────── */
+
+.offcanvas-backdrop {
+    background: rgba(26, 28, 30, .45);
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e0bfb7;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+    .offcanvas {
+        width: 100%;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .btn-ghost,
+    .btn-publish {
+        width: 100%;
+    }
+
+}

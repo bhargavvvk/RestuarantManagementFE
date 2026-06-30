@@ -1,0 +1,99 @@
+<div
+    class="menu-card"
+    [class.unavailable]="!menuItem().isAvailable">
+
+    <!-- Image -->
+
+    <div class="menu-image">
+
+        @if (!menuItem().isAvailable) {
+            <div class="unavailable-badge">UNAVAILABLE</div>
+        }
+
+        @if (menuItem().imageUrl) {
+
+            <img
+                [src]="menuItem().imageUrl"
+                [alt]="menuItem().name">
+
+        } @else {
+
+            <div class="image-placeholder">
+
+                <span class="material-symbols-outlined">
+                    restaurant
+                </span>
+
+            </div>
+
+        }
+
+        <!-- Price overlay on image -->
+
+        <div class="price-badge">
+            ₹{{ menuItem().price | number:'1.0-0' }}
+        </div>
+
+        <!-- Edit icon overlay -->
+
+        <button
+            class="edit-overlay-btn"
+            (click)="onEdit()"
+            title="Edit item">
+
+            <span class="material-symbols-outlined">
+                edit
+            </span>
+
+        </button>
+
+    </div>
+
+    <!-- Content -->
+
+    <div class="menu-content">
+
+        <div class="menu-title-row">
+
+            <h5 class="menu-title">
+                {{ menuItem().name }}
+            </h5>
+
+        </div>
+
+        @if (menuItem().description) {
+
+            <p class="menu-description">
+                {{ menuItem().description }}
+            </p>
+
+        }
+
+        <div class="menu-footer">
+
+            <span class="category-chip">
+                {{ menuItem().categoryName }}
+            </span>
+
+            <div class="availability-row">
+
+                <span class="availability-label">Available</span>
+
+                <label class="toggle-switch">
+
+                    <input
+                        type="checkbox"
+                        [checked]="menuItem().isAvailable"
+                        (change)="onAvailabilityChange($event)">
+
+                    <span class="toggle-track"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

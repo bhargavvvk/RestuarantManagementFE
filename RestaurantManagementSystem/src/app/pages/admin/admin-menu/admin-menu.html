@@ -1,0 +1,248 @@
+<div class="admin-menu-page">
+
+    <!-- Header -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h2 class="page-title">
+                Menu Management
+            </h2>
+
+            <p class="page-subtitle">
+                Organize and manage your digital menu offerings in real-time.
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button
+                class="btn btn-outline-primary"
+                (click)="openManageCategories()">
+
+                <span class="material-symbols-outlined">
+                    category
+                </span>
+
+                Manage Categories
+
+            </button>
+
+            <button
+                class="btn btn-primary"
+                (click)="openAddMenu()">
+
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+
+                Add Item
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Category Chips -->
+
+    <div class="category-chips">
+
+        <button
+            class="chip"
+            [class.active]="selectedCategoryId() === undefined"
+            (click)="filterByCategory()">
+
+            All Items
+
+        </button>
+
+        @for(category of categories(); track category.id){
+
+            <button
+                class="chip"
+                [class.active]="selectedCategoryId() === category.id"
+                (click)="filterByCategory(category.id)">
+
+                {{ category.name }}
+
+            </button>
+
+        }
+
+    </div>
+
+    <!-- Search and Status Filters -->
+
+    <div class="search-section">
+
+        <div class="search-box">
+
+            <span class="material-symbols-outlined">
+                search
+            </span>
+
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Quick find item by name or category..."
+                (input)="searchMenu(search.value)"
+                #search>
+
+        </div>
+
+        <div class="status-filters">
+
+            <span class="filter-label">Availability:</span>
+
+            <div class="status-chips">
+
+                <button
+                    class="chip chip-status"
+                    [class.active]="selectedAvailability() === undefined"
+                    (click)="filterByAvailability()">
+                    All
+                </button>
+
+                <button
+                    class="chip chip-status"
+                    [class.active]="selectedAvailability() === true"
+                    (click)="filterByAvailability(true)">
+                    Available
+                </button>
+
+                <button
+                    class="chip chip-status"
+                    [class.active]="selectedAvailability() === false"
+                    (click)="filterByAvailability(false)">
+                    Unavailable
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Loading -->
+
+    @if(isLoading()){
+
+        <div class="text-center py-5">
+
+            <div class="spinner-border"></div>
+
+        </div>
+
+    }
+
+    <!-- Empty -->
+
+    @else if(menuItems().length === 0){
+
+        <div class="empty-state">
+
+            <span class="material-symbols-outlined">
+                restaurant_menu
+            </span>
+
+            <h4>
+                No Menu Items
+            </h4>
+
+            <p>
+                Start by adding your first menu item or adjust filters.
+            </p>
+
+        </div>
+
+    }
+
+    <!-- Menu Grid -->
+
+    @else {
+
+        <div class="row g-4">
+
+            @for(item of menuItems(); track item.id){
+
+                <div class="col-md-6 col-lg-4 col-xl-3">
+
+                    <app-admin-menu-card
+
+                        [menuItem]="item"
+
+                        (edit)="editMenu(item)"
+
+                        (delete)="deleteMenu(item.id)"
+
+                        (availabilityChanged)="updateAvailability(
+                            item.id,
+                            {
+                                isAvailable: $event.isAvailable
+                            }
+                        )">
+
+                    </app-admin-menu-card>
+
+                </div>
+
+            }
+
+        </div>
+
+    }
+
+</div>
+
+<!-- Menu Modal (Add Only) -->
+
+<app-admin-menu-modal
+
+    [isOpen]="showMenuModal()"
+
+    [categories]="categories()"
+
+    [menuItem]="selectedMenu()"
+
+    (save)="saveMenu($event)"
+
+    (close)="closeMenuModal()">
+
+</app-admin-menu-modal>
+
+<!-- Menu Edit Modal (Edit Only) -->
+
+<app-admin-menu-edit-modal
+
+    [isOpen]="showEditMenuModal()"
+
+    [categories]="categories()"
+
+    [menuItem]="selectedMenu()"
+
+    (save)="updateMenu($event)"
+
+    (close)="closeMenuModal()">
+
+</app-admin-menu-edit-modal>
+
+<!-- Manage Categories Modal -->
+
+<app-admin-category-modal
+
+    [isOpen]="showCategoryModal()"
+
+    [categories]="categories()"
+
+    (saveCategory)="saveCategory($event)"
+
+    (toggleAvailability)="toggleCategoryAvailability($event.id, $event.isAvailable)"
+
+    (deleteCategory)="deleteCategory($event)"
+
+    (close)="closeCategoryModal()">
+
+</app-admin-category-modal>
