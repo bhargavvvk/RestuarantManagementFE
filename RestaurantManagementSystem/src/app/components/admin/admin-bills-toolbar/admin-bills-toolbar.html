@@ -1,0 +1,15 @@
+<div class="toolbar">
+  <div class="search-field">
+    <span class="material-symbols-outlined">search</span>
+    <input
+      type="text"
+      placeholder="Search by bill number..."
+      [ngModel]="searchQuery()"
+      (ngModelChange)="onSearchInput($event)" />
+    @if (searchQuery()) {
+      <button class="clear-btn" type="button" (click)="clearSearch()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    }
+  </div>
+</div>

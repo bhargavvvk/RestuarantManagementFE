@@ -1,0 +1,50 @@
+<section class="summary-section">
+  <div class="summary-bar">
+    <div class="summary-copy">
+      @if (isSearching()) {
+        <h3>Search results</h3>
+        <p class="subtitle">Matching bills across all dates.</p>
+      } @else {
+        <h3>Bills on {{ formattedDate }}</h3>
+        <p class="subtitle">Revenue and billing summary for the selected date.</p>
+      }
+    </div>
+
+    @if (!isSearching()) {
+      <div class="date-picker" (click)="openPicker()">
+        <span class="material-symbols-outlined">calendar_today</span>
+        <span class="date-label">{{ shortDateLabel }}</span>
+        <span class="material-symbols-outlined chevron">arrow_drop_down</span>
+        <input
+          #dateInput
+          type="date"
+          [max]="today"
+          [value]="selectedDate()"
+          (change)="onDateChange($event)" />
+      </div>
+    }
+  </div>
+
+  @if (!isSearching()) {
+    <div class="summary-cards">
+      <div class="summary-card">
+        <p class="card-label">Total Bills</p>
+        @if (summaryLoading()) {
+          <h3 class="card-value loading">—</h3>
+        } @else {
+          <h3 class="card-value">{{ summary()?.totalBills ?? 0 }}</h3>
+        }
+      </div>
+      <div class="summary-card">
+        <p class="card-label">Total Revenue</p>
+        @if (summaryLoading()) {
+          <h3 class="card-value loading">—</h3>
+        } @else {
+          <h3 class="card-value">
+            ₹ {{ (summary()?.totalRevenue ?? 0) | number:'1.0-0' }}
+          </h3>
+        }
+      </div>
+    </div>
+  }
+</section>

@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.bills-page {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}

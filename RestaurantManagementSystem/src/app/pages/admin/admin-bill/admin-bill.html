@@ -1,1 +1,30 @@
-<p>admin-bill works!</p>
+<div class="bills-page">
+  <app-admin-bills-summary
+    [summary]="summary()"
+    [summaryLoading]="summaryLoading()"
+    [selectedDate]="selectedDate()"
+    [isSearching]="isSearching()"
+    (dateChanged)="onDateChanged($event)" />
+
+  <app-admin-bills-toolbar
+    [searchQuery]="searchInput()"
+    (searchChanged)="onSearchChanged($event)"
+    (searchCleared)="onSearchCleared()" />
+
+  <app-admin-bills-table
+    [bills]="bills()"
+    [selectedBillId]="selectedBillId()"
+    [loading]="loading()"
+    [paginationLabel]="paginationLabel()"
+    [hasPreviousPage]="hasPreviousPage()"
+    [hasNextPage]="hasNextPage()"
+    (viewDetails)="onViewDetails($event)"
+    (previousPage)="onPreviousPage()"
+    (nextPage)="onNextPage()" />
+</div>
+
+<app-admin-bill-detail-drawer
+  [isOpen]="drawerOpen()"
+  [bill]="billDetail()"
+  [loading]="detailLoading()"
+  (closed)="onCloseDrawer()" />

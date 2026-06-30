@@ -88,7 +88,7 @@ export const routes: Routes = [
       {
         path:'bills',
         component: AdminBill,
-        data: {title: 'Bill Dashboard'}
+        data: { title: 'Bills Management' }
       }
     ]
   },

@@ -1,0 +1,96 @@
+<div class="bills-panel">
+  @if (loading()) {
+    <div class="loading-state">Loading bills...</div>
+  } @else if (bills().length === 0) {
+    <div class="empty-state">No bills found.</div>
+  } @else {
+
+    <div class="table-wrapper desktop-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Bill ID</th>
+            <th>Table No.</th>
+            <th>Generated Time</th>
+            <th>Grand Total</th>
+            <th class="actions-col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (bill of bills(); track bill.billId) {
+            <tr
+              [class.selected]="isSelected(bill.billId)"
+              (click)="viewDetails.emit(bill.billId)">
+              <td class="bill-number">#{{ bill.billNumber }}</td>
+              <td class="table-number">{{ bill.tableNumber }}</td>
+              <td class="generated-time">{{ formatTime(bill.generatedAt) }}</td>
+              <td class="grand-total">₹ {{ bill.grandTotal | number:'1.2-2' }}</td>
+              <td class="actions-col">
+                <button
+                  class="details-btn"
+                  [class.primary]="isSelected(bill.billId)"
+                  type="button"
+                  (click)="viewDetails.emit(bill.billId); $event.stopPropagation()">
+                  View Details
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mobile-cards">
+      @for (bill of bills(); track bill.billId) {
+        <div
+          class="bill-card"
+          [class.selected]="isSelected(bill.billId)"
+          (click)="viewDetails.emit(bill.billId)">
+          <div class="card-row main-row">
+            <span class="bill-number">#{{ bill.billNumber }}</span>
+            <span class="grand-total">₹ {{ bill.grandTotal | number:'1.2-2' }}</span>
+          </div>
+          <div class="card-row meta-row">
+            <span class="meta-item">
+              <span class="material-symbols-outlined">table_restaurant</span>
+              {{ bill.tableNumber }}
+            </span>
+            <span class="meta-item">
+              <span class="material-symbols-outlined">schedule</span>
+              {{ formatTime(bill.generatedAt) }}
+            </span>
+          </div>
+          <div class="card-row action-row">
+            <button
+              class="details-btn"
+              [class.primary]="isSelected(bill.billId)"
+              type="button"
+              (click)="viewDetails.emit(bill.billId); $event.stopPropagation()">
+              View Details
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="pagination">
+      <span class="pagination-label">{{ paginationLabel() }}</span>
+      <div class="pagination-actions">
+        <button
+          class="page-btn"
+          type="button"
+          [disabled]="!hasPreviousPage()"
+          (click)="previousPage.emit()">
+          Previous
+        </button>
+        <button
+          class="page-btn primary"
+          type="button"
+          [disabled]="!hasNextPage()"
+          (click)="nextPage.emit()">
+          Next
+        </button>
+      </div>
+    </div>
+  }
+</div>

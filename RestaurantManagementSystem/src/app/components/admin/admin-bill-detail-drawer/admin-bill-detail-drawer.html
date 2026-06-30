@@ -1,0 +1,83 @@
+@if (isOpen()) {
+  <div class="drawer-backdrop" (click)="closed.emit()"></div>
+}
+
+<aside class="drawer" [class.open]="isOpen()">
+  <div class="drawer-header">
+    <div>
+      <h4>Bill Details</h4>
+      @if (bill(); as detail) {
+        <p class="bill-number">#{{ detail.billNumber }}</p>
+      }
+    </div>
+    <button class="close-btn" type="button" (click)="closed.emit()">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <div class="drawer-content">
+    @if (loading()) {
+      <div class="loading-state">Loading bill details...</div>
+    } @else if (bill(); as detail) {
+      <div class="info-grid">
+        <div>
+          <p class="label">Table</p>
+          <p class="value">{{ detail.tableNumber }}</p>
+        </div>
+        <div>
+          <p class="label">Generated</p>
+          <p class="value">{{ formatTime(detail.generatedAt) }}</p>
+        </div>
+        <div>
+          <p class="label">Waiter</p>
+          <p class="value">{{ detail.waiterName }}</p>
+        </div>
+        <div>
+          <p class="label">Payment</p>
+          <p class="value" [class.paid]="isPaid()">
+            {{ paymentStatusLabel() }}
+          </p>
+        </div>
+        <div>
+          <p class="label">Payment Method</p>
+          <p class="value">{{ paymentMethodLabel() }}</p>
+        </div>
+        <div>
+          <p class="label">Grand Total</p>
+          <p class="value grand-total">₹ {{ detail.grandTotal | number:'1.2-2' }}</p>
+        </div>
+      </div>
+
+      <div class="breakdown-section">
+        <h5>Bill Breakdown</h5>
+        <div class="breakdown-list">
+          <div class="breakdown-row">
+            <span>Food Total</span>
+            <span>₹ {{ detail.foodTotal | number:'1.2-2' }}</span>
+          </div>
+          <div class="breakdown-row small">
+            <span>CGST ({{ detail.cgstPercentage }}%)</span>
+            <span>₹ {{ detail.cgstAmount | number:'1.2-2' }}</span>
+          </div>
+          <div class="breakdown-row small">
+            <span>SGST ({{ detail.sgstPercentage }}%)</span>
+            <span>₹ {{ detail.sgstAmount | number:'1.2-2' }}</span>
+          </div>
+          <div class="breakdown-row small">
+            <span>Service Charge ({{ detail.serviceChargePercentage }}%)</span>
+            <span>₹ {{ detail.serviceChargeAmount | number:'1.2-2' }}</span>
+          </div>
+          <div class="breakdown-row total">
+            <span>Grand Total</span>
+            <span>₹ {{ detail.grandTotal | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="print-btn" type="button" disabled>
+        <span class="material-symbols-outlined">print</span>
+        Print Invoice
+      </button>
+    }
+  </div>
+</aside>
