@@ -16,8 +16,9 @@ import { AdminMenuCard } from '../../../components/admin/admin-menu-card/admin-m
 import { AdminMenuModal } from '../../../components/admin/admin-menu-modal/admin-menu-modal';
 import { AdminMenuEditModal } from '../../../components/admin/admin-menu-edit-modal/admin-menu-edit-modal';
 import { AdminCategoryModal } from '../../../components/admin/admin-category-modal/admin-category-modal';
-import { BehaviorSubject, combineLatest, of, Subscription, Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { NotificationServices } from '../../../services/notification-services';
 
 @Component({
@@ -36,67 +37,49 @@ export class AdminMenu implements OnInit, OnDestroy {
 
   readonly FoodType = FoodType;
 
-  readonly menuItems = signal<AdminMenuItem[]>([]);
-  readonly categories = signal<AdminMenuCategory[]>([]);
+  // ── UI state ──────────────────────────────────────────────────────────────
+  readonly menuItems   = signal<AdminMenuItem[]>([]);
+  readonly categories  = signal<AdminMenuCategory[]>([]);
+  readonly isLoading   = signal(false);
 
-  readonly selectedCategoryId = signal<number | undefined>(undefined);
+  // ── Filter state (signals only — no BehaviorSubjects) ─────────────────────
+  readonly selectedCategoryId  = signal<number | undefined>(undefined);
   readonly selectedAvailability = signal<boolean | undefined>(undefined);
-  readonly selectedFoodType = signal<FoodType | undefined>(undefined);
-  readonly search = signal('');
+  readonly selectedFoodType    = signal<FoodType | undefined>(undefined);
+  readonly searchText          = signal('');
 
-  readonly selectedMenu = signal<AdminMenuItem | null>(null);
-
-  readonly showMenuModal = signal(false);
+  // ── Modal state ───────────────────────────────────────────────────────────
+  readonly selectedMenu      = signal<AdminMenuItem | null>(null);
+  readonly showMenuModal     = signal(false);
   readonly showEditMenuModal = signal(false);
   readonly showCategoryModal = signal(false);
 
-  readonly isLoading = signal(false);
+  // ── Search debounce stream (search only) ──────────────────────────────────
+  private readonly searchInput$ = new Subject<string>();
+  private searchSub?: Subscription;
 
-  // ── RxJS filter streams ───────────────────────────────────────────────────
-
-  private readonly search$ = new BehaviorSubject<string>('');
-  private readonly categoryId$ = new BehaviorSubject<number | undefined>(undefined);
-  private readonly isAvailable$ = new BehaviorSubject<boolean | undefined>(undefined);
-  private readonly foodType$ = new BehaviorSubject<FoodType | undefined>(undefined);
-  // Use a Subject here so the pipeline only fires when we explicitly call reload()
-  private readonly reload$ = new Subject<void>();
-  private filterSubscription?: Subscription;
-  private searchSubscription?: Subscription;
+  // ── Fetch stream (immediate for filters/reload, debounced for search) ─────
+  private readonly fetch$ = new Subject<MenuSearchParams>();
+  private fetchSub?: Subscription;
 
   ngOnInit(): void {
     this.loadCategories();
-    this.setupFilterPipeline();
-    // Set up debounced search: trigger reload only after user stops typing.
-    this.searchSubscription = this.search$.pipe(distinctUntilChanged(), debounceTime(2000)).subscribe(() => this.reload());
-
-    // Trigger an initial load once after the pipeline is set up (no debounce)
-    this.reload();
+    this.setupFetchPipeline();
+    this.setupSearchDebounce();
+    this.fetchMenuItems();   // initial load — no debounce
   }
 
   ngOnDestroy(): void {
-    this.filterSubscription?.unsubscribe();
-    this.searchSubscription?.unsubscribe();
+    this.fetchSub?.unsubscribe();
+    this.searchSub?.unsubscribe();
   }
 
-  // ── Filter pipeline ───────────────────────────────────────────────────────
+  // ── Pipelines ─────────────────────────────────────────────────────────────
 
-  private setupFilterPipeline(): void {
-    // Combine filters (excluding search) with explicit reload triggers.
-    this.filterSubscription = combineLatest([
-      this.categoryId$,
-      this.isAvailable$,
-      this.foodType$,
-      this.reload$
-    ]).pipe(
-      switchMap(([categoryId, isAvailable, foodType]) => {
+  private setupFetchPipeline(): void {
+    this.fetchSub = this.fetch$.pipe(
+      switchMap(params => {
         this.isLoading.set(true);
-        const search = this.search().trim();
-        const params: MenuSearchParams = {
-          search: search || undefined,
-          categoryId,
-          isAvailable,
-          foodType
-        };
         return this.adminMenuService.getMenuItems(params).pipe(
           catchError(() => {
             this.notificationService.error('Failed to load menu items.');
@@ -104,48 +87,66 @@ export class AdminMenu implements OnInit, OnDestroy {
           })
         );
       })
-    ).subscribe({
-      next: items => {
-        this.menuItems.set(items);
-        this.isLoading.set(false);
-      }
+    ).subscribe(items => {
+      this.menuItems.set(items);
+      this.isLoading.set(false);
     });
   }
 
-  // single reload — only changes reload$ so combineLatest fires exactly once
+  private setupSearchDebounce(): void {
+    this.searchSub = this.searchInput$.pipe(
+      debounceTime(1000),
+      distinctUntilChanged()
+    ).subscribe(() => this.fetchMenuItems());
+  }
+
+  // ── Single fetch entry point ───────────────────────────────────────────────
+  // All filters/reload go through here — one call, no batching needed.
+  private fetchMenuItems(): void {
+    const params: MenuSearchParams = {
+      search:     this.searchText().trim() || undefined,
+      categoryId: this.selectedCategoryId(),
+      isAvailable: this.selectedAvailability(),
+      foodType:   this.selectedFoodType()
+    };
+    this.fetch$.next(params);
+  }
+
+  // ── Public: used by CRUD methods to refresh after mutations ──────────────
   reload(): void {
-    this.reload$.next();
+    this.fetchMenuItems();
   }
 
   loadCategories(): void {
     this.adminMenuService.getCategories().subscribe({
-      next: categories => this.categories.set(categories)
+      next: cats => this.categories.set(cats)
     });
   }
 
-  // ── Filters ───────────────────────────────────────────────────────────────
+  // ── Filters (update signal → immediate fetch, no debounce) ────────────────
 
   filterByCategory(categoryId?: number): void {
     this.selectedCategoryId.set(categoryId);
-    this.categoryId$.next(categoryId);
+    this.fetchMenuItems();
   }
 
   filterByAvailability(isAvailable?: boolean): void {
     this.selectedAvailability.set(isAvailable);
-    this.isAvailable$.next(isAvailable);
+    this.fetchMenuItems();
   }
 
   filterByFoodType(foodType?: FoodType): void {
     this.selectedFoodType.set(foodType);
-    this.foodType$.next(foodType);
+    this.fetchMenuItems();
   }
 
-  searchMenu(search: string): void {
-    this.search.set(search);
-    this.search$.next(search);
+  // ── Search (debounced via searchInput$) ────────────────────────────────────
+  searchMenu(value: string): void {
+    this.searchText.set(value);
+    this.searchInput$.next(value);
   }
 
-  // ── Menu modal ────────────────────────────────────────────────────────────
+  // ── Menu modals ───────────────────────────────────────────────────────────
 
   openAddMenu(): void {
     this.selectedMenu.set(null);
@@ -165,13 +166,8 @@ export class AdminMenu implements OnInit, OnDestroy {
 
   // ── Category modal ────────────────────────────────────────────────────────
 
-  openManageCategories(): void {
-    this.showCategoryModal.set(true);
-  }
-
-  closeCategoryModal(): void {
-    this.showCategoryModal.set(false);
-  }
+  openManageCategories(): void { this.showCategoryModal.set(true); }
+  closeCategoryModal(): void   { this.showCategoryModal.set(false); }
 
   // ── Menu CRUD ─────────────────────────────────────────────────────────────
 
@@ -179,7 +175,7 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.adminMenuService.createMenuItem(data.request, data.image).subscribe({
       next: () => {
         this.closeMenuModal();
-        this.notificationService.success('Menu item added successfully!');
+        this.notificationService.success('Menu item added.');
         this.reload();
       },
       error: () => {
@@ -195,7 +191,7 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.adminMenuService.updateMenuItem(current.id, data.request, data.image).subscribe({
       next: () => {
         this.closeMenuModal();
-        this.notificationService.success('Menu item updated successfully!');
+        this.notificationService.success('Menu item updated.');
         this.reload();
       },
       error: () => {
@@ -250,7 +246,10 @@ export class AdminMenu implements OnInit, OnDestroy {
 
   toggleCategoryAvailability(id: number, isAvailable: boolean): void {
     this.adminMenuService.updateCategoryAvailability(id, isAvailable).subscribe({
-      next: () => this.loadCategories(),
+      next: () => {
+        this.loadCategories();
+        this.reload();          // reload menu too — availability affects visibility
+      },
       error: () => {
         this.notificationService.error('Failed to update category availability.');
         this.loadCategories();
@@ -263,6 +262,7 @@ export class AdminMenu implements OnInit, OnDestroy {
       next: () => {
         this.notificationService.success('Category deleted.');
         this.loadCategories();
+        this.reload();
       },
       error: () => this.notificationService.error('Failed to delete category.')
     });
