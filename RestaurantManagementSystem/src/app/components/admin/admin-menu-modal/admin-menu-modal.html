@@ -172,7 +172,7 @@
 
                 <textarea
                     rows="3"
-                    maxlength="200"
+                    maxlength="100"
                     class="form-control"
                     placeholder="Describe the flavors..."
                     name="description"
@@ -181,7 +181,7 @@
                 </textarea>
 
                 <div class="char-count">
-                    {{ (form().description ?? '').length }}/200
+                    {{ (form().description ?? '').length }}/100
                 </div>
 
             </div>
@@ -241,7 +241,7 @@
                 <div>
 
                     <div class="toggle-label">
-                        Initially Available
+                         Available
                     </div>
 
                     <div class="toggle-hint">
@@ -287,7 +287,7 @@
                         <span class="spinner-border spinner-border-sm me-2"></span>
                     }
 
-                    {{ isEditMode() ? 'Save Changes' : 'Publish to Menu' }}
+                    {{ isEditMode() ? 'Save Changes' : 'Add Item' }}
 
                 </button>
 

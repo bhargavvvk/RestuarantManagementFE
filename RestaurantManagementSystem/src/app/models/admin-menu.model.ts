@@ -23,7 +23,7 @@ export interface CreateMenuItemRequest {
   price: number;
   categoryId: number;
   foodType: FoodType;
-  imageUrl?: string | null;
+  isAvailable?: boolean;
 }
 
 export interface UpdateMenuItemRequest {
@@ -32,7 +32,7 @@ export interface UpdateMenuItemRequest {
   price: number;
   categoryId: number;
   foodType: FoodType;
-  imageUrl?: string | null;
+  isAvailable?: boolean;
 }
 
 export interface UpdateMenuAvailabilityRequest {
@@ -53,11 +53,13 @@ export enum FoodType {
 export interface CreateCategoryRequest {
   name: string;
   description: string | null;
+  isAvailable?: boolean;
 }
 
 export interface UpdateCategoryRequest {
   name: string;
   description: string | null;
+  isAvailable?: boolean;
 }
 
 /** Emitted by AdminCategoryModal for both create (no id) and update (with id) */

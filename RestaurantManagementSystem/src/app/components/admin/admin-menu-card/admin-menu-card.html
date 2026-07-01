@@ -10,6 +10,10 @@
             <div class="unavailable-badge">UNAVAILABLE</div>
         }
 
+        <div class="food-type-badge" [class.food-type-veg]="menuItem().foodType === 0" [class.food-type-nonveg]="menuItem().foodType === 1">
+            {{ menuItem().foodType === 0 ? 'Veg' : 'Non Veg' }}
+        </div>
+
         @if (menuItem().imageUrl) {
 
             <img

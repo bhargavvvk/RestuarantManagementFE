@@ -31,6 +31,7 @@ export class AdminMenuEditModal {
 
   readonly save = output<{
     request: UpdateMenuItemRequest;
+    image: File | null;
   }>();
 
   readonly close = output<void>();
@@ -38,6 +39,7 @@ export class AdminMenuEditModal {
   protected readonly FoodType = FoodType;
 
   readonly isSubmitting = signal(false);
+  readonly selectedImage = signal<File | null>(null);
   readonly imagePreview = signal<string | null>(null);
 
   readonly form = signal<MenuForm>({
@@ -75,7 +77,7 @@ export class AdminMenuEditModal {
       v.name.length <= 50 &&
       v.categoryId > 0 &&
       v.price > 0 &&
-      (v.description?.length ?? 0) <= 200
+      (v.description?.length ?? 0) <= 100
     );
   };
 
@@ -86,6 +88,14 @@ export class AdminMenuEditModal {
   onAvailableToggle(event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     this.form.update(f => ({ ...f, isAvailable: checked }));
+  }
+
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    this.selectedImage.set(file);
+    this.imagePreview.set(URL.createObjectURL(file));
   }
 
   onSave(): void {
@@ -99,10 +109,10 @@ export class AdminMenuEditModal {
       categoryId: f.categoryId,
       price: f.price,
       foodType: f.foodType,
-      imageUrl: this.menuItem()?.imageUrl // Keep the existing image URL
+      isAvailable: f.isAvailable
     };
 
-    this.save.emit({ request });
+    this.save.emit({ request, image: this.selectedImage() });
   }
 
   onClose(): void {
@@ -116,6 +126,7 @@ export class AdminMenuEditModal {
 
   private resetForm(): void {
     this.isSubmitting.set(false);
+    this.selectedImage.set(null);
     this.imagePreview.set(null);
     this.form.set({
       name: '',

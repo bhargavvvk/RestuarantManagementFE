@@ -129,7 +129,7 @@
 
                 <textarea
                     rows="3"
-                    maxlength="200"
+                    maxlength="100"
                     class="form-control"
                     placeholder="Describe the flavors..."
                     name="description"
@@ -138,7 +138,7 @@
                 </textarea>
 
                 <div class="char-count">
-                    {{ (form().description ?? '').length }}/200
+                    {{ (form().description ?? '').length }}/100
                 </div>
 
             </div>

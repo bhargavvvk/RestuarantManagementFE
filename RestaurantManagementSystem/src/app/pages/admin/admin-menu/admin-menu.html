@@ -10,10 +10,6 @@
                 Menu Management
             </h2>
 
-            <p class="page-subtitle">
-                Organize and manage your digital menu offerings in real-time.
-            </p>
-
         </div>
 
         <div class="header-actions">
@@ -87,9 +83,16 @@
             <input
                 type="text"
                 class="form-control"
-                placeholder="Quick find item by name or category..."
+                placeholder="Search with menu name"
                 (input)="searchMenu(search.value)"
                 #search>
+
+            <button
+                class="btn btn-clear"
+                [hidden]="!search.value"
+                (click)="search.value=''; searchMenu('')">
+                <span class="material-symbols-outlined">close</span>
+            </button>
 
         </div>
 
@@ -118,6 +121,37 @@
                     [class.active]="selectedAvailability() === false"
                     (click)="filterByAvailability(false)">
                     Unavailable
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="status-filters">
+
+            <span class="filter-label">Food Type:</span>
+
+            <div class="status-chips">
+
+                <button
+                    class="chip chip-status"
+                    [class.active]="selectedFoodType() === undefined"
+                    (click)="filterByFoodType()">
+                    All
+                </button>
+
+                <button
+                    class="chip chip-status chip-veg"
+                    [class.active]="selectedFoodType() === FoodType.Veg"
+                    (click)="filterByFoodType(FoodType.Veg)">
+                    🟢 Veg
+                </button>
+
+                <button
+                    class="chip chip-status chip-nonveg"
+                    [class.active]="selectedFoodType() === FoodType.NonVeg"
+                    (click)="filterByFoodType(FoodType.NonVeg)">
+                    🔴 Non Veg
                 </button>
 
             </div>
@@ -160,7 +194,6 @@
 
     }
 
-    <!-- Menu Grid -->
 
     @else {
 

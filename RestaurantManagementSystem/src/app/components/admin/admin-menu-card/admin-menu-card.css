@@ -76,6 +76,27 @@
     pointer-events: none;
 }
 
+.food-type-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: .25rem .75rem;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 800;
+    color: white;
+    z-index: 1;
+    text-transform: uppercase;
+}
+
+.food-type-badge.food-type-veg {
+    background: #16a34a;
+}
+
+.food-type-badge.food-type-nonveg {
+    background: #dc2626;
+}
+
 /* ── Edit Overlay ─────────────────────────────────────────────────────────── */
 
 .edit-overlay-btn {
@@ -94,10 +115,6 @@
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0,0,0,.12);
     transition: all .2s;
-    opacity: 0;
-}
-
-.menu-card:hover .edit-overlay-btn {
     opacity: 1;
 }
 

@@ -94,7 +94,7 @@ export class AdminMenuModal {
       v.name.length <= 50 &&
       v.categoryId > 0 &&
       v.price > 0 &&
-      (v.description?.length ?? 0) <= 200
+      (v.description?.length ?? 0) <= 100
     );
 
   };
@@ -139,7 +139,8 @@ export class AdminMenuModal {
       description: (f.description ?? '').trim() || null,
       categoryId: f.categoryId,
       price: f.price,
-      foodType: f.foodType
+      foodType: f.foodType,
+      isAvailable: f.isAvailable
     };
 
     this.save.emit({ request, image: this.selectedImage() });

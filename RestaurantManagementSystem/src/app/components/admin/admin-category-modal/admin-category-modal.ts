@@ -34,6 +34,7 @@ export class AdminCategoryModal {
   readonly showAddForm = signal(false);
   readonly newName = signal('');
   readonly newDescription = signal('');
+  readonly newIsAvailable = signal(true);
   readonly isAddSubmitting = signal(false);
 
   // ── Inline-edit state ─────────────────────────────────────────────────────
@@ -43,11 +44,11 @@ export class AdminCategoryModal {
   // ── Derived helpers ───────────────────────────────────────────────────────
 
   readonly isNewValid = () =>
-    this.newName().trim().length > 0 && this.newName().length <= 50;
+    this.newName().trim().length > 0 && this.newName().length <= 50 && (this.newDescription().length ?? 0) <= 100;
 
   readonly isEditValid = () => {
     const s = this.editState();
-    return s !== null && s.name.trim().length > 0 && s.name.length <= 50;
+    return s !== null && s.name.trim().length > 0 && s.name.length <= 50 && (s.description?.length ?? 0) <= 100;
   };
 
   // ── Add new category ──────────────────────────────────────────────────────
@@ -56,10 +57,12 @@ export class AdminCategoryModal {
     this.showAddForm.set(true);
     this.newName.set('');
     this.newDescription.set('');
+    this.newIsAvailable.set(true);
   }
 
   cancelAdd(): void {
     this.showAddForm.set(false);
+    this.newIsAvailable.set(true);
   }
 
   submitAdd(): void {
@@ -67,14 +70,15 @@ export class AdminCategoryModal {
     this.isAddSubmitting.set(true);
     const req: SaveCategoryRequest = {
       name: this.newName().trim(),
-      description: this.newDescription().trim() || null
+      description: this.newDescription().trim() || null,
+      isAvailable: this.newIsAvailable()
     };
     this.saveCategory.emit(req);
-    // caller resets via categories signal update; close form optimistically
     this.showAddForm.set(false);
     this.isAddSubmitting.set(false);
     this.newName.set('');
     this.newDescription.set('');
+    this.newIsAvailable.set(true);
   }
 
   // ── Inline edit category ──────────────────────────────────────────────────

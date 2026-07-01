@@ -95,10 +95,37 @@
 
 .search-box input {
     padding-left: 52px;
+    padding-right: 52px;
     height: 52px;
     border-radius: 999px;
     border: 1px solid #e0bfb7;
     background: white;
+}
+
+.search-box .btn-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8c716a;
+    cursor: pointer;
+}
+
+.search-box .btn-clear .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.search-box .btn-clear:hover {
+    background: rgba(170,53,18,0.06);
+    color: #aa3512;
 }
 
 .search-box input:focus {
