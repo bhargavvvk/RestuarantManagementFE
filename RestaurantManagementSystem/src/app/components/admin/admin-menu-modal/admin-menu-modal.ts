@@ -81,7 +81,6 @@ export class AdminMenuModal {
 
   }
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
 
   readonly isEditMode = () => this.menuItem() !== null;
 
@@ -99,7 +98,6 @@ export class AdminMenuModal {
 
   };
 
-  // ── Form updates ──────────────────────────────────────────────────────────
 
   update<K extends keyof MenuForm>(key: K, value: MenuForm[K]): void {
     this.form.update(current => ({ ...current, [key]: value }));
@@ -110,7 +108,6 @@ export class AdminMenuModal {
     this.form.update(f => ({ ...f, isAvailable: checked }));
   }
 
-  // ── Image ─────────────────────────────────────────────────────────────────
 
   onImageSelected(event: Event): void {
 
@@ -124,7 +121,6 @@ export class AdminMenuModal {
 
   }
 
-  // ── Save ──────────────────────────────────────────────────────────────────
 
   onSave(): void {
 
@@ -147,7 +143,6 @@ export class AdminMenuModal {
 
   }
 
-  // ── Close ─────────────────────────────────────────────────────────────────
 
   onClose(): void {
     this.resetForm();
@@ -158,7 +153,6 @@ export class AdminMenuModal {
     this.isSubmitting.set(false);
   }
 
-  // ── Reset ─────────────────────────────────────────────────────────────────
 
   private resetForm(): void {
 

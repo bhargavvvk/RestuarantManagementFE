@@ -13,6 +13,7 @@ import { WaiterTable } from './pages/waiter/waiter/waiter-table/waiter-table';
 import { AdminBill } from './pages/admin/admin-bill/admin-bill';
 import { Title } from '@angular/platform-browser';
 import { AdminMenu } from './pages/admin/admin-menu/admin-menu';
+import { AdminInventory } from './pages/admin/admin-inventory/admin-inventory';
 
 export const routes: Routes = [
   {
@@ -91,10 +92,15 @@ export const routes: Routes = [
         component: AdminBill,
         data: { title: 'Bills Dashboard' }
       },
-       {
-        path:'menu',
+      {
+        path: 'menu',
         component: AdminMenu,
         data: { title: 'Menu Management' }
+      },
+      {
+        path: 'inventory',
+        component: AdminInventory,
+        data: { title: 'Inventory Management' }
       }
     ]
   },

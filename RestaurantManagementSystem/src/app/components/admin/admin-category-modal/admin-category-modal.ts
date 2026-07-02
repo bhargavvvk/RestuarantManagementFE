@@ -20,28 +20,23 @@ interface EditState {
 })
 export class AdminCategoryModal {
 
-  // ── Inputs ────────────────────────────────────────────────────────────────
   readonly isOpen = input(false);
   readonly categories = input<AdminMenuCategory[]>([]);
 
-  // ── Outputs ───────────────────────────────────────────────────────────────
   readonly saveCategory = output<SaveCategoryRequest>();
   readonly toggleAvailability = output<{ id: number; isAvailable: boolean }>();
   readonly deleteCategory = output<number>();
   readonly close = output<void>();
 
-  // ── Add-new form state ────────────────────────────────────────────────────
   readonly showAddForm = signal(false);
   readonly newName = signal('');
   readonly newDescription = signal('');
   readonly newIsAvailable = signal(true);
   readonly isAddSubmitting = signal(false);
 
-  // ── Inline-edit state ─────────────────────────────────────────────────────
   readonly editState = signal<EditState | null>(null);
   readonly isSavingEdit = signal(false);
 
-  // ── Derived helpers ───────────────────────────────────────────────────────
 
   readonly isNewValid = () =>
     this.newName().trim().length > 0 && this.newName().length <= 50 && (this.newDescription().length ?? 0) <= 100;
@@ -51,7 +46,6 @@ export class AdminCategoryModal {
     return s !== null && s.name.trim().length > 0 && s.name.length <= 50 && (s.description?.length ?? 0) <= 100;
   };
 
-  // ── Add new category ──────────────────────────────────────────────────────
 
   openAddForm(): void {
     this.showAddForm.set(true);
@@ -81,7 +75,6 @@ export class AdminCategoryModal {
     this.newIsAvailable.set(true);
   }
 
-  // ── Inline edit category ──────────────────────────────────────────────────
 
   startEdit(category: AdminMenuCategory): void {
     this.editState.set({
@@ -113,7 +106,6 @@ export class AdminCategoryModal {
     this.editState.update(s => s ? { ...s, [field]: value } : s);
   }
 
-  // ── Toggle & delete ───────────────────────────────────────────────────────
 
   onToggle(category: AdminMenuCategory, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
@@ -125,7 +117,6 @@ export class AdminCategoryModal {
     this.deleteCategory.emit(id);
   }
 
-  // ── Close panel ───────────────────────────────────────────────────────────
 
   onClose(): void {
     this.showAddForm.set(false);
@@ -133,14 +124,12 @@ export class AdminCategoryModal {
     this.close.emit();
   }
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
 
   isEditing(id: number): boolean {
     return this.editState()?.id === id;
   }
 
   getItemCount(category: AdminMenuCategory): string {
-    // We don't have item counts from the category list API; display availability only
     return category.isAvailable ? 'ACTIVE' : 'UNAVAILABLE';
   }
 

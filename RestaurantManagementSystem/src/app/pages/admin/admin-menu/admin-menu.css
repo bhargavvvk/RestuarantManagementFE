@@ -5,7 +5,6 @@
     min-height: 100vh;
 }
 
-/* ---------- Header ---------- */
 
 .page-header {
     display: flex;
@@ -34,7 +33,6 @@
     gap: 1rem;
 }
 
-/* ---------- Buttons ---------- */
 
 .btn {
     border-radius: 12px;
@@ -67,7 +65,6 @@
     color: #aa3512;
 }
 
-/* ---------- Search ---------- */
 
 .search-section {
     display: flex;
@@ -160,7 +157,6 @@
     border-radius: 12px;
 }
 
-/* ---------- Category Chips ---------- */
 
 .category-chips {
     display: flex;
@@ -194,13 +190,11 @@
     color: white;
 }
 
-/* ---------- Menu Grid ---------- */
 
 .row {
     margin: 0;
 }
 
-/* ---------- Empty State ---------- */
 
 .empty-state {
     padding: 5rem 2rem;
@@ -228,7 +222,6 @@
     margin: 0;
 }
 
-/* ---------- Spinner ---------- */
 
 .spinner-border {
     width: 3rem;
@@ -236,7 +229,6 @@
     color: #cc4d29 !important;
 }
 
-/* ---------- Responsive ---------- */
 
 @media (max-width: 992px) {
 
@@ -293,7 +285,6 @@
 
 }
 
-/* ---------- Toast Notification ---------- */
 
 .toast-notification {
     position: fixed;

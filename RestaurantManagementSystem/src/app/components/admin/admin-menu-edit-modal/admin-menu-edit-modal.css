@@ -2,7 +2,6 @@
     display: block;
 }
 
-/* ── Panel ────────────────────────────────────────────────────────────────── */
 
 .offcanvas {
     width: 520px;
@@ -34,7 +33,6 @@
     overflow-y: auto;
 }
 
-/* ── Image Banner (Read Only) ──────────────────────────────────────────────── */
 
 .image-banner-container {
     height: 180px;
@@ -50,7 +48,6 @@
     object-fit: cover;
 }
 
-/* ── Form Labels ───────────────────────────────────────────────────────────── */
 
 .form-label {
     display: block;
@@ -80,7 +77,6 @@
     margin-top: .25rem;
 }
 
-/* ── Form Controls ──────────────────────────────────────────────────────────── */
 
 .form-control,
 .form-select {
@@ -106,7 +102,6 @@ textarea.form-control {
     outline: none;
 }
 
-/* ── Price Input ──────────────────────────────────────────────────────────── */
 
 .price-input-wrapper {
     position: relative;
@@ -127,7 +122,6 @@ textarea.form-control {
     padding-left: 2.25rem !important;
 }
 
-/* ── Food Type ────────────────────────────────────────────────────────────── */
 
 .food-type-group {
     display: flex;
@@ -183,7 +177,6 @@ textarea.form-control {
     border-color: #cc4d29;
 }
 
-/* ── Availability Toggle Row ──────────────────────────────────────────────── */
 
 .availability-toggle-row {
     display: flex;
@@ -209,7 +202,6 @@ textarea.form-control {
     color: #a09390;
 }
 
-/* ── Custom Toggle ────────────────────────────────────────────────────────── */
 
 .toggle-switch {
     position: relative;
@@ -257,7 +249,6 @@ textarea.form-control {
     transform: translateX(22px);
 }
 
-/* ── Divider ──────────────────────────────────────────────────────────────── */
 
 hr {
     border-color: #e0bfb7;
@@ -265,7 +256,6 @@ hr {
     margin: 1.25rem 0;
 }
 
-/* ── Action Buttons ──────────────────────────────────────────────────────── */
 
 .modal-actions {
     display: flex;
@@ -316,20 +306,17 @@ hr {
     cursor: not-allowed;
 }
 
-/* ── Spinner ─────────────────────────────────────────────────────────────── */
 
 .spinner-border-sm {
     width: 1rem;
     height: 1rem;
 }
 
-/* ── Backdrop ─────────────────────────────────────────────────────────────── */
 
 .offcanvas-backdrop {
     background: rgba(26, 28, 30, .45);
 }
 
-/* ── Scrollbar ────────────────────────────────────────────────────────────── */
 
 ::-webkit-scrollbar {
     width: 8px;
@@ -344,7 +331,6 @@ hr {
     background: transparent;
 }
 
-/* ── Responsive ───────────────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
 

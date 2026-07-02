@@ -2,7 +2,6 @@
     class="menu-card"
     [class.unavailable]="!menuItem().isAvailable">
 
-    <!-- Image -->
 
     <div class="menu-image">
 
@@ -32,13 +31,11 @@
 
         }
 
-        <!-- Price overlay on image -->
 
         <div class="price-badge">
             ₹{{ menuItem().price | number:'1.0-0' }}
         </div>
 
-        <!-- Edit icon overlay -->
 
         <button
             class="edit-overlay-btn"
@@ -53,7 +50,6 @@
 
     </div>
 
-    <!-- Content -->
 
     <div class="menu-content">
 

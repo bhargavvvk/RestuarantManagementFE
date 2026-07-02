@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 export class AdminMenu {
   private readonly http = inject(HttpClient);
 
-  // ── Menu Items ────────────────────────────────────────────────────────────
 
   getMenuItems(filters?: MenuSearchParams): Observable<AdminMenuItem[]> {
 
@@ -53,8 +52,7 @@ export class AdminMenu {
   updateMenuItem(menuItemId: number, request: UpdateMenuItemRequest, image: File | null): Observable<AdminMenuItem> {
     const url = `${baseUrl}/Admin/menu/${menuItemId}`;
 
-    // If an image is provided we must send multipart/form-data.
-    // When there's no image, send JSON so the server can accept application/json.
+    
     if (!image) {
       return this.http.put<AdminMenuItem>(url, request);
     }
@@ -78,7 +76,6 @@ export class AdminMenu {
     return this.http.delete<void>(`${baseUrl}/Admin/menu/${menuItemId}`);
   }
 
-  // ── Categories ────────────────────────────────────────────────────────────
 
   getCategories(): Observable<AdminMenuCategory[]> {
     return this.http.get<AdminMenuCategory[]>(`${baseUrl}/Menu/categories`);

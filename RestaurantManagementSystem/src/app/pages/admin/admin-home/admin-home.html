@@ -48,10 +48,14 @@
        <span class="material-symbols-outlined">restaurant_menu</span>
      <span>Menu</span>
       </a>
-      <button class="nav-item" type="button" (click)="closeNav()">
+      <a
+        class="nav-item"
+        routerLink="inventory"
+        routerLinkActive="active"
+        (click)="closeNav()">
         <span class="material-symbols-outlined">inventory_2</span>
         <span>Inventory</span>
-      </button>
+      </a>
 
       <button class="nav-item" type="button" (click)="closeNav()">
         <span class="material-symbols-outlined">group</span>

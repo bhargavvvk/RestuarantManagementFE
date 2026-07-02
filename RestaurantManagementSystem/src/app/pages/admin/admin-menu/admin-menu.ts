@@ -37,28 +37,23 @@ export class AdminMenu implements OnInit, OnDestroy {
 
   readonly FoodType = FoodType;
 
-  // ── UI state ──────────────────────────────────────────────────────────────
   readonly menuItems   = signal<AdminMenuItem[]>([]);
   readonly categories  = signal<AdminMenuCategory[]>([]);
   readonly isLoading   = signal(false);
 
-  // ── Filter state (signals only — no BehaviorSubjects) ─────────────────────
   readonly selectedCategoryId  = signal<number | undefined>(undefined);
   readonly selectedAvailability = signal<boolean | undefined>(undefined);
   readonly selectedFoodType    = signal<FoodType | undefined>(undefined);
   readonly searchText          = signal('');
 
-  // ── Modal state ───────────────────────────────────────────────────────────
   readonly selectedMenu      = signal<AdminMenuItem | null>(null);
   readonly showMenuModal     = signal(false);
   readonly showEditMenuModal = signal(false);
   readonly showCategoryModal = signal(false);
 
-  // ── Search debounce stream (search only) ──────────────────────────────────
   private readonly searchInput$ = new Subject<string>();
   private searchSub?: Subscription;
 
-  // ── Fetch stream (immediate for filters/reload, debounced for search) ─────
   private readonly fetch$ = new Subject<MenuSearchParams>();
   private fetchSub?: Subscription;
 
@@ -66,7 +61,7 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.loadCategories();
     this.setupFetchPipeline();
     this.setupSearchDebounce();
-    this.fetchMenuItems();   // initial load — no debounce
+    this.fetchMenuItems();  
   }
 
   ngOnDestroy(): void {
@@ -74,7 +69,6 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.searchSub?.unsubscribe();
   }
 
-  // ── Pipelines ─────────────────────────────────────────────────────────────
 
   private setupFetchPipeline(): void {
     this.fetchSub = this.fetch$.pipe(
@@ -100,8 +94,7 @@ export class AdminMenu implements OnInit, OnDestroy {
     ).subscribe(() => this.fetchMenuItems());
   }
 
-  // ── Single fetch entry point ───────────────────────────────────────────────
-  // All filters/reload go through here — one call, no batching needed.
+  
   private fetchMenuItems(): void {
     const params: MenuSearchParams = {
       search:     this.searchText().trim() || undefined,
@@ -112,7 +105,6 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.fetch$.next(params);
   }
 
-  // ── Public: used by CRUD methods to refresh after mutations ──────────────
   reload(): void {
     this.fetchMenuItems();
   }
@@ -123,7 +115,6 @@ export class AdminMenu implements OnInit, OnDestroy {
     });
   }
 
-  // ── Filters (update signal → immediate fetch, no debounce) ────────────────
 
   filterByCategory(categoryId?: number): void {
     this.selectedCategoryId.set(categoryId);
@@ -140,13 +131,11 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.fetchMenuItems();
   }
 
-  // ── Search (debounced via searchInput$) ────────────────────────────────────
   searchMenu(value: string): void {
     this.searchText.set(value);
     this.searchInput$.next(value);
   }
 
-  // ── Menu modals ───────────────────────────────────────────────────────────
 
   openAddMenu(): void {
     this.selectedMenu.set(null);
@@ -164,12 +153,10 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.selectedMenu.set(null);
   }
 
-  // ── Category modal ────────────────────────────────────────────────────────
 
   openManageCategories(): void { this.showCategoryModal.set(true); }
   closeCategoryModal(): void   { this.showCategoryModal.set(false); }
 
-  // ── Menu CRUD ─────────────────────────────────────────────────────────────
 
   saveMenu(data: { request: CreateMenuItemRequest; image: File | null }): void {
     this.adminMenuService.createMenuItem(data.request, data.image).subscribe({
@@ -221,7 +208,6 @@ export class AdminMenu implements OnInit, OnDestroy {
     });
   }
 
-  // ── Category CRUD ─────────────────────────────────────────────────────────
 
   saveCategory(request: SaveCategoryRequest): void {
     const r = request as any;
@@ -248,7 +234,7 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.adminMenuService.updateCategoryAvailability(id, isAvailable).subscribe({
       next: () => {
         this.loadCategories();
-        this.reload();          // reload menu too — availability affects visibility
+        this.reload();         
       },
       error: () => {
         this.notificationService.error('Failed to update category availability.');

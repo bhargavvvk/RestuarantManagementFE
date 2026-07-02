@@ -2,7 +2,6 @@
     display: block;
 }
 
-/* ── Panel ────────────────────────────────────────────────────────────────── */
 
 .offcanvas {
     width: 460px;
@@ -34,7 +33,6 @@
     overflow-y: auto;
 }
 
-/* ── Add Category Button ─────────────────────────────────────────────────── */
 
 .btn-add-category {
     width: 100%;
@@ -64,7 +62,6 @@
     font-size: 22px;
 }
 
-/* ── Add Form Card ────────────────────────────────────────────────────────── */
 
 .add-form-card {
     background: white;
@@ -140,7 +137,6 @@ textarea.form-control {
     margin-top: 1rem;
 }
 
-/* ── Buttons ──────────────────────────────────────────────────────────────── */
 
 .btn-ghost {
     background: transparent;
@@ -206,7 +202,6 @@ textarea.form-control {
     cursor: not-allowed;
 }
 
-/* ── Category List ────────────────────────────────────────────────────────── */
 
 .category-list {
     display: flex;
@@ -232,7 +227,6 @@ textarea.form-control {
     font-size: .9rem;
 }
 
-/* ── Category Row ─────────────────────────────────────────────────────────── */
 
 .category-row {
     background: white;
@@ -257,7 +251,6 @@ textarea.form-control {
     align-items: stretch;
 }
 
-/* ── Category Info ───────────────────────────────────────────────────────── */
 
 .cat-info {
     flex: 1;
@@ -293,7 +286,6 @@ textarea.form-control {
     color: #9b1c1c;
 }
 
-/* ── Category Actions ────────────────────────────────────────────────────── */
 
 .cat-actions {
     display: flex;
@@ -302,7 +294,6 @@ textarea.form-control {
     flex-shrink: 0;
 }
 
-/* ── Icon Buttons ─────────────────────────────────────────────────────────── */
 
 .btn-icon {
     width: 36px;
@@ -339,7 +330,6 @@ textarea.form-control {
     color: #9b1c1c;
 }
 
-/* ── Toggle Switch ───────────────────────────────────────────────────────── */
 
 .toggle-switch {
     position: relative;
@@ -386,7 +376,6 @@ textarea.form-control {
     transform: translateX(20px);
 }
 
-/* ── Inline Edit ─────────────────────────────────────────────────────────── */
 
 .edit-inline {
     width: 100%;
@@ -399,20 +388,17 @@ textarea.form-control {
     margin-top: .75rem;
 }
 
-/* ── Backdrop ─────────────────────────────────────────────────────────────── */
 
 .offcanvas-backdrop {
     background: rgba(26, 28, 30, .45);
 }
 
-/* ── Spinner ──────────────────────────────────────────────────────────────── */
 
 .spinner-border-sm {
     width: .85rem;
     height: .85rem;
 }
 
-/* ── Scrollbar ────────────────────────────────────────────────────────────── */
 
 ::-webkit-scrollbar {
     width: 6px;
@@ -427,7 +413,6 @@ textarea.form-control {
     background: transparent;
 }
 
-/* ── Responsive ───────────────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
 

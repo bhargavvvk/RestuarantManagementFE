@@ -1,0 +1,389 @@
+<div class="admin-inventory-page">
+
+    <div class="page-header">
+        <h2 class="page-title">Inventory Management</h2>
+        <button class="btn btn-primary" (click)="openAddModal()">
+            <span class="material-symbols-outlined">add</span>
+            Add Item
+        </button>
+    </div>
+
+    <div class="summary-cards">
+
+        <div class="summary-card">
+            <div class="summary-info">
+                <span class="summary-label">TOTAL ITEMS</span>
+                <span class="summary-value">{{ summary().totalItems }}</span>
+            </div>
+            <div class="summary-icon">
+                <span class="material-symbols-outlined">inventory</span>
+            </div>
+        </div>
+
+        <div class="summary-card summary-card--alert" [class.has-alerts]="summary().lowStockItems > 0">
+            <div class="summary-info">
+                <span class="summary-label summary-label--alert">LOW STOCK ALERTS</span>
+                <span class="summary-value summary-value--alert">{{ summary().lowStockItems }}</span>
+            </div>
+            <div class="summary-icon summary-icon--alert">
+                <span class="material-symbols-outlined">warning</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="filter-chips">
+        <button
+            class="chip"
+            [class.active]="!lowStockOnly()"
+            (click)="filterAll()">
+            All Items
+        </button>
+        <button
+            class="chip"
+            [class.active]="lowStockOnly()"
+            (click)="filterLowStock()">
+            <span class="material-symbols-outlined chip-icon">warning</span>
+            Low Stock
+        </button>
+    </div>
+
+    <section class="table-container">
+
+        <div class="table-toolbar">
+            <div class="search-box">
+                <span class="material-symbols-outlined">search</span>
+                <input
+                    type="text"
+                    class="search-input"
+                    placeholder="Search inventory..."
+                    (input)="onSearch(searchInput.value)"
+                    #searchInput>
+                <button
+                    class="btn-clear"
+                    [class.visible]="searchText()"
+                    (click)="clearSearch(searchInput)">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+        </div>
+
+        @if (isLoading()) {
+            <div class="state-center">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @else if (items().length === 0) {
+            <div class="empty-state">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <h4>No inventory items</h4>
+                <p>
+                    @if (searchText() || lowStockOnly()) {
+                        No items match the current filter.
+                    } @else {
+                        Start by adding your first inventory item.
+                    }
+                </p>
+            </div>
+        }
+
+        @else {
+            <div class="table-scroll">
+                <table class="inv-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th class="col-center">Current Quantity</th>
+                            <th class="col-center">Threshold</th>
+                            <th>Unit</th>
+                            <th>Last Updated</th>
+                            <th class="col-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of items(); track item.id) {
+                            <tr>
+
+                                <td class="td-name">
+                                    <span class="item-name">{{ item.itemName }}</span>
+                                    @if (isLowStock(item)) {
+                                        <span class="badge-low-stock">
+                                            <span class="material-symbols-outlined">warning</span>
+                                            Low Stock
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="col-center">
+                                    @if (isEditing(item.id, 'quantity')) {
+                                        <div class="inline-edit">
+                                            <input
+                                                type="number"
+                                                class="inline-input"
+                                                min="0"
+                                                step="0.01"
+                                                [ngModel]="editingCell()!.value"
+                                                (ngModelChange)="updateEditValue(+$event)"
+                                                (keydown.enter)="commitEdit(item)"
+                                                (keydown.escape)="cancelEdit()"
+                                                #qtyInput
+                                                autofocus>
+                                            <button
+                                                class="btn-inline btn-inline--save"
+                                                title="Save"
+                                                [disabled]="isSaving(item.id, 'quantity')"
+                                                (click)="commitEdit(item)">
+                                                @if (isSaving(item.id, 'quantity')) {
+                                                    <span class="inline-spinner"></span>
+                                                } @else {
+                                                    <span class="material-symbols-outlined">check</span>
+                                                }
+                                            </button>
+                                            <button
+                                                class="btn-inline btn-inline--cancel"
+                                                title="Cancel"
+                                                (click)="cancelEdit()">
+                                                <span class="material-symbols-outlined">close</span>
+                                            </button>
+                                        </div>
+                                    } @else {
+                                        <div class="cell-display">
+                                            <span class="qty-pill" [class.qty-low]="isLowStock(item)">
+                                                {{ item.currentQuantity }}
+                                            </span>
+                                            <button
+                                                class="btn-cell-edit"
+                                                title="Edit quantity"
+                                                (click)="startEdit(item, 'quantity')">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </div>
+                                    }
+                                </td>
+
+                                <td class="col-center">
+                                    @if (isEditing(item.id, 'threshold')) {
+                                        <div class="inline-edit">
+                                            <input
+                                                type="number"
+                                                class="inline-input"
+                                                min="0"
+                                                step="0.01"
+                                                [ngModel]="editingCell()!.value"
+                                                (ngModelChange)="updateEditValue(+$event)"
+                                                (keydown.enter)="commitEdit(item)"
+                                                (keydown.escape)="cancelEdit()"
+                                                autofocus>
+                                            <button
+                                                class="btn-inline btn-inline--save"
+                                                title="Save"
+                                                [disabled]="isSaving(item.id, 'threshold')"
+                                                (click)="commitEdit(item)">
+                                                @if (isSaving(item.id, 'threshold')) {
+                                                    <span class="inline-spinner"></span>
+                                                } @else {
+                                                    <span class="material-symbols-outlined">check</span>
+                                                }
+                                            </button>
+                                            <button
+                                                class="btn-inline btn-inline--cancel"
+                                                title="Cancel"
+                                                (click)="cancelEdit()">
+                                                <span class="material-symbols-outlined">close</span>
+                                            </button>
+                                        </div>
+                                    } @else {
+                                        <div class="cell-display">
+                                            <span class="threshold-val">
+                                                {{ item.thresholdQuantity }}
+                                            </span>
+                                            <button
+                                                class="btn-cell-edit"
+                                                title="Edit threshold"
+                                                (click)="startEdit(item, 'threshold')">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </div>
+                                    }
+                                </td>
+
+                                <!-- Unit -->
+                                <td class="td-muted">{{ item.unit }}</td>
+
+                                <!-- Last updated -->
+                                <td class="td-muted td-sm">{{ formatUpdatedAt(item.updatedAt) }}</td>
+
+                                <!-- Delete -->
+                                <td class="col-right">
+                                    <button
+                                        class="btn-icon btn-icon--delete"
+                                        title="Delete item"
+                                        (click)="onDeleteItem(item)">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mobile-card-list">
+                @for (item of items(); track item.id) {
+                    <div class="inv-card" [class.inv-card--low]="isLowStock(item)">
+
+                        <div class="inv-card__header">
+                            <div class="inv-card__title-row">
+                                <span class="inv-card__name">{{ item.itemName }}</span>
+                                @if (isLowStock(item)) {
+                                    <span class="badge-low-stock">
+                                        <span class="material-symbols-outlined">warning</span>
+                                        Low Stock
+                                    </span>
+                                }
+                            </div>
+                            <button
+                                class="btn-icon btn-icon--delete"
+                                title="Delete item"
+                                (click)="onDeleteItem(item)">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+
+                        <div class="inv-card__stats">
+
+                            <!-- Quantity stat -->
+                            <div class="inv-card__stat">
+                                <span class="inv-card__stat-label">Quantity</span>
+                                @if (isEditing(item.id, 'quantity')) {
+                                    <div class="inline-edit inline-edit--card">
+                                        <input
+                                            type="number"
+                                            class="inline-input"
+                                            min="0"
+                                            step="0.01"
+                                            [ngModel]="editingCell()!.value"
+                                            (ngModelChange)="updateEditValue(+$event)"
+                                            (keydown.enter)="commitEdit(item)"
+                                            (keydown.escape)="cancelEdit()"
+                                            autofocus>
+                                        <button
+                                            class="btn-inline btn-inline--save"
+                                            [disabled]="isSaving(item.id, 'quantity')"
+                                            (click)="commitEdit(item)">
+                                            @if (isSaving(item.id, 'quantity')) {
+                                                <span class="inline-spinner"></span>
+                                            } @else {
+                                                <span class="material-symbols-outlined">check</span>
+                                            }
+                                        </button>
+                                        <button
+                                            class="btn-inline btn-inline--cancel"
+                                            (click)="cancelEdit()">
+                                            <span class="material-symbols-outlined">close</span>
+                                        </button>
+                                    </div>
+                                } @else {
+                                    <div class="cell-display">
+                                        <span class="qty-pill" [class.qty-low]="isLowStock(item)">
+                                            {{ item.currentQuantity }} {{ item.unit }}
+                                        </span>
+                                        <button
+                                            class="btn-cell-edit"
+                                            title="Edit quantity"
+                                            (click)="startEdit(item, 'quantity')">
+                                            <span class="material-symbols-outlined">edit</span>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="inv-card__stat">
+                                <span class="inv-card__stat-label">Threshold</span>
+                                @if (isEditing(item.id, 'threshold')) {
+                                    <div class="inline-edit inline-edit--card">
+                                        <input
+                                            type="number"
+                                            class="inline-input"
+                                            min="0"
+                                            step="0.01"
+                                            [ngModel]="editingCell()!.value"
+                                            (ngModelChange)="updateEditValue(+$event)"
+                                            (keydown.enter)="commitEdit(item)"
+                                            (keydown.escape)="cancelEdit()"
+                                            autofocus>
+                                        <button
+                                            class="btn-inline btn-inline--save"
+                                            [disabled]="isSaving(item.id, 'threshold')"
+                                            (click)="commitEdit(item)">
+                                            @if (isSaving(item.id, 'threshold')) {
+                                                <span class="inline-spinner"></span>
+                                            } @else {
+                                                <span class="material-symbols-outlined">check</span>
+                                            }
+                                        </button>
+                                        <button
+                                            class="btn-inline btn-inline--cancel"
+                                            (click)="cancelEdit()">
+                                            <span class="material-symbols-outlined">close</span>
+                                        </button>
+                                    </div>
+                                } @else {
+                                    <div class="cell-display">
+                                        <span class="inv-card__stat-value">
+                                            {{ item.thresholdQuantity }} {{ item.unit }}
+                                        </span>
+                                        <button
+                                            class="btn-cell-edit"
+                                            title="Edit threshold"
+                                            (click)="startEdit(item, 'threshold')">
+                                            <span class="material-symbols-outlined">edit</span>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="inv-card__stat">
+                                <span class="inv-card__stat-label">Updated</span>
+                                <span class="inv-card__stat-value">{{ formatUpdatedAt(item.updatedAt) }}</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+            <div class="pagination-bar">
+                <span class="pagination-info">
+                    Showing {{ showingFrom }}–{{ showingTo }} of {{ totalCount() }} items
+                </span>
+                <div class="pagination-controls">
+                    <button
+                        class="btn btn-page"
+                        [disabled]="pageNumber() <= 1"
+                        (click)="prevPage()">
+                        Previous
+                    </button>
+                    <span class="page-indicator">{{ pageNumber() }} / {{ totalPages }}</span>
+                    <button
+                        class="btn btn-page btn-page--next"
+                        [disabled]="pageNumber() >= totalPages"
+                        (click)="nextPage()">
+                        Next
+                    </button>
+                </div>
+            </div>
+        }
+
+    </section>
+
+</div>
+
+<app-admin-add-inventory-modal
+    [isOpen]="showAddModal()"
+    (save)="onAddItem($event)"
+    (close)="closeAddModal()">
+</app-admin-add-inventory-modal>
