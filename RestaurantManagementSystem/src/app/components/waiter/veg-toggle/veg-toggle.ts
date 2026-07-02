@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { WaiterTableService } from '../../../services/waiter-table';
 
 @Component({
-  selector: 'app-veg-toggle',
+  selector: 'app-waiter-veg-toggle',
   imports: [],
   templateUrl: './veg-toggle.html',
   styleUrl: './veg-toggle.css',

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { WaiterTableService } from '../../../services/waiter-table';
 
 @Component({
-  selector: 'app-search-bar',
+  selector: 'app-waiter-search-bar',
   imports: [],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.css',
