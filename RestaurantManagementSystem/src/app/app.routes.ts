@@ -15,6 +15,7 @@ import { Title } from '@angular/platform-browser';
 import { AdminMenu } from './pages/admin/admin-menu/admin-menu';
 import { AdminInventory } from './pages/admin/admin-inventory/admin-inventory';
 import { AdminWaiters } from './pages/admin/admin-waiters/admin-waiters';
+import { AdminTaxConfig } from './pages/admin/admin-tax-config/admin-tax-config';
 
 export const routes: Routes = [
   {
@@ -107,6 +108,11 @@ export const routes: Routes = [
         path: 'waiters',
         component: AdminWaiters,
         data: { title: 'Waiter Management' }
+      },
+      {
+        path: 'tax-config',
+        component: AdminTaxConfig,
+        data: { title: 'Tax Configuration' }
       }
     ]
   },

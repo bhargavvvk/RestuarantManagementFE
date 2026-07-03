@@ -1,0 +1,30 @@
+<div class="tax-card">
+
+  <div class="card-header">
+    <h3 class="card-title">Current Rates</h3>
+    <button class="edit-btn" type="button" (click)="editClicked.emit()">
+      <span class="material-symbols-outlined">edit</span>
+      Edit Configuration
+    </button>
+  </div>
+
+  <div class="tax-grid">
+
+    <div class="tax-item">
+      <p class="tax-label">CGST</p>
+      <p class="tax-value">{{ config().cgstPercentage }}%</p>
+    </div>
+
+    <div class="tax-item">
+      <p class="tax-label">SGST</p>
+      <p class="tax-value">{{ config().sgstPercentage }}%</p>
+    </div>
+
+    <div class="tax-item">
+      <p class="tax-label">Service Charge</p>
+      <p class="tax-value">{{ config().serviceChargePercentage }}%</p>
+    </div>
+
+  </div>
+
+</div>

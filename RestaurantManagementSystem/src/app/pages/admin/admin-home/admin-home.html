@@ -66,10 +66,14 @@
         <span>Users</span>
       </a>
 
-      <button class="nav-item" type="button" (click)="closeNav()">
+      <a
+        class="nav-item"
+        routerLink="tax-config"
+        routerLinkActive="active"
+        (click)="closeNav()">
         <span class="material-symbols-outlined">request_quote</span>
         <span>Tax Configuration</span>
-      </button>
+      </a>
     </nav>
   </aside>
 

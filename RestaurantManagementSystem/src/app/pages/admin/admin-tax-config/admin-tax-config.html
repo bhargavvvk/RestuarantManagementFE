@@ -1,0 +1,22 @@
+@if (loading()) {
+
+  <div class="loading-state">
+    <span class="material-symbols-outlined">progress_activity</span>
+    Loading configuration...
+  </div>
+
+} @else if (config()) {
+
+  <app-admin-tax-card
+    [config]="config()!"
+    (editClicked)="openEditModal()">
+  </app-admin-tax-card>
+
+  <app-admin-tax-edit-modal
+    [isOpen]="showEditModal()"
+    [currentConfig]="config()!"
+    (closed)="closeEditModal()"
+    (saved)="saveConfiguration($event)">
+  </app-admin-tax-edit-modal>
+
+}
