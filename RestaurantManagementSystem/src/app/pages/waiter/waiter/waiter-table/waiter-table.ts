@@ -147,6 +147,7 @@ export class WaiterTable implements OnInit, OnDestroy {
   }
 
   logout(): void {
+    this.waiter.clear();
     this.auth.logout();
   }
 

@@ -14,6 +14,7 @@ import { AdminBill } from './pages/admin/admin-bill/admin-bill';
 import { Title } from '@angular/platform-browser';
 import { AdminMenu } from './pages/admin/admin-menu/admin-menu';
 import { AdminInventory } from './pages/admin/admin-inventory/admin-inventory';
+import { AdminWaiters } from './pages/admin/admin-waiters/admin-waiters';
 
 export const routes: Routes = [
   {
@@ -101,6 +102,11 @@ export const routes: Routes = [
         path: 'inventory',
         component: AdminInventory,
         data: { title: 'Inventory Management' }
+      },
+      {
+        path: 'waiters',
+        component: AdminWaiters,
+        data: { title: 'Waiter Management' }
       }
     ]
   },

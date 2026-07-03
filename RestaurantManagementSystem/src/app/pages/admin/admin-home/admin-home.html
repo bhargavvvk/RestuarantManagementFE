@@ -57,10 +57,14 @@
         <span>Inventory</span>
       </a>
 
-      <button class="nav-item" type="button" (click)="closeNav()">
+      <a
+        class="nav-item"
+        routerLink="waiters"
+        routerLinkActive="active"
+        (click)="closeNav()">
         <span class="material-symbols-outlined">group</span>
         <span>Users</span>
-      </button>
+      </a>
 
       <button class="nav-item" type="button" (click)="closeNav()">
         <span class="material-symbols-outlined">request_quote</span>

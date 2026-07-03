@@ -47,11 +47,6 @@ export class WaiterHome implements OnInit {
   }
 
   private loadTables(): void {
-
-    if (this.waiter.isLoaded()) {
-      return;
-    }
-
     this.waiter.loadTables().subscribe({
       error: error => {
         this.notification.error(
@@ -59,14 +54,9 @@ export class WaiterHome implements OnInit {
         );
       }
     });
-
   }
+
   private loadRequests(): void {
-
-    if (this.waiter.requestsLoaded()) {
-      return;
-    }
-
     this.waiter.loadRequests().subscribe({
       error: error => {
         this.notification.error(
@@ -74,7 +64,6 @@ export class WaiterHome implements OnInit {
         );
       }
     });
-
   }
   private registerSignalREvents(): void {
 
@@ -140,6 +129,7 @@ export class WaiterHome implements OnInit {
   }
 
   logout(): void {
+    this.waiter.clear();
     this.auth.logout();
   }
     openTable(tableId: number): void {

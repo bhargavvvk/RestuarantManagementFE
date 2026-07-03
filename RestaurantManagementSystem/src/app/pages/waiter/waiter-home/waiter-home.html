@@ -23,44 +23,6 @@
 
   @if (selectedTab() === 'tables') {
 
-    <!-- Status Legend -->
-    <div class="status-legend">
-
-      <div class="legend-item">
-        <div
-          class="legend-dot"
-          style="background-color: #27AE60">
-        </div>
-
-        <span class="legend-text">
-          Available
-        </span>
-      </div>
-
-      <div class="legend-item">
-        <div
-          class="legend-dot"
-          style="background-color: #CC4D29">
-        </div>
-
-        <span class="legend-text">
-          Occupied
-        </span>
-      </div>
-
-      <div class="legend-item">
-        <div
-          class="legend-dot"
-          style="background-color: #F39C12">
-        </div>
-
-        <span class="legend-text">
-          Unavailable
-        </span>
-      </div>
-
-    </div>
-
     <div class="container-fluid p-0">
 
       <div class="row g-3">
@@ -74,6 +36,12 @@
             (tableClicked)="openTable(table.tableId)">
         </app-table-card>
 
+          </div>
+
+        } @empty {
+
+          <div class="requests-placeholder">
+            No tables assigned
           </div>
 
         }

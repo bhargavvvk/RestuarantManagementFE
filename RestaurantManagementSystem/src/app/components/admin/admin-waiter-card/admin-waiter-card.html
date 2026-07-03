@@ -1,0 +1,78 @@
+<div class="waiter-card" [class.inactive]="!waiter().isActive">
+
+  <div class="card-body">
+
+    <div class="card-header">
+      <h4 class="waiter-name">{{ waiter().name }}</h4>
+      <span class="status-badge" [class.active]="waiter().isActive" [class.inactive]="!waiter().isActive">
+        <span class="status-dot"></span>
+        {{ waiter().isActive ? 'Active' : 'Inactive' }}
+      </span>
+    </div>
+
+    <div class="tables-info">
+      <span class="tables-label">Assigned Tables</span>
+      <span class="tables-count">{{ waiter().assignedTableCount | number: '2.0' }}</span>
+    </div>
+
+    @if (waiter().assignedTables.length > 0) {
+      <div class="table-badges">
+        @for (table of waiter().assignedTables; track table) {
+          <span class="table-badge">{{ table }}</span>
+        }
+      </div>
+    } @else {
+      <p class="no-tables">No tables currently assigned</p>
+    }
+
+  </div>
+
+  <div class="card-footer" (click)="$event.stopPropagation()">
+
+    <div class="status-toggle">
+      <span class="toggle-label">Status</span>
+      <label class="switch" [title]="waiter().assignedTableCount > 0 ? 'Unassign all tables before changing status' : ''">
+        <input
+          type="checkbox"
+          [checked]="waiter().isActive"
+          [disabled]="waiter().assignedTableCount > 0"
+          (change)="onStatusToggled($event)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button
+      class="delete-btn"
+      [disabled]="waiter().assignedTableCount > 0"
+      [title]="waiter().assignedTableCount > 0 ? 'Unassign all tables before deleting' : 'Delete waiter'"
+      (click)="onDelete()">
+      <span class="material-symbols-outlined">delete</span>
+    </button>
+
+  </div>
+
+</div>
+
+@if (dialogVisible()) {
+  <div class="dialog-backdrop" (click)="closeDialog()">
+    <div class="dialog-box" (click)="$event.stopPropagation()">
+
+      <div class="dialog-icon" [class.danger]="isDestructive">
+        <span class="material-symbols-outlined">
+          {{ isDestructive ? 'delete_forever' : 'swap_horiz' }}
+        </span>
+      </div>
+
+      <h3 class="dialog-title">{{ dialogTitle }}</h3>
+      <p class="dialog-message">{{ dialogMessage }}</p>
+
+      <div class="dialog-actions">
+        <button class="dialog-btn cancel" (click)="closeDialog()">Cancel</button>
+        <button class="dialog-btn confirm" [class.danger]="isDestructive" (click)="confirmDialog()">
+          {{ isDestructive ? 'Delete' : 'Confirm' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+}

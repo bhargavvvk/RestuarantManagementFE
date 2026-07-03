@@ -1,0 +1,99 @@
+<section class="summary-section">
+
+  <app-admin-waiter-summary-card
+    label="Total Waiters"
+    icon="badge"
+    [count]="dashboard()?.summary?.totalWaiters ?? 0">
+  </app-admin-waiter-summary-card>
+
+  <app-admin-waiter-summary-card
+    label="Active Waiters"
+    icon="person_check"
+    variant="active"
+    [count]="dashboard()?.summary?.activeWaiters ?? 0">
+  </app-admin-waiter-summary-card>
+
+  <app-admin-waiter-summary-card
+    label="Inactive Waiters"
+    icon="person_off"
+    variant="inactive"
+    [count]="dashboard()?.summary?.inactiveWaiters ?? 0">
+  </app-admin-waiter-summary-card>
+
+</section>
+
+<section class="toolbar-section">
+
+  <div class="filters">
+    <button
+      class="filter-btn"
+      [class.active]="selectedFilter() === WaiterFilter.All"
+      (click)="setFilter(WaiterFilter.All)">
+      All Waiters
+    </button>
+    <button
+      class="filter-btn"
+      [class.active]="selectedFilter() === WaiterFilter.Active"
+      (click)="setFilter(WaiterFilter.Active)">
+      Active
+    </button>
+    <button
+      class="filter-btn"
+      [class.active]="selectedFilter() === WaiterFilter.Inactive"
+      (click)="setFilter(WaiterFilter.Inactive)">
+      Inactive
+    </button>
+  </div>
+
+  <div class="toolbar-right">
+
+    <div class="search-container">
+      <span class="material-symbols-outlined search-icon">search</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search waiter by name..."
+        [value]="searchQuery()"
+        (input)="onSearch($event)">
+      @if (searchQuery()) {
+        <button class="search-clear" (click)="clearSearch()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      }
+    </div>
+
+    <button class="primary-btn" (click)="openAddModal()">
+      <span class="material-symbols-outlined">person_add</span>
+      <span class="btn-label">Add New Waiter</span>
+    </button>
+
+  </div>
+
+</section>
+
+<section class="waiters-section">
+
+  @if (filteredWaiters().length === 0) {
+    <div class="empty-state">
+      <span class="material-symbols-outlined empty-icon">group_off</span>
+      <p>No waiters found.</p>
+    </div>
+  } @else {
+    <div class="waiters-grid">
+      @for (waiter of filteredWaiters(); track waiter.waiterId) {
+        <app-admin-waiter-card
+          [waiter]="waiter"
+          (statusToggled)="toggleStatus($event.waiterId, $event.isActive)"
+          (deleteClicked)="deleteWaiter($event)">
+        </app-admin-waiter-card>
+      }
+    </div>
+  }
+
+</section>
+
+<app-admin-add-waiter-modal
+  [isOpen]="showAddModal()"
+  (closed)="closeAddModal()"
+  (waiterCreated)="createWaiter($event)">
+</app-admin-add-waiter-modal>
