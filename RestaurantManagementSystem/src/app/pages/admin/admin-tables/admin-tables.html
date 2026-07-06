@@ -88,6 +88,10 @@
   </div>
 
   <div class="actions">
+    <button class="secondary-btn" (click)="openDownloadQr()">
+      <span class="material-symbols-outlined">qr_code_2</span>
+      <span class="btn-label">Download QR</span>
+    </button>
     <button class="secondary-btn" (click)="openAssignWaiter()">
       <span class="material-symbols-outlined">group</span>
       <span class="btn-label">Assign Waiter</span>
@@ -127,3 +131,9 @@
   (closed)="closeAssignWaiter()"
   (assignRequested)="assignWaiter($event)">
 </app-assign-waiter-modal>
+
+<app-admin-download-qr-modal
+  [tables]="dashboard()?.tables ?? []"
+  [isOpen]="showDownloadQrModal()"
+  (closed)="closeDownloadQr()">
+</app-admin-download-qr-modal>

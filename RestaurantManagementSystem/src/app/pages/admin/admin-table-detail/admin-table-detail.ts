@@ -41,6 +41,14 @@ export class AdminTableDetail implements OnInit, OnDestroy {
         this.tableDetailService.loadOrders(this.tableId);
         this.tableDetailService.loadBill(this.tableId);
       });
+
+      this.signalR.onOrderStatusPreparing(() => {
+        this.tableDetailService.loadOrders(this.tableId);
+      });
+
+      this.signalR.onOrderItemStatusReady(() => {
+        this.tableDetailService.loadOrders(this.tableId);
+      });
     });
   }
 

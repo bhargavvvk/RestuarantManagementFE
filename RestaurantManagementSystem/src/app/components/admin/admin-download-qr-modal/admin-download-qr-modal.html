@@ -1,0 +1,71 @@
+@if (isOpen()) {
+
+<div class="modal-overlay">
+
+  <div class="modal-container">
+
+    <div class="modal-header">
+      <h3>Download QR Codes</h3>
+      <button type="button" class="icon-btn" (click)="close()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="select-all-row" (click)="toggleAll()">
+        <div class="checkbox" [class.checked]="allSelected()">
+          @if (allSelected()) {
+            <span class="material-symbols-outlined">check</span>
+          }
+        </div>
+        <span class="select-all-label">Select all tables</span>
+      </div>
+
+      <div class="table-list">
+        @for (table of tables(); track table.id) {
+          <div class="table-row" (click)="toggleTable(table.id)">
+            <div class="checkbox" [class.checked]="isSelected(table.id)">
+              @if (isSelected(table.id)) {
+                <span class="material-symbols-outlined">check</span>
+              }
+            </div>
+            <span class="table-number">{{ table.tableNumber }}</span>
+            <span class="table-status" [class]="table.status.toLowerCase()">
+              {{ table.status }}
+            </span>
+          </div>
+        }
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <span class="selected-count">
+        {{ selectedCount() }} table{{ selectedCount() !== 1 ? 's' : '' }} selected
+      </span>
+      <div class="footer-actions">
+        <button type="button" class="btn-cancel" (click)="close()">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn-download"
+          [disabled]="selectedCount() === 0 || downloading()"
+          (click)="downloadAll()">
+          @if (downloading()) {
+            <span class="material-symbols-outlined spin">progress_activity</span>
+            Downloading...
+          } @else {
+            <span class="material-symbols-outlined">download</span>
+            Download
+          }
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+}

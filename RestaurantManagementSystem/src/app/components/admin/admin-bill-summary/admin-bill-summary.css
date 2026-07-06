@@ -220,6 +220,60 @@
   }
 }
 
+@media (max-width: 600px) {
+  .section-header h3 {
+    font-size: 16px;
+  }
+
+  .bill-header {
+    padding: 12px 14px;
+  }
+
+  .bill-body {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .bill-row {
+    font-size: 13px;
+  }
+
+  .bill-row.small {
+    font-size: 12px;
+  }
+
+  .service-charge-row {
+    padding: 8px 0;
+    font-size: 12px;
+  }
+
+  .service-label {
+    font-size: 12px;
+  }
+
+  .service-sub {
+    font-size: 9px;
+  }
+
+  .bill-total {
+    padding-top: 10px;
+    margin-top: 4px;
+  }
+
+  .grand-total {
+    font-size: 18px;
+  }
+
+  .bill-actions {
+    padding: 12px 14px;
+  }
+
+  .print-btn {
+    padding: 9px;
+    font-size: 13px;
+  }
+}
+
 @media print {
   .print-only {
     display: flex !important;

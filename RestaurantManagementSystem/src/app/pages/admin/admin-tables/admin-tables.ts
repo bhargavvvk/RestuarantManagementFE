@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AdminTableCard } from '../../../components/admin/admin-table-card/admin-table-card';
 import { AddTableModal } from '../../../components/admin/admin-table-modal/admin-table-modal';
 import { AssignWaiterModal } from '../../../components/admin/assign-waiter-modal/assign-waiter-modal';
+import { AdminDownloadQrModal } from '../../../components/admin/admin-download-qr-modal/admin-download-qr-modal';
 import { AdminTable } from '../../../services/admin/admin-table';
 import { NotificationServices } from '../../../services/notification-services';
 import { SignalRService } from '../../../services/signal-rservice';
@@ -16,7 +17,7 @@ import {
 
 @Component({
   selector: 'app-admin-tables',
-  imports: [CommonModule, AdminTableCard, AddTableModal, AssignWaiterModal],
+  imports: [CommonModule, AdminTableCard, AddTableModal, AssignWaiterModal, AdminDownloadQrModal],
   templateUrl: './admin-tables.html',
   styleUrl: './admin-tables.css',
 })
@@ -33,6 +34,7 @@ export class AdminTables implements OnInit, OnDestroy {
   readonly waiters = this.adminTablesService.waiters;
   readonly showAddTableModal = signal(false);
   readonly showAssignWaiterModal = signal(false);
+  readonly showDownloadQrModal = signal(false);
   readonly filterDropdownOpen = signal(false);
 
   readonly filterLabels: Record<TableFilter, string> = {
@@ -101,6 +103,14 @@ export class AdminTables implements OnInit, OnDestroy {
 
   closeAssignWaiter(): void {
     this.showAssignWaiterModal.set(false);
+  }
+
+  openDownloadQr(): void {
+    this.showDownloadQrModal.set(true);
+  }
+
+  closeDownloadQr(): void {
+    this.showDownloadQrModal.set(false);
   }
 
   assignWaiter(request: AssignWaiterRequest): void {

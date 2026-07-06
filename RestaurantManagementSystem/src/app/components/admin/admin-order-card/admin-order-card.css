@@ -156,6 +156,51 @@
   cursor: not-allowed;
 }
 
+@media (max-width: 600px) {
+  .order-header {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .order-meta {
+    gap: 8px;
+  }
+
+  .order-instructions {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .cancel-order-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .order-items-table td {
+    padding: 10px 12px;
+  }
+
+  .item-name {
+    font-size: 13px;
+  }
+
+  .qty-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .qty-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 15px;
+  }
+
+  .status-badge {
+    font-size: 10px;
+    margin-right: 4px;
+  }
+}
+
 @media print {
   .order-card {
     break-inside: avoid;

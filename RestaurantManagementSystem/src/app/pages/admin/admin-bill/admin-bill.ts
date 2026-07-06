@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { AdminBillsSummary } from '../../../components/admin/admin-bills-summary/admin-bills-summary';
 import { AdminBillsToolbar } from '../../../components/admin/admin-bills-toolbar/admin-bills-toolbar';
 import { AdminBillsTable } from '../../../components/admin/admin-bills-table/admin-bills-table';
@@ -16,7 +16,7 @@ import { AdminBillsService } from '../../../services/admin/admin-bills';
   templateUrl: './admin-bill.html',
   styleUrl: './admin-bill.css',
 })
-export class AdminBill implements OnInit {
+export class AdminBill implements OnInit, OnDestroy {
   private readonly adminBillsService = inject(AdminBillsService);
   private searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -41,6 +41,13 @@ export class AdminBill implements OnInit {
   ngOnInit(): void {
     this.adminBillsService.loadBills();
     this.adminBillsService.loadSummary();
+  }
+
+  ngOnDestroy(): void {
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+    }
+    this.adminBillsService.clearSearch();
   }
 
   onDateChanged(date: string): void {

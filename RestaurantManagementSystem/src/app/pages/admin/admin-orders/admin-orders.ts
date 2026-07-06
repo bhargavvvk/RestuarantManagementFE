@@ -1,9 +1,10 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { AdminOrdersSummary } from '../../../components/admin/admin-orders-summary/admin-orders-summary';
 import { AdminOrdersToolbar } from '../../../components/admin/admin-orders-toolbar/admin-orders-toolbar';
 import { AdminOrdersTable } from '../../../components/admin/admin-orders-table/admin-orders-table';
 import { AdminOrderDetailDrawer } from '../../../components/admin/admin-order-detail-drawer/admin-order-detail-drawer';
 import { AdminOrdersService } from '../../../services/admin/admin-orders';
+import { SignalRService } from '../../../services/signal-rservice';
 
 @Component({
   selector: 'app-admin-orders',
@@ -16,8 +17,9 @@ import { AdminOrdersService } from '../../../services/admin/admin-orders';
   templateUrl: './admin-orders.html',
   styleUrl: './admin-orders.css',
 })
-export class AdminOrders implements OnInit {
+export class AdminOrders implements OnInit, OnDestroy {
   private readonly adminOrdersService = inject(AdminOrdersService);
+  private readonly signalR = inject(SignalRService);
   private searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly orders = this.adminOrdersService.orders;
@@ -38,6 +40,20 @@ export class AdminOrders implements OnInit {
 
   ngOnInit(): void {
     this.adminOrdersService.loadOrders();
+
+    this.signalR.startConnection().then(() => {
+      this.signalR.onOrderPlaced(() => this.adminOrdersService.loadOrders());
+      this.signalR.onOrderModified(() => this.adminOrdersService.loadOrders());
+      this.signalR.onOrderCancelled(() => this.adminOrdersService.loadOrders());
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+    }
+    this.adminOrdersService.clearSearch();
+    this.signalR.stopConnection();
   }
 
   onDateChanged(date: string): void {
