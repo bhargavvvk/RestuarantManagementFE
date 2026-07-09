@@ -1,22 +1,36 @@
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { WaiterTableService } from '../../../services/waiter-table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationServices } from '../../../services/notification-services';
 import { Waiter } from '../../../services/waiter';
+import { SplitBillModal } from '../../menu/split-bill-modal/split-bill-modal';
 
 @Component({
   selector: 'app-waiter-bill',
-  imports: [],
+  imports: [CommonModule, SplitBillModal],
   templateUrl: './waiter-bill.html',
   styleUrl: './waiter-bill.css',
 })
 export class WaiterBill implements OnInit {
+
+  getParsedSplits() {
+    const b = this.bill();
+    if (!b || !b.customSplitsJson) return null;
+    try {
+      return JSON.parse(b.customSplitsJson);
+    } catch {
+      return null;
+    }
+  }
 
   private readonly waiterTableService = inject(WaiterTableService);
   private readonly waiterService = inject(Waiter);
   private readonly route = inject(ActivatedRoute);
   private readonly notification = inject(NotificationServices);
   private readonly router = inject(Router);
+
+  readonly splitVisible = signal(false);
 
   readonly tableId = Number(
     this.route.snapshot.paramMap.get('tableId')

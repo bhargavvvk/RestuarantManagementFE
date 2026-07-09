@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { CartItem, Category, CustomerBill, CustomerOrder, MenuItem } from '../models/customer.models';
+import { CartItem, Category, CustomerBill, CustomerOrder, MenuItem, SplitBillResponse } from '../models/customer.models';
 import { baseUrl } from '../../environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { forkJoin, Subject } from 'rxjs';
@@ -101,6 +101,14 @@ export class MenuService {
     return this.http.get<CustomerBill>(
       `${baseUrl}/Bill/Customer`
     );
+  }
+  getSplitBill() {
+    return this.http.get<SplitBillResponse>(
+      `${baseUrl}/Bill/Customer/split`
+    );
+  }
+  saveSplitBill(customSplitsJson: string) {
+    return this.http.put(`${baseUrl}/Bill/Customer/split`, { customSplitsJson });
   }
   loadOrderData() {
 

@@ -64,6 +64,7 @@ export interface WaiterBill {
   grandTotal: number;
   paymentStatus: number;
   generatedAt: string;
+  customSplitsJson?: string;
 }
 export interface ServedOrderItemResponse {
   orderItemId: number;
@@ -76,3 +77,5 @@ export interface PaymentMethod {
   value: number;
   name: string;
 }
+
+export type { SplitBillResponse, OrderSplitOption, ItemSplitOption } from './customer.models';

@@ -1,0 +1,242 @@
+<div class="dialog-backdrop" (click)="closeModal()">
+  <div class="dialog-box" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3 class="modal-title">Split Bill Details</h3>
+      <button class="btn-close" (click)="closeModal()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    @if (isLoading()) {
+      <div class="modal-loading">
+        <div class="spinner"></div>
+        <p>Calculating split options...</p>
+      </div>
+    } @else if (splitData()) {
+      <div class="modal-tabs">
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab() === 'equal'" 
+          (click)="setTab('equal')">
+          Equally
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab() === 'order'" 
+          (click)="setTab('order')">
+          By Order
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab() === 'item'" 
+          (click)="setTab('item')">
+          By Item
+        </button>
+      </div>
+
+      <div class="modal-content">
+        
+        <!-- Tab 1: Equally -->
+        @if (activeTab() === 'equal') {
+          <div class="tab-pane">
+            <p class="section-desc">Split the total bill equally among your guests.</p>
+            <div class="guest-selector">
+              <label for="guestsInput">Number of Guests:</label>
+              <div class="input-controls">
+                <button 
+                  class="btn-icon" 
+                  [disabled]="guestCount() <= 1"
+                  (click)="guestCount.set(guestCount() - 1)">
+                  <span class="material-symbols-outlined">remove</span>
+                </button>
+                <input 
+                  id="guestsInput"
+                  type="number" 
+                  min="1" 
+                  max="100" 
+                  [ngModel]="guestCount()" 
+                  (ngModelChange)="guestCount.set($event || 1)">
+                <button 
+                  class="btn-icon" 
+                  (click)="guestCount.set(guestCount() + 1)">
+                  <span class="material-symbols-outlined">add</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="split-breakdown">
+              <div class="breakdown-row">
+                <span>Grand Total</span>
+                <span>₹{{ splitData()!.grandTotal }}</span>
+              </div>
+              <div class="breakdown-row highlight">
+                <span>Per Guest Share</span>
+                <span class="price-text">₹{{ equalShareAmount() | number:'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Tab 2: By Order -->
+        @if (activeTab() === 'order') {
+          <div class="tab-pane scrollable">
+            <p class="section-desc">View sub-bills for each separate order placed during this session.</p>
+            
+            @if (splitData()!.orderSplits.length === 0) {
+              <p class="empty-text">No orders placed yet.</p>
+            }
+
+            @for (orderSplit of splitData()!.orderSplits; track orderSplit.orderId) {
+              <div class="split-card">
+                <div class="card-header">
+                  <span class="order-num">Order #{{ orderSplit.orderNumber }}</span>
+                  <span class="order-total">₹{{ orderSplit.grandTotal | number:'1.2-2' }}</span>
+                </div>
+                
+                <div class="card-body">
+                  <div class="items-list">
+                    @for (item of orderSplit.items; track item.orderItemId) {
+                      <div class="item-row">
+                        <span>{{ item.itemName }} x {{ item.quantity }}</span>
+                        <span>₹{{ item.itemPrice * item.quantity | number:'1.2-2' }}</span>
+                      </div>
+                    }
+                  </div>
+                  
+                  <div class="tax-details">
+                    <div class="tax-row">
+                      <span>Food Subtotal</span>
+                      <span>₹{{ orderSplit.foodTotal }}</span>
+                    </div>
+                    @if (orderSplit.cgstAmount > 0) {
+                      <div class="tax-row">
+                        <span>CGST ({{ splitData()!.cgstPercentage }}%)</span>
+                        <span>₹{{ orderSplit.cgstAmount | number:'1.2-2' }}</span>
+                      </div>
+                    }
+                    @if (orderSplit.sgstAmount > 0) {
+                      <div class="tax-row">
+                        <span>SGST ({{ splitData()!.sgstPercentage }}%)</span>
+                        <span>₹{{ orderSplit.sgstAmount | number:'1.2-2' }}</span>
+                      </div>
+                    }
+                    @if (orderSplit.serviceChargeAmount > 0) {
+                      <div class="tax-row">
+                        <span>Service Charge ({{ splitData()!.serviceChargePercentage }}%)</span>
+                        <span>₹{{ orderSplit.serviceChargeAmount | number:'1.2-2' }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Tab 3: By Item -->
+        @if (activeTab() === 'item') {
+          <div class="tab-pane scrollable">
+            <p class="section-desc">Select items and click "Create Split Group" to split the bill dynamically.</p>
+            
+            @if (availableItems().length > 0) {
+              <div class="items-checklist">
+                @for (item of availableItems(); track $index) {
+                  <label class="checklist-item" [class.selected]="selectedItemIds().includes(item.orderItemId)">
+                    <input 
+                      type="checkbox" 
+                      [checked]="selectedItemIds().includes(item.orderItemId)"
+                      (change)="toggleItemSelection(item.orderItemId)">
+                    
+                    <div class="checklist-info">
+                      <div class="item-name">{{ item.itemName }}</div>
+                      <div class="item-meta">₹{{ item.itemPrice }} × {{ item.quantity }}</div>
+                    </div>
+                    <div class="checklist-price">₹{{ item.foodTotal }}</div>
+                  </label>
+                }
+              </div>
+            } @else if (createdGroups().length > 0) {
+              <div class="select-prompt" style="margin-bottom: 1.5rem; border-color: var(--primary); color: var(--primary);">✓ All items have been assigned to split groups!</div>
+            }
+
+            @if (selectedItemsSummary(); as summary) {
+              @if (summary.count > 0) {
+                <div class="split-breakdown select-summary">
+                  <h4 class="summary-title">Selected Items Summary</h4>
+                  <div class="breakdown-row">
+                    <span>Food Subtotal</span>
+                    <span>₹{{ summary.foodTotal | number:'1.2-2' }}</span>
+                  </div>
+                  @if (summary.cgst > 0) {
+                    <div class="breakdown-row">
+                      <span>CGST ({{ splitData()!.cgstPercentage }}%)</span>
+                      <span>₹{{ summary.cgst | number:'1.2-2' }}</span>
+                    </div>
+                  }
+                  @if (summary.sgst > 0) {
+                    <div class="breakdown-row">
+                      <span>SGST ({{ splitData()!.sgstPercentage }}%)</span>
+                      <span>₹{{ summary.sgst | number:'1.2-2' }}</span>
+                    </div>
+                  }
+                  @if (summary.serviceCharge > 0) {
+                    <div class="breakdown-row">
+                      <span>Service Charge ({{ splitData()!.serviceChargePercentage }}%)</span>
+                      <span>₹{{ summary.serviceCharge | number:'1.2-2' }}</span>
+                    </div>
+                  }
+                  <div class="breakdown-row highlight" style="margin-bottom: 1rem;">
+                    <span>Sub-bill Total</span>
+                    <span class="price-text">₹{{ summary.grandTotal | number:'1.2-2' }}</span>
+                  </div>
+                  <button class="dialog-btn confirm" style="width: 100%; text-align: center; margin-top: 0.5rem;" (click)="addGroup()">
+                    Create Split Group
+                  </button>
+                </div>
+              } @else if (availableItems().length > 0) {
+                <div class="select-prompt">Select items above to see your calculated total.</div>
+              }
+            }
+
+            @if (createdGroups().length > 0) {
+              <div class="created-groups-container" style="margin-top: 1.5rem;">
+                <h4 style="margin: 0 0 0.75rem 0; font-size: 1rem; color: var(--on-surface); font-family: 'JetBrains Mono', monospace; font-weight: 700;">Created Split Groups</h4>
+                @for (group of createdGroups(); track $index) {
+                  <div class="split-card">
+                    <div class="card-header" style="background: var(--surface-container);">
+                      <span class="order-num">{{ group.name }}</span>
+                      <button class="btn-remove-group" (click)="removeGroup($index)">Remove</button>
+                    </div>
+                    <div class="card-body">
+                      <div class="items-list">
+                        @for (item of group.items; track $index) {
+                          <div class="item-row">
+                            <span>{{ item.itemName }} x {{ item.quantity }}</span>
+                            <span>₹{{ item.grandTotal | number:'1.2-2' }}</span>
+                          </div>
+                        }
+                      </div>
+                      <div class="tax-details" style="padding-top: 0.5rem;">
+                        <div class="tax-row" style="font-weight: 700; color: var(--on-surface); font-size: 0.9375rem;">
+                          <span>Total for Group</span>
+                          <span class="price-text">₹{{ group.grandTotal | number:'1.2-2' }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+    }
+
+    <div class="modal-footer">
+      <button class="dialog-btn confirm" (click)="saveSplit()">Done</button>
+    </div>
+
+  </div>
+</div>
