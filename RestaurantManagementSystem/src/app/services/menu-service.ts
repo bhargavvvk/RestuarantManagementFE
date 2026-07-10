@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { CartItem, Category, CustomerBill, CustomerOrder, MenuItem, SplitBillResponse } from '../models/customer.models';
+import { CartItem, Category, CustomerBill, CustomerOrder, MenuItem, SplitBillResponse, TableBillDto } from '../models/customer.models';
 import { baseUrl } from '../../environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { forkJoin, Subject } from 'rxjs';
@@ -16,6 +16,7 @@ export class MenuService {
   cartItems = signal<CartItem[]>([]);
   orders = signal<CustomerOrder[]>([]);
   bill = signal<CustomerBill | null>(null);
+  tableBill = signal<TableBillDto | null>(null);
   ordersLoading = signal(false);
   getCategories() {
      return this.http.get<Category[]>(`${baseUrl}/Menu/categories`);
@@ -110,17 +111,28 @@ export class MenuService {
   saveSplitBill(customSplitsJson: string) {
     return this.http.put(`${baseUrl}/Bill/Customer/split`, { customSplitsJson });
   }
+  getMyTableBill() {
+    return this.http.get<TableBillDto>(`${baseUrl}/Bill/Customer/my-table`);
+  }
+  loadTableBill() {
+    this.getMyTableBill().subscribe({
+      next: tb => this.tableBill.set(tb),
+      error: () => {}
+    });
+  }
   loadOrderData() {
 
     this.ordersLoading.set(true);
     forkJoin({
       orders: this.getOrders(),
-      bill: this.getBillSummary()
+      bill: this.getBillSummary(),
+      tableBill: this.getMyTableBill()
     }).subscribe({
       next: result => {
 
         this.orders.set(result.orders);
         this.bill.set(result.bill);
+        this.tableBill.set(result.tableBill);
 
         this.ordersLoading.set(false);
       },
@@ -144,5 +156,6 @@ export class MenuService {
       .subscribe(bill => {
         this.bill.set(bill);
       });
+    this.loadTableBill();
   }
 }

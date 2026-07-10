@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MenuService } from '../../../services/menu-service';
 import { WaiterTableService } from '../../../services/waiter-table';
-import { SplitBillResponse, ItemSplitOption } from '../../../models/customer.models';
+import { SplitBillResponse, ItemSplitOption, TableSplitOption } from '../../../models/customer.models';
 import { NotificationServices } from '../../../services/notification-services';
 
-type TabType = 'equal' | 'order' | 'item';
+type TabType = 'equal' | 'order' | 'item' | 'table';
 
 @Component({
   selector: 'app-split-bill-modal',
@@ -186,33 +186,6 @@ export class SplitBillModal implements OnInit {
       if (this.selectedItemIds().length > 0) {
         this.addGroup();
       }
-
-      const remaining = this.availableItems();
-      if (remaining.length > 0) {
-        const foodTotal = remaining.reduce((sum, item) => sum + item.foodTotal, 0);
-        const cgst = remaining.reduce((sum, item) => sum + item.cgstAmount, 0);
-        const sgst = remaining.reduce((sum, item) => sum + item.sgstAmount, 0);
-        const serviceCharge = remaining.reduce((sum, item) => sum + item.serviceChargeAmount, 0);
-        const grandTotal = remaining.reduce((sum, item) => sum + item.grandTotal, 0);
-
-        const groupName = `Group ${this.createdGroups().length + 1}`;
-        const newGroup = {
-          name: groupName,
-          items: remaining.map(item => ({
-            orderItemId: item.orderItemId,
-            itemName: item.itemName,
-            itemPrice: item.itemPrice,
-            quantity: item.quantity,
-            grandTotal: item.grandTotal
-          })),
-          foodTotal,
-          cgstAmount: cgst,
-          sgstAmount: sgst,
-          serviceChargeAmount: serviceCharge,
-          grandTotal
-        };
-        this.createdGroups.set([...this.createdGroups(), newGroup]);
-      }
     }
 
     const payload = {
@@ -228,6 +201,16 @@ export class SplitBillModal implements OnInit {
         sgstAmount: os.sgstAmount,
         serviceChargeAmount: os.serviceChargeAmount,
         items: os.items
+      })) : null,
+      tableSplits: active === 'table' ? data.tableSplits.map(ts => ({
+        tableId: ts.tableId,
+        tableNumber: ts.tableNumber,
+        tableTotal: ts.tableTotal,
+        foodSubtotal: ts.foodSubtotal,
+        cgstAmount: ts.cgstAmount,
+        sgstAmount: ts.sgstAmount,
+        serviceChargeAmount: ts.serviceChargeAmount,
+        items: ts.items
       })) : null
     };
 

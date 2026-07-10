@@ -78,4 +78,4 @@ export interface PaymentMethod {
   name: string;
 }
 
-export type { SplitBillResponse, OrderSplitOption, ItemSplitOption } from './customer.models';
+export type { SplitBillResponse, OrderSplitOption, ItemSplitOption, TableSplitOption, TableSplitItem } from './customer.models';

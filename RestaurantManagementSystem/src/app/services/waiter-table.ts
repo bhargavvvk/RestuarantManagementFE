@@ -233,6 +233,20 @@ export class WaiterTableService {
     );
 
   }
+
+  markTableSplitPaid(
+    tableId: number,
+    targetTableId: number,
+    paymentMethod: number
+  ) {
+    return this.http.put<WaiterBill>(
+      `${baseUrl}/Waiter/tables/${tableId}/bill/pay-split`,
+      {
+        targetTableId,
+        paymentMethod
+      }
+    );
+  }
   updateBill(
     bill: WaiterBill
   ): void {
@@ -246,5 +260,24 @@ export class WaiterTableService {
       {}
     );
 
+  }
+
+  getLinkedTables(tableId: number): Observable<number[]> {
+    return this.http.get<number[]>(
+      `${baseUrl}/Waiter/tables/${tableId}/linked-tables`
+    );
+  }
+
+  linkTable(primaryTableId: number, secondaryTableId: number): Observable<number[]> {
+    return this.http.post<number[]>(
+      `${baseUrl}/Waiter/tables/${primaryTableId}/linked-tables/${secondaryTableId}`,
+      {}
+    );
+  }
+
+  unlinkTable(primaryTableId: number, secondaryTableId: number): Observable<void> {
+    return this.http.delete<void>(
+      `${baseUrl}/Waiter/tables/${primaryTableId}/linked-tables/${secondaryTableId}`
+    );
   }
 }

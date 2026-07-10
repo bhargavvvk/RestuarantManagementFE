@@ -33,6 +33,14 @@
           (click)="setTab('item')">
           By Item
         </button>
+        @if (splitData()!.tableSplits && splitData()!.tableSplits.length > 0) {
+          <button 
+            class="tab-btn" 
+            [class.active]="activeTab() === 'table'" 
+            (click)="setTab('table')">
+            By Table
+          </button>
+        }
       </div>
 
       <div class="modal-content">
@@ -231,7 +239,64 @@
           </div>
         }
 
+        <!-- Tab 4: By Table -->
+        @if (activeTab() === 'table') {
+          <div class="tab-pane">
+            <p class="section-desc">View each table's share of the total bill based on what they ordered.</p>
+            @if (splitData()!.tableSplits && splitData()!.tableSplits.length > 0) {
+              @for (tbl of splitData()!.tableSplits; track tbl.tableId) {
+                <div class="split-card">
+                  <div class="card-header" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white;">
+                    <span class="order-num">Table {{ tbl.tableNumber }}</span>
+                    <span class="price-text" style="color: white;">₹{{ tbl.tableTotal | number:'1.2-2' }}</span>
+                  </div>
+                  <div class="card-body">
+                    <div class="items-list">
+                      @for (item of tbl.items; track item.itemName) {
+                        <div class="item-row">
+                          <span>{{ item.itemName }} x {{ item.quantity }}</span>
+                          <span>₹{{ item.lineTotal | number:'1.2-2' }}</span>
+                        </div>
+                      }
+                    </div>
+                    <div class="tax-details">
+                      <div class="tax-row">
+                        <span>Food Subtotal</span>
+                        <span>₹{{ tbl.foodSubtotal | number:'1.2-2' }}</span>
+                      </div>
+                      <div class="tax-row">
+                        <span>CGST</span>
+                        <span>₹{{ tbl.cgstAmount | number:'1.2-2' }}</span>
+                      </div>
+                      <div class="tax-row">
+                        <span>SGST</span>
+                        <span>₹{{ tbl.sgstAmount | number:'1.2-2' }}</span>
+                      </div>
+                      @if (tbl.serviceChargeAmount > 0) {
+                        <div class="tax-row">
+                          <span>Service Charge</span>
+                          <span>₹{{ tbl.serviceChargeAmount | number:'1.2-2' }}</span>
+                        </div>
+                      }
+                      <div class="tax-row total-row">
+                        <span>Table Total</span>
+                        <span class="price-text">₹{{ tbl.tableTotal | number:'1.2-2' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            } @else {
+              <div class="empty-state">
+                <span class="material-symbols-outlined">table_restaurant</span>
+                <p>No linked tables found. Link additional tables from the waiter dashboard.</p>
+              </div>
+            }
+          </div>
+        }
+
       </div>
+
     }
 
     <div class="modal-footer">

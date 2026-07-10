@@ -113,6 +113,24 @@ export interface ItemSplitOption {
   grandTotal: number;
 }
 
+export interface TableSplitItem {
+  itemName: string;
+  quantity: number;
+  itemPrice: number;
+  lineTotal: number;
+}
+
+export interface TableSplitOption {
+  tableId: number;
+  tableNumber: string;
+  foodSubtotal: number;
+  cgstAmount: number;
+  sgstAmount: number;
+  serviceChargeAmount: number;
+  tableTotal: number;
+  items: TableSplitItem[];
+}
+
 export interface SplitBillResponse {
   foodTotal: number;
   cgstPercentage: number;
@@ -121,5 +139,26 @@ export interface SplitBillResponse {
   grandTotal: number;
   orderSplits: OrderSplitOption[];
   itemSplits: ItemSplitOption[];
+  tableSplits: TableSplitOption[];
+  customSplitsJson?: string;
+}
+
+export interface TableBillDto {
+  billNumber: string;
+  tableId: number;
+  tableNumber: string;
+  myTableFoodTotal: number;
+  cgstPercentage: number;
+  cgstAmount: number;
+  sgstPercentage: number;
+  sgstAmount: number;
+  serviceChargePercentage: number;
+  serviceChargeAmount: number;
+  myTableTotal: number;
+  sessionGrandTotal: number;
+  isGroupOrder: boolean;
+  linkedTablesCount: number;
+  paymentStatus: number;
+  generatedAt: string;
   customSplitsJson?: string;
 }

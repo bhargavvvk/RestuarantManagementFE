@@ -17,6 +17,7 @@ export class CustomerOrders {
   readonly splitVisible = signal(false);
   orders = this.menuService.orders;
   bill = this.menuService.bill;
+  tableBill = this.menuService.tableBill;
 
   getParsedSplits() {
     const b = this.bill();

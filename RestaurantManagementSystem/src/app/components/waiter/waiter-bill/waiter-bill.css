@@ -217,3 +217,150 @@
   transform: scale(0.98);
 }
 
+/* Group Tables Linking */
+.group-tables-section {
+  margin-top: 10px;
+  border: 1.5px solid #E0BFB7;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.group-tables-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #FFF1ED;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #251915;
+  user-select: none;
+}
+
+.group-tables-header .material-symbols-outlined {
+  font-size: 1.1rem;
+  color: #CC4D29;
+}
+
+.group-tables-header .chevron {
+  margin-left: auto;
+  transition: transform 0.2s;
+  color: #58413B;
+}
+
+.group-tables-header .chevron.open {
+  transform: rotate(180deg);
+}
+
+.linked-badge {
+  background: #CC4D29;
+  color: white;
+  font-size: 0.7rem;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.group-tables-body {
+  padding: 10px 12px;
+  background: #FFF8F6;
+  border-top: 1px dashed #E0BFB7;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.linked-tables-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.linked-table-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: white;
+  border: 1px solid #E0BFB7;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #251915;
+}
+
+.linked-table-chip .material-symbols-outlined {
+  font-size: 1rem;
+  color: #CC4D29;
+}
+
+.btn-unlink {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: #9e7b74;
+  display: flex;
+  align-items: center;
+}
+
+.btn-unlink:hover {
+  color: #CC4D29;
+}
+
+.btn-unlink .material-symbols-outlined {
+  font-size: 1rem;
+  color: inherit;
+}
+
+.link-add-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.link-select {
+  flex: 1;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #E0BFB7;
+  border-radius: 6px;
+  background: white;
+  color: #251915;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.btn-link-add {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  height: 36px;
+  background: #CC4D29;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.btn-link-add:disabled {
+  background: #c4a89e;
+  cursor: not-allowed;
+}
+
+.btn-link-add .material-symbols-outlined {
+  font-size: 1rem;
+}
+
+.no-tables-msg {
+  font-size: 0.8rem;
+  color: #9e7b74;
+  margin: 0;
+  text-align: center;
+}
