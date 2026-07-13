@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, single, Subject, switchMap, tap } from 'rxjs';
-import { MenuCategory, PaymentMethod, ServedOrderItemResponse, WaiterBill, WaiterCartItem, WaiterOrder } from '../models/waiter.models';
+import { MenuCategory, PaymentMethod, ServedOrderItemResponse, WaiterBill, WaiterCartItem, WaiterOrder, SplitBillResponse } from '../models/waiter.models';
 import { baseUrl } from '../../environment';
 import { MenuItem } from '../models/customer.models';
 
@@ -122,6 +122,14 @@ export class WaiterTableService {
       `${baseUrl}/Waiter/tables/${tableId}/bill`
     );
   }
+  getSplitBill(tableId: number) {
+    return this.http.get<SplitBillResponse>(
+      `${baseUrl}/Waiter/tables/${tableId}/bill/split`
+    );
+  }
+  saveSplitBill(tableId: number, customSplitsJson: string) {
+    return this.http.put(`${baseUrl}/Waiter/tables/${tableId}/bill/split`, { customSplitsJson });
+  }
   markServed(
   tableId: number,
   orderItemId: number
@@ -225,6 +233,20 @@ export class WaiterTableService {
     );
 
   }
+
+  markTableSplitPaid(
+    tableId: number,
+    targetTableId: number,
+    paymentMethod: number
+  ) {
+    return this.http.put<WaiterBill>(
+      `${baseUrl}/Waiter/tables/${tableId}/bill/pay-split`,
+      {
+        targetTableId,
+        paymentMethod
+      }
+    );
+  }
   updateBill(
     bill: WaiterBill
   ): void {
@@ -238,5 +260,24 @@ export class WaiterTableService {
       {}
     );
 
+  }
+
+  getLinkedTables(tableId: number): Observable<number[]> {
+    return this.http.get<number[]>(
+      `${baseUrl}/Waiter/tables/${tableId}/linked-tables`
+    );
+  }
+
+  linkTable(primaryTableId: number, secondaryTableId: number): Observable<number[]> {
+    return this.http.post<number[]>(
+      `${baseUrl}/Waiter/tables/${primaryTableId}/linked-tables/${secondaryTableId}`,
+      {}
+    );
+  }
+
+  unlinkTable(primaryTableId: number, secondaryTableId: number): Observable<void> {
+    return this.http.delete<void>(
+      `${baseUrl}/Waiter/tables/${primaryTableId}/linked-tables/${secondaryTableId}`
+    );
   }
 }

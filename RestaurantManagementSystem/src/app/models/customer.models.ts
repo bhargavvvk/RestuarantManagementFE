@@ -86,4 +86,79 @@ export interface CustomerBill {
   paymentStatus: number;
 
   generatedAt: string;
+
+  customSplitsJson?: string;
+}
+
+export interface OrderSplitOption {
+  orderId: number;
+  orderNumber: string;
+  foodTotal: number;
+  cgstAmount: number;
+  sgstAmount: number;
+  serviceChargeAmount: number;
+  grandTotal: number;
+  items: CustomerOrderItem[];
+}
+
+export interface ItemSplitOption {
+  orderItemId: number;
+  itemName: string;
+  quantity: number;
+  itemPrice: number;
+  foodTotal: number;
+  cgstAmount: number;
+  sgstAmount: number;
+  serviceChargeAmount: number;
+  grandTotal: number;
+}
+
+export interface TableSplitItem {
+  itemName: string;
+  quantity: number;
+  itemPrice: number;
+  lineTotal: number;
+}
+
+export interface TableSplitOption {
+  tableId: number;
+  tableNumber: string;
+  foodSubtotal: number;
+  cgstAmount: number;
+  sgstAmount: number;
+  serviceChargeAmount: number;
+  tableTotal: number;
+  items: TableSplitItem[];
+}
+
+export interface SplitBillResponse {
+  foodTotal: number;
+  cgstPercentage: number;
+  sgstPercentage: number;
+  serviceChargePercentage: number;
+  grandTotal: number;
+  orderSplits: OrderSplitOption[];
+  itemSplits: ItemSplitOption[];
+  tableSplits: TableSplitOption[];
+  customSplitsJson?: string;
+}
+
+export interface TableBillDto {
+  billNumber: string;
+  tableId: number;
+  tableNumber: string;
+  myTableFoodTotal: number;
+  cgstPercentage: number;
+  cgstAmount: number;
+  sgstPercentage: number;
+  sgstAmount: number;
+  serviceChargePercentage: number;
+  serviceChargeAmount: number;
+  myTableTotal: number;
+  sessionGrandTotal: number;
+  isGroupOrder: boolean;
+  linkedTablesCount: number;
+  paymentStatus: number;
+  generatedAt: string;
+  customSplitsJson?: string;
 }
