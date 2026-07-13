@@ -28,6 +28,7 @@
 
       <app-admin-bill-summary
         [bill]="bill()"
+        [orders]="orders()"
         (serviceChargeToggle)="onServiceChargeToggle($event)"
         (printRequested)="printBill()" />
     </div>

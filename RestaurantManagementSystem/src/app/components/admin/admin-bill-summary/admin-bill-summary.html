@@ -7,7 +7,7 @@
   </div>
 
   @if (bill()) {
-    <div class="bill-card">
+    <div class="bill-card" #printArea>
       <div class="bill-header">
         <p class="bill-title">Invoice Details</p>
         <span
@@ -18,6 +18,22 @@
       </div>
 
       <div class="bill-body">
+        @if (lineItems().length > 0) {
+          <div class="items-breakdown">
+            <p class="breakdown-heading">Items Ordered</p>
+            @for (item of lineItems(); track item.name) {
+              <div class="bill-row item-row">
+                <span class="item-name">
+                  {{ item.name }}
+                  <span class="item-qty">× {{ item.quantity }}</span>
+                </span>
+                <span>₹ {{ item.lineTotal | number:'1.2-2' }}</span>
+              </div>
+            }
+          </div>
+          <div class="breakdown-divider"></div>
+        }
+
         <div class="bill-row">
           <span>Food Total</span>
           <span class="amount">₹ {{ bill()!.foodTotal | number:'1.2-2' }}</span>

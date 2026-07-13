@@ -162,25 +162,3 @@
   font-weight: 700;
   color: #251915;
 }
-
-.print-btn {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  background: #cc4d29;
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.print-btn .material-symbols-outlined {
-  font-size: 20px;
-}
