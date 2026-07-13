@@ -27,6 +27,7 @@ export class WaiterTable implements OnInit, OnDestroy {
   private readonly signalR = inject(SignalRService);
 
   readonly tableId = Number(this.route.snapshot.paramMap.get('tableId'));
+  tableNumber: string = '';
   private sessionId: number | null = null;
 
   ngOnInit(): void {
@@ -49,6 +50,7 @@ export class WaiterTable implements OnInit, OnDestroy {
   private initTable(): void {
     const table = this.validateAccess();
     if (!table) return;
+    this.tableNumber = table.tableNumber;
     this.sessionId = table.sessionId;
     this.waiterTableService.loadCart(this.tableId).subscribe();
     this.waiterTableService.loadOrders(this.tableId);
