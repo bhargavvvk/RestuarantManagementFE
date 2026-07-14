@@ -108,12 +108,24 @@ export class AdminCategoryModal {
 
 
   onToggle(category: AdminMenuCategory, event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
+    const checkbox = event.target as HTMLInputElement;
+    const checked = checkbox.checked;
+
+    // Revert immediately — confirm is synchronous so this prevents flicker on cancel
+    checkbox.checked = !checked;
+
+    const action = checked ? 'mark as available' : 'mark as unavailable';
+    if (!confirm(`Are you sure you want to ${action} this category? This will affect all items in it.`)) {
+      return;
+    }
+
+    // User confirmed — apply the change visually and emit
+    checkbox.checked = checked;
     this.toggleAvailability.emit({ id: category.id, isAvailable: checked });
   }
 
   onDelete(id: number): void {
-    if (!confirm('Delete this category? Items assigned to it will be unaffected.')) return;
+    if (!confirm('Delete this category? All items assigned to it will also be deleted.')) return;
     this.deleteCategory.emit(id);
   }
 

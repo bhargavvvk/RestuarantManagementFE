@@ -24,9 +24,18 @@ export class AdminMenuCard {
   }
 
   onAvailabilityChange(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    const checked = checkbox.checked;
 
-    const checked = (event.target as HTMLInputElement).checked;
+    // Revert immediately so cancel doesn't leave the checkbox in the wrong state
+    checkbox.checked = !checked;
 
+    const action = checked ? 'mark as available' : 'mark as unavailable';
+    if (!confirm(`Are you sure you want to ${action} this item?`)) {
+      return;
+    }
+
+    checkbox.checked = checked;
     this.availabilityChanged.emit({
       ...this.menuItem(),
       isAvailable: checked

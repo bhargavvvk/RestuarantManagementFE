@@ -1,0 +1,75 @@
+<div class="audit-logs-page">
+
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Audit Logs</h2>
+      <p class="page-subtitle">Download activity logs for a selected date range.</p>
+    </div>
+  </div>
+
+  <div class="download-card">
+
+    <div class="card-icon">
+      <span class="material-symbols-outlined">description</span>
+    </div>
+
+    <h3 class="card-title">Download Logs</h3>
+    <p class="card-desc">Select a date range and download the audit log file.</p>
+
+    <div class="date-row">
+
+      <div class="date-field">
+        <label class="field-label" for="fromDate">From Date</label>
+        <input
+          id="fromDate"
+          type="date"
+          class="date-input"
+          [value]="fromDate()"
+          [max]="today"
+          (change)="onFromDateChange($any($event.target).value)">
+      </div>
+
+      <div class="date-separator">
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </div>
+
+      <div class="date-field">
+        <label class="field-label" for="toDate">To Date</label>
+        <input
+          id="toDate"
+          type="date"
+          class="date-input"
+          [value]="toDate()"
+          [min]="fromDate()"
+          [max]="today"
+          (change)="onToDateChange($any($event.target).value)">
+      </div>
+
+    </div>
+
+    @if (!isValid()) {
+      <p class="error-hint">
+        <span class="material-symbols-outlined">error</span>
+        "From" date must be on or before "To" date.
+      </p>
+    }
+
+    <button
+      class="download-btn"
+      type="button"
+      [disabled]="!isValid() || downloading()"
+      (click)="onDownload()">
+
+      @if (downloading()) {
+        <span class="spinner"></span>
+        Downloading...
+      } @else {
+        <span class="material-symbols-outlined">download</span>
+        Download Logs
+      }
+
+    </button>
+
+  </div>
+
+</div>

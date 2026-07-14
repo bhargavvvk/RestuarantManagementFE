@@ -189,6 +189,7 @@ export class AdminMenu implements OnInit, OnDestroy {
   }
 
   deleteMenu(id: number): void {
+    if (!confirm('Delete this menu item? This cannot be undone.')) return;
     this.adminMenuService.deleteMenuItem(id).subscribe({
       next: () => {
         this.notificationService.success('Menu item deleted.');
@@ -234,7 +235,7 @@ export class AdminMenu implements OnInit, OnDestroy {
     this.adminMenuService.updateCategoryAvailability(id, isAvailable).subscribe({
       next: () => {
         this.loadCategories();
-        this.reload();         
+        this.reload();
       },
       error: () => {
         this.notificationService.error('Failed to update category availability.');

@@ -1,0 +1,249 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.audit-logs-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 560px;
+}
+
+/* Header */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+}
+
+.page-title {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #251915;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #58413b;
+}
+
+/* Card */
+.download-card {
+  background: white;
+  border: 1px solid #fbe3dd;
+  border-radius: 16px;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  width: 100%;
+}
+
+.card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #fff1ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cc4d29;
+  flex-shrink: 0;
+}
+
+.card-icon .material-symbols-outlined {
+  font-size: 26px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #251915;
+}
+
+.card-desc {
+  margin: 0;
+  font-size: 13px;
+  color: #58413b;
+}
+
+/* Date row — stacked by default (mobile first) */
+.date-row {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  width: 100%;
+}
+
+.field-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #58413b;
+}
+
+.date-input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #e0bfb7;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #251915;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+  /* ensure native date picker is full-width on iOS */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.date-input:focus {
+  border-color: #cc4d29;
+  box-shadow: 0 0 0 3px rgba(204, 77, 41, 0.1);
+}
+
+/* Arrow separator — hidden on mobile, shown on wider screens */
+.date-separator {
+  display: none;
+  padding-bottom: 10px;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.date-separator .material-symbols-outlined {
+  font-size: 20px;
+}
+
+/* Error hint */
+.error-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #dc2626;
+  margin: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.error-hint .material-symbols-outlined {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Download button */
+.download-btn {
+  margin-top: 4px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #cc4d29;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  /* tap target min height */
+  min-height: 50px;
+}
+
+.download-btn:hover:not(:disabled) {
+  background: #aa3512;
+}
+
+.download-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.download-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+/* Spinner */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Tablet and up — switch date row to horizontal */
+@media (min-width: 480px) {
+  .audit-logs-page {
+    gap: 28px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .page-subtitle {
+    font-size: 14px;
+  }
+
+  .download-card {
+    padding: 36px 32px;
+  }
+
+  .card-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .card-icon .material-symbols-outlined {
+    font-size: 30px;
+  }
+
+  .card-title {
+    font-size: 18px;
+  }
+
+  .card-desc {
+    font-size: 14px;
+  }
+
+  .date-row {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  .date-separator {
+    display: flex;
+    align-items: center;
+  }
+
+  .date-input {
+    font-size: 14px;
+  }
+}

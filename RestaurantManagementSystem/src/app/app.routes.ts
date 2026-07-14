@@ -16,6 +16,7 @@ import { AdminMenu } from './pages/admin/admin-menu/admin-menu';
 import { AdminInventory } from './pages/admin/admin-inventory/admin-inventory';
 import { AdminWaiters } from './pages/admin/admin-waiters/admin-waiters';
 import { AdminTaxConfig } from './pages/admin/admin-tax-config/admin-tax-config';
+import { AdminAuditLogs } from './pages/admin/admin-audit-logs/admin-audit-logs';
 
 export const routes: Routes = [
   {
@@ -113,6 +114,11 @@ export const routes: Routes = [
         path: 'tax-config',
         component: AdminTaxConfig,
         data: { title: 'Tax Configuration' }
+      },
+      {
+        path: 'audit-logs',
+        component: AdminAuditLogs,
+        data: { title: 'Audit Logs' }
       }
     ]
   },
