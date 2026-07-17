@@ -35,3 +35,23 @@ app-customer-bottom-nav {
 .simple-content {
   padding-top: 150px;
 }
+
+/* AI tab — fixed box sitting between the header bar and bottom nav.
+   top = header only (~66px, request row is hidden on AI tab)
+   bottom = bottom nav (72px) + input bar (~68px) = 140px */
+app-ai-dining-assistant.ai-chat-host {
+  display: none;
+}
+
+app-ai-dining-assistant.ai-chat-visible {
+  display: block;
+  position: fixed;
+  top: 66px;
+  left: 0;
+  right: 0;
+  bottom: 140px;   /* leaves space for fixed input bar + bottom nav */
+  z-index: 900;
+  overflow-y: auto;
+  background: #faf7f6;
+}
+

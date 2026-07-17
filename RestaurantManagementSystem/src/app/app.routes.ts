@@ -17,6 +17,7 @@ import { AdminInventory } from './pages/admin/admin-inventory/admin-inventory';
 import { AdminWaiters } from './pages/admin/admin-waiters/admin-waiters';
 import { AdminTaxConfig } from './pages/admin/admin-tax-config/admin-tax-config';
 import { AdminAuditLogs } from './pages/admin/admin-audit-logs/admin-audit-logs';
+import { AdminRestaurantConfig } from './pages/admin/admin-restaurant-config/admin-restaurant-config';
 
 export const routes: Routes = [
   {
@@ -119,6 +120,11 @@ export const routes: Routes = [
         path: 'audit-logs',
         component: AdminAuditLogs,
         data: { title: 'Audit Logs' }
+      },
+      {
+        path: 'restaurant-config',
+        component: AdminRestaurantConfig,
+        data: { title: 'Restaurant Configuration' }
       }
     ]
   },

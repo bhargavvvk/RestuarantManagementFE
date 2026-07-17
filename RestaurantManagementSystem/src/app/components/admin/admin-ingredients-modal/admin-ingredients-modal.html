@@ -1,0 +1,168 @@
+<div
+    class="offcanvas offcanvas-end"
+    tabindex="-1"
+    [class.show]="isOpen()"
+    [style.visibility]="isOpen() ? 'visible' : 'hidden'">
+
+    <div class="offcanvas-header">
+        <div>
+            <h5 class="offcanvas-title">Ingredient Library</h5>
+            <p class="offcanvas-subtitle">Global pool of ingredients used across menu items</p>
+        </div>
+        <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+
+    <div class="offcanvas-body">
+
+        <!-- Search -->
+        <div class="search-box mb-3">
+            <span class="material-symbols-outlined">search</span>
+            <input
+                type="text"
+                class="search-input"
+                placeholder="Search ingredients..."
+                [value]="searchText()"
+                (input)="onSearch(searchInput.value)"
+                #searchInput>
+            @if (searchText()) {
+                <button class="btn-clear-search" (click)="searchInput.value=''; onSearch('')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            }
+        </div>
+
+        <!-- Add button / form -->
+        @if (!showAddForm()) {
+            <button class="btn-add-item" (click)="openAddForm()">
+                <span class="material-symbols-outlined">add_circle</span>
+                Add New Ingredient
+            </button>
+        } @else {
+            <div class="add-form-card">
+                <div class="add-form-title">New Ingredient</div>
+
+                <div class="mb-3">
+                    <label class="form-label">Name <span class="required">*</span></label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        maxlength="100"
+                        placeholder="e.g. Mozzarella"
+                        [ngModel]="newName()"
+                        (ngModelChange)="newName.set($event)"
+                        name="newName">
+                    <div class="char-count">{{ newName().length }}/100</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description <span class="optional">(optional)</span></label>
+                    <textarea
+                        rows="2"
+                        class="form-control"
+                        maxlength="500"
+                        placeholder="Brief description..."
+                        [ngModel]="newDescription()"
+                        (ngModelChange)="newDescription.set($event)"
+                        name="newDescription">
+                    </textarea>
+                </div>
+
+                <div class="add-form-actions">
+                    <button class="btn btn-ghost" type="button" (click)="cancelAdd()">Cancel</button>
+                    <button
+                        class="btn btn-primary-sm"
+                        type="button"
+                        [disabled]="!isNewValid() || isAddSubmitting()"
+                        (click)="submitAdd()">
+                        @if (isAddSubmitting()) {
+                            <span class="spinner-border spinner-border-sm me-1"></span>
+                        }
+                        Create
+                    </button>
+                </div>
+            </div>
+        }
+
+        <!-- List -->
+        <div class="ingredient-list">
+
+            @if (isLoading()) {
+                <div class="loading-state">
+                    <div class="spinner-border spinner-border-sm"></div>
+                    <span>Loading...</span>
+                </div>
+            } @else if (ingredients().length === 0) {
+                <div class="empty-state">
+                    <span class="material-symbols-outlined">grocery</span>
+                    <p>{{ searchText() ? 'No ingredients match your search.' : 'No ingredients yet. Add one above.' }}</p>
+                </div>
+            } @else {
+                @for (ing of ingredients(); track ing.id) {
+                    <div class="ingredient-row" [class.editing]="isEditing(ing.id)">
+
+                        @if (!isEditing(ing.id)) {
+                            <div class="ing-info">
+                                <div class="ing-name-row">
+                                    <span class="ing-name">{{ ing.name }}</span>
+                                    <button class="btn-icon" title="Edit" (click)="startEdit(ing)">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                </div>
+                                @if (ing.description) {
+                                    <p class="ing-description">{{ ing.description }}</p>
+                                }
+                            </div>
+                            <button class="btn-icon btn-icon-danger" title="Delete" (click)="onDelete(ing.id)">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        } @else {
+                            <div class="edit-inline">
+                                <div class="mb-2">
+                                    <label class="form-label">Name</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm"
+                                        maxlength="100"
+                                        [ngModel]="editState()!.name"
+                                        (ngModelChange)="updateEditField('name', $event)"
+                                        name="editName">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">Description</label>
+                                    <textarea
+                                        rows="2"
+                                        class="form-control form-control-sm"
+                                        maxlength="500"
+                                        [ngModel]="editState()!.description"
+                                        (ngModelChange)="updateEditField('description', $event)"
+                                        name="editDescription">
+                                    </textarea>
+                                </div>
+                                <div class="edit-inline-actions">
+                                    <button class="btn btn-ghost btn-xs" (click)="cancelEdit()">Cancel</button>
+                                    <button
+                                        class="btn btn-save-xs"
+                                        [disabled]="!isEditValid() || isSavingEdit()"
+                                        (click)="submitEdit()">
+                                        @if (isSavingEdit()) {
+                                            <span class="spinner-border spinner-border-sm me-1"></span>
+                                        }
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                }
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+@if (isOpen()) {
+    <div class="offcanvas-backdrop fade show" (click)="onClose()"></div>
+}

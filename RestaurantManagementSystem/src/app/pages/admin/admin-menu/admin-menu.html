@@ -13,6 +13,18 @@
 
             <button
                 class="btn btn-outline-primary"
+                (click)="openIngredientsLibrary()">
+
+                <span class="material-symbols-outlined">
+                    grocery
+                </span>
+
+                Ingredients
+
+            </button>
+
+            <button
+                class="btn btn-outline-primary"
                 (click)="openManageCategories()">
 
                 <span class="material-symbols-outlined">
@@ -209,7 +221,11 @@
                             {
                                 isAvailable: $event.isAvailable
                             }
-                        )">
+                        )"
+
+                        (manageIngredients)="openMenuItemIngredients($event)"
+
+                        (manageNutrition)="openMenuItemNutrition($event)">
 
                     </app-admin-menu-card>
 
@@ -269,3 +285,64 @@
     (close)="closeCategoryModal()">
 
 </app-admin-category-modal>
+
+
+<app-admin-ingredients-modal
+
+    [isOpen]="showIngredientsLibraryModal()"
+
+    [ingredients]="ingredientLibrary()"
+
+    [isLoading]="isLoadingLibrary()"
+
+    (create)="createIngredient($event)"
+
+    (update)="updateIngredient($event)"
+
+    (delete)="deleteIngredient($event)"
+
+    (searchChange)="loadIngredientLibrary($event)"
+
+    (close)="closeIngredientsLibrary()">
+
+</app-admin-ingredients-modal>
+
+
+<app-admin-menu-ingredients-modal
+
+    [isOpen]="showMenuItemIngredientsModal()"
+
+    [menuItemName]="selectedMenuItemForIngredients()?.name ?? ''"
+
+    [ingredients]="ingredientLibrary()"
+
+    [currentList]="menuItemIngredients()"
+
+    [isLoading]="isLoadingItemIngredients()"
+
+    [isSaving]="isSavingItemIngredients()"
+
+    (save)="saveMenuItemIngredients($event)"
+
+    (close)="closeMenuItemIngredients()">
+
+</app-admin-menu-ingredients-modal>
+
+
+<app-admin-menu-nutrition-modal
+
+    [isOpen]="showNutritionModal()"
+
+    [menuItemName]="selectedMenuItemForNutrition()?.name ?? ''"
+
+    [nutrition]="menuItemNutrition()"
+
+    [isLoading]="isLoadingNutrition()"
+
+    [isSaving]="isSavingNutrition()"
+
+    (save)="saveNutrition($event)"
+
+    (close)="closeNutritionModal()">
+
+</app-admin-menu-nutrition-modal>

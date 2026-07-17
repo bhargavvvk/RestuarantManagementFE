@@ -298,3 +298,39 @@
     }
 
 }
+
+/* ─── Ingredients / Nutrition action row ─────────────────────────────────── */
+
+.card-action-row {
+    display: flex;
+    gap: .5rem;
+    padding: .6rem 1.1rem .75rem;
+    border-top: 1px solid #ece6e2;
+}
+
+.card-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    padding: .45rem .5rem;
+    background: #fff8f6;
+    border: 1px solid #e0bfb7;
+    border-radius: 9px;
+    color: #aa3512;
+    font-size: .75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+}
+
+.card-action-btn:hover {
+    background: #fff1ed;
+    border-color: #cc4d29;
+}
+
+.card-action-btn .material-symbols-outlined {
+    font-size: 16px;
+}

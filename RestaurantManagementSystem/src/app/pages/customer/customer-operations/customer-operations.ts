@@ -10,12 +10,13 @@ import { MenuFilter } from "../../../components/menu/menu-filter/menu-filter";
 import { MenuList } from "../../../components/menu/menu-list/menu-list";
 import { CustomerCart } from "../../../components/customer/customer-cart/customer-cart";
 import { CustomerOrders } from "../../../components/customer/customer-orders/customer-orders";
+import { AiDiningAssistant } from "../../../components/customer/ai-dining-assistant/ai-dining-assistant";
 import { MenuService } from '../../../services/menu-service';
 import { NotificationServices } from '../../../services/notification-services';
 
 @Component({
   selector: 'app-customer-operations',
-  imports: [Header, CustomerRequest, CustomerBottomNav, MenuFilter, MenuList, CustomerCart, CustomerOrders],
+  imports: [Header, CustomerRequest, CustomerBottomNav, MenuFilter, MenuList, CustomerCart, CustomerOrders, AiDiningAssistant],
   templateUrl: './customer-operations.html',
   styleUrl: './customer-operations.css',
 })
@@ -30,7 +31,7 @@ export class CustomerOperations {
    private menuService = inject(MenuService);
    private notification=inject(NotificationServices)
   tableIdentifier = '';
-  activeTab = signal<'menu' | 'cart' | 'orders'>('menu');
+  activeTab = signal<'menu' | 'cart' | 'orders' | 'ai'>('menu');
   ngOnInit(): void {
     this.tableIdentifier =
     this.route.snapshot.paramMap.get('tableIdentifier') ?? '';
@@ -120,7 +121,7 @@ export class CustomerOperations {
         }
       });
   }
-  changeTab(tab: 'menu' | 'cart' | 'orders') {
+  changeTab(tab: 'menu' | 'cart' | 'orders' | 'ai') {
     this.activeTab.set(tab);
   }
 }

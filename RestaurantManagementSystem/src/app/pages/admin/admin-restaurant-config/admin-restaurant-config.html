@@ -1,0 +1,417 @@
+<div class="config-page">
+
+    <!-- ── Loading ──────────────────────────────────────────────────────────── -->
+    @if (isLoading()) {
+        <div class="loading-state">
+            <div class="spinner-border"></div>
+            <span>Loading restaurant configuration...</span>
+        </div>
+    }
+
+    <!-- ── Not configured yet ───────────────────────────────────────────────── -->
+    @else if (!config() && !detailsEditing()) {
+        <div class="empty-state">
+            <span class="material-symbols-outlined">storefront</span>
+            <h3>Restaurant not configured</h3>
+            <p>Set up your restaurant details to get started.</p>
+            <button class="btn btn-primary-lg" (click)="startEditDetails()">
+                <span class="material-symbols-outlined">add</span>
+                Configure Now
+            </button>
+        </div>
+    }
+
+    @else {
+
+        <!-- ── Tabs ─────────────────────────────────────────────────────────── -->
+        <div class="tab-bar">
+            <button class="tab-btn" [class.active]="activeTab() === 'details'" (click)="activeTab.set('details')">
+                <span class="material-symbols-outlined">info</span>
+                Restaurant Details
+            </button>
+            <button class="tab-btn" [class.active]="activeTab() === 'knowledge'" (click)="activeTab.set('knowledge')">
+                <span class="material-symbols-outlined">psychology</span>
+                Knowledge Base
+            </button>
+        </div>
+
+        <!-- ════════════════ DETAILS TAB ════════════════ -->
+        @if (activeTab() === 'details') {
+
+            <div class="section-card">
+
+                <div class="section-header">
+                    <div>
+                        <h3 class="section-title">Restaurant Details</h3>
+                        @if (config()?.lastUpdatedAt) {
+                            <p class="section-sub">Last updated {{ config()!.lastUpdatedAt | date:'medium' }}</p>
+                        }
+                    </div>
+                    @if (!detailsEditing()) {
+                        <button class="btn btn-outline-edit" (click)="startEditDetails()">
+                            <span class="material-symbols-outlined">edit</span>
+                            Edit
+                        </button>
+                    }
+                </div>
+
+                <!-- View mode -->
+                @if (!detailsEditing()) {
+                    <div class="details-view">
+                        <div class="detail-row">
+                            <span class="detail-label">Name</span>
+                            <span class="detail-value">{{ config()?.restaurantName || '—' }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Description</span>
+                            <span class="detail-value">{{ config()?.description || '—' }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address</span>
+                            <span class="detail-value">{{ config()?.address || '—' }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Phone</span>
+                            <span class="detail-value">{{ config()?.phoneNumber || '—' }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value">{{ config()?.email || '—' }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Hours</span>
+                            <span class="detail-value">
+                                @if (config()?.openingTime || config()?.closingTime) {
+                                    {{ config()?.openingTime || '—' }} – {{ config()?.closingTime || '—' }}
+                                } @else { — }
+                            </span>
+                        </div>
+                        <div class="detail-row detail-row-full">
+                            <span class="detail-label">About</span>
+                            <span class="detail-value about-text">{{ config()?.about || '—' }}</span>
+                        </div>
+                    </div>
+                }
+
+                <!-- Edit mode -->
+                @if (detailsEditing()) {
+                    <form class="details-form" (submit)="$event.preventDefault(); saveDetails()">
+
+                        <div class="form-row">
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Restaurant Name <span class="required">*</span></label>
+                                <input type="text" class="form-control" maxlength="100"
+                                    [class.is-invalid]="detailsErrors()['restaurantName']"
+                                    placeholder="e.g. The Grand Spoon"
+                                    [ngModel]="detailsForm().restaurantName"
+                                    (ngModelChange)="updateDetails('restaurantName', $event)"
+                                    name="restaurantName">
+                                @if (detailsErrors()['restaurantName']) {
+                                    <div class="field-error">{{ detailsErrors()['restaurantName'] }}</div>
+                                }
+                                <div class="char-count">{{ detailsForm().restaurantName.length }}/100</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Description <span class="optional">(optional)</span></label>
+                                <textarea rows="2" class="form-control" maxlength="500"
+                                    [class.is-invalid]="detailsErrors()['description']"
+                                    placeholder="Short tagline or description..."
+                                    [ngModel]="detailsForm().description"
+                                    (ngModelChange)="updateDetails('description', $event)"
+                                    name="description"></textarea>
+                                @if (detailsErrors()['description']) {
+                                    <div class="field-error">{{ detailsErrors()['description'] }}</div>
+                                }
+                                <div class="char-count">{{ detailsForm().description.length }}/500</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group form-group-full">
+                                <label class="form-label">Address <span class="optional">(optional)</span></label>
+                                <textarea rows="2" class="form-control" maxlength="500"
+                                    placeholder="Full address..."
+                                    [ngModel]="detailsForm().address"
+                                    (ngModelChange)="updateDetails('address', $event)"
+                                    name="address"></textarea>
+                                <div class="char-count">{{ detailsForm().address.length }}/500</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row form-row-2col">
+                            <div class="form-group">
+                                <label class="form-label">Phone <span class="optional">(optional)</span></label>
+                                <input type="text" class="form-control" maxlength="20"
+                                    placeholder="+91 9876543210"
+                                    [ngModel]="detailsForm().phoneNumber"
+                                    (ngModelChange)="updateDetails('phoneNumber', $event)"
+                                    name="phoneNumber">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email <span class="optional">(optional)</span></label>
+                                <input type="email" class="form-control"
+                                    [class.is-invalid]="detailsErrors()['email']"
+                                    placeholder="hello@restaurant.com"
+                                    [ngModel]="detailsForm().email"
+                                    (ngModelChange)="updateDetails('email', $event)"
+                                    name="email">
+                                @if (detailsErrors()['email']) {
+                                    <div class="field-error">{{ detailsErrors()['email'] }}</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-row form-row-2col">
+                            <div class="form-group">
+                                <label class="form-label">Opening Time <span class="optional">(optional)</span></label>
+                                <input type="time" class="form-control"
+                                    [class.is-invalid]="detailsErrors()['openingTime']"
+                                    [ngModel]="detailsForm().openingTime"
+                                    (ngModelChange)="updateDetails('openingTime', $event)"
+                                    name="openingTime">
+                                @if (detailsErrors()['openingTime']) {
+                                    <div class="field-error">{{ detailsErrors()['openingTime'] }}</div>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Closing Time <span class="optional">(optional)</span></label>
+                                <input type="time" class="form-control"
+                                    [ngModel]="detailsForm().closingTime"
+                                    (ngModelChange)="updateDetails('closingTime', $event)"
+                                    name="closingTime">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group form-group-full">
+                                <label class="form-label">About <span class="optional">(optional)</span></label>
+                                <textarea rows="5" class="form-control" maxlength="2000"
+                                    [class.is-invalid]="detailsErrors()['about']"
+                                    placeholder="Full about section shown to customers..."
+                                    [ngModel]="detailsForm().about"
+                                    (ngModelChange)="updateDetails('about', $event)"
+                                    name="about"></textarea>
+                                @if (detailsErrors()['about']) {
+                                    <div class="field-error">{{ detailsErrors()['about'] }}</div>
+                                }
+                                <div class="char-count">{{ detailsForm().about.length }}/2000</div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            @if (config()) {
+                                <button type="button" class="btn btn-ghost" (click)="cancelEditDetails()">Cancel</button>
+                            }
+                            <button type="submit" class="btn btn-publish" [disabled]="!detailsValid() || isSavingDetails()">
+                                @if (isSavingDetails()) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                                Save Details
+                            </button>
+                        </div>
+
+                    </form>
+                }
+
+            </div>
+
+        }
+
+        <!-- ════════════════ KNOWLEDGE BASE TAB ════════════════ -->
+        @if (activeTab() === 'knowledge') {
+
+            <div class="section-card">
+
+                <div class="section-header">
+                    <div>
+                        <h3 class="section-title">Knowledge Base</h3>
+                        <p class="section-sub">Structured data used by the AI assistant — FAQs, policies, services, etc.</p>
+                    </div>
+                    @if (!kbEditing()) {
+                        <button class="btn btn-outline-edit" (click)="startEditKb()">
+                            <span class="material-symbols-outlined">edit</span>
+                            Edit
+                        </button>
+                    }
+                </div>
+
+                <!-- View mode -->
+                @if (!kbEditing()) {
+                    @if (config()?.knowledgeBase) {
+                        <pre class="kb-preview">{{ kbPreviewText() }}</pre>
+                    } @else {
+                        <div class="kb-empty">
+                            <span class="material-symbols-outlined">data_object</span>
+                            <p>No knowledge base set. Click Edit to add structured data.</p>
+                        </div>
+                    }
+                }
+
+                <!-- Edit mode -->
+                @if (kbEditing()) {
+
+                    <div class="kb-toolbar">
+                        <button class="btn btn-ghost-sm" (click)="addRootNode()">
+                            <span class="material-symbols-outlined">add</span>
+                            Add Field
+                        </button>
+                        <button class="btn btn-ghost-sm" [class.active]="kbRawMode()" (click)="toggleRawMode()">
+                            <span class="material-symbols-outlined">code</span>
+                            {{ kbRawMode() ? 'Back to Tree' : 'Raw JSON' }}
+                        </button>
+                    </div>
+
+                    @if (kbRawError()) {
+                        <div class="kb-raw-error">
+                            <span class="material-symbols-outlined">error</span>
+                            {{ kbRawError() }}
+                        </div>
+                    }
+
+                    <!-- Raw JSON editor -->
+                    @if (kbRawMode()) {
+                        <textarea
+                            class="kb-raw-textarea"
+                            rows="20"
+                            spellcheck="false"
+                            [ngModel]="kbRawText()"
+                            (ngModelChange)="kbRawText.set($event)"
+                            name="kbRaw">
+                        </textarea>
+                    }
+
+                    <!-- Tree editor -->
+                    @if (!kbRawMode()) {
+
+                        @if (kbNodes().length === 0) {
+                            <div class="kb-tree-empty">
+                                No fields yet. Click "Add Field" to start.
+                            </div>
+                        }
+
+                        <div class="kb-tree">
+                            @for (node of kbNodes(); track node.id) {
+                                <ng-container
+                                    *ngTemplateOutlet="nodeTemplate; context: { $implicit: node, depth: 0, isRoot: true }">
+                                </ng-container>
+                            }
+                        </div>
+
+                        <!-- Recursive node template -->
+                        <ng-template #nodeTemplate let-node let-depth="depth" let-isRoot="isRoot">
+                            <div class="tree-node" [style.margin-left.px]="depth * 20">
+
+                                <div class="tree-node-row" [class.container-row]="isContainer(node.type)">
+
+                                    <!-- Collapse toggle for containers -->
+                                    @if (isContainer(node.type)) {
+                                        <button class="btn-collapse" (click)="toggleCollapse(node.id)">
+                                            <span class="material-symbols-outlined">
+                                                {{ node.collapsed ? 'chevron_right' : 'expand_more' }}
+                                            </span>
+                                        </button>
+                                    } @else {
+                                        <div class="collapse-spacer"></div>
+                                    }
+
+                                    <!-- Key input -->
+                                    <input
+                                        type="text"
+                                        class="node-key-input"
+                                        placeholder="key"
+                                        [ngModel]="node.key"
+                                        (ngModelChange)="updateNode(node.id, { key: $event })"
+                                        [name]="'key_' + node.id">
+
+                                    <span class="node-sep">:</span>
+
+                                    <!-- Type selector -->
+                                    <select
+                                        class="node-type-select"
+                                        [ngModel]="node.type"
+                                        (ngModelChange)="updateNode(node.id, { type: $event })"
+                                        [name]="'type_' + node.id">
+                                        @for (t of NODE_TYPES; track t) {
+                                            <option [value]="t">{{ t }}</option>
+                                        }
+                                    </select>
+
+                                    <!-- Value input for leaf types -->
+                                    @if (node.type === 'string') {
+                                        <input type="text" class="node-val-input"
+                                            placeholder="value"
+                                            [ngModel]="node.strValue"
+                                            (ngModelChange)="updateNode(node.id, { strValue: $event })"
+                                            [name]="'val_' + node.id">
+                                    }
+                                    @if (node.type === 'number') {
+                                        <input type="number" class="node-val-input"
+                                            step="any"
+                                            [ngModel]="node.strValue"
+                                            (ngModelChange)="updateNode(node.id, { strValue: String($event) })"
+                                            [name]="'val_' + node.id">
+                                    }
+                                    @if (node.type === 'boolean') {
+                                        <select class="node-val-select"
+                                            [ngModel]="node.strValue"
+                                            (ngModelChange)="updateNode(node.id, { strValue: $event })"
+                                            [name]="'val_' + node.id">
+                                            <option value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    }
+                                    @if (node.type === 'null') {
+                                        <span class="node-null-label">null</span>
+                                    }
+                                    @if (isContainer(node.type)) {
+                                        <span class="node-container-hint">
+                                            {{ node.children.length }} {{ node.type === 'array' ? 'items' : 'fields' }}
+                                        </span>
+                                    }
+
+                                    <!-- Add child (for containers) -->
+                                    @if (isContainer(node.type)) {
+                                        <button class="btn-node-icon" title="Add child" (click)="addChildNode(node.id)">
+                                            <span class="material-symbols-outlined">add</span>
+                                        </button>
+                                    }
+
+                                    <!-- Delete -->
+                                    <button class="btn-node-icon btn-node-danger" title="Delete" (click)="removeNode(node.id)">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+
+                                </div>
+
+                                <!-- Children -->
+                                @if (isContainer(node.type) && !node.collapsed) {
+                                    @for (child of node.children; track child.id) {
+                                        <ng-container
+                                            *ngTemplateOutlet="nodeTemplate; context: { $implicit: child, depth: depth + 1, isRoot: false }">
+                                        </ng-container>
+                                    }
+                                }
+
+                            </div>
+                        </ng-template>
+
+                    }
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-ghost" (click)="cancelEditKb()">Cancel</button>
+                        <button type="button" class="btn btn-publish" [disabled]="isSavingKb()" (click)="saveKb()">
+                            @if (isSavingKb()) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                            Save Knowledge Base
+                        </button>
+                    </div>
+
+                }
+
+            </div>
+
+        }
+
+    }
+
+</div>

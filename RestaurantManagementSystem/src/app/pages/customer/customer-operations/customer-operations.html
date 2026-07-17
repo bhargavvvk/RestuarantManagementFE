@@ -6,21 +6,30 @@
     [otp]="sessionOtp">
   </app-header>
 
-  <app-customer-request></app-customer-request>
+  <!-- Hide waiter-request buttons on AI tab -->
+  <app-customer-request [hidden]="activeTab() === 'ai'"></app-customer-request>
 
   <app-menu-filter [hidden]="activeTab() !== 'menu'"></app-menu-filter>
 
 </div>
+
 <div
   class="page-content"
   [class.menu-content]="activeTab() === 'menu'"
-  [class.simple-content]="activeTab() !== 'menu'">
+  [class.simple-content]="activeTab() !== 'menu' && activeTab() !== 'ai'">
 
   <app-menu-list [hidden]="activeTab() !== 'menu'"></app-menu-list>
   <app-customer-cart [hidden]="activeTab() !== 'cart'"></app-customer-cart>
   <app-customer-orders [hidden]="activeTab() !== 'orders'"></app-customer-orders>
 
 </div>
+
+<!-- AI chat — outside page-content, owns its own fixed layout -->
+<app-ai-dining-assistant
+  class="ai-chat-host"
+  [class.ai-chat-visible]="activeTab() === 'ai'"
+  [hidden]="activeTab() !== 'ai'">
+</app-ai-dining-assistant>
 
 <app-customer-bottom-nav
   [activeTab]="activeTab()"

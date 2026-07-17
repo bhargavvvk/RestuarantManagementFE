@@ -1,0 +1,220 @@
+<div
+    class="offcanvas offcanvas-end"
+    tabindex="-1"
+    [class.show]="isOpen()"
+    [style.visibility]="isOpen() ? 'visible' : 'hidden'">
+
+    <div class="offcanvas-header">
+        <div>
+            <h5 class="offcanvas-title">Ingredients</h5>
+            @if (menuItemName()) {
+                <p class="offcanvas-subtitle">{{ menuItemName() }}</p>
+            }
+        </div>
+        <button type="button" class="btn-close" (click)="onClose()"></button>
+    </div>
+
+    <div class="offcanvas-body">
+
+        @if (isLoading()) {
+            <div class="loading-state">
+                <div class="spinner-border spinner-border-sm"></div>
+                <span>Loading ingredients...</span>
+            </div>
+        } @else {
+
+            <!-- ── Saved ingredients ─────────────────────────────────────── -->
+            @if (savedRows().length > 0) {
+                <div class="section-label">Current Ingredients</div>
+
+                <div class="rows-container">
+                    @for (row of savedRows(); track row._rowId) {
+
+                        @if (!row.editing) {
+                            <!-- Read view -->
+                            <div class="saved-row">
+                                <div class="saved-row-info">
+                                    <span class="saved-name">{{ row.ingredientName }}</span>
+                                    @if (row.approxQuantity || row.unit) {
+                                        <span class="saved-qty">
+                                            {{ row.approxQuantity }}{{ row.unit ? ' ' + row.unit : '' }}
+                                        </span>
+                                    }
+                                </div>
+                                <div class="saved-row-actions">
+                                    <button class="btn-icon" title="Edit" (click)="startEdit(row._rowId)">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                    <button class="btn-icon btn-icon-danger" title="Remove" (click)="deleteSaved(row._rowId)">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        } @else {
+                            <!-- Edit view — expand inline -->
+                            <div class="saved-row-edit">
+                                <div class="saved-edit-name">{{ row.ingredientName }}</div>
+                                <div class="qty-unit-row">
+                                    <div class="qty-field">
+                                        <label class="form-label">Quantity <span class="optional">(optional)</span></label>
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            min="0.001"
+                                            step="any"
+                                            placeholder="e.g. 50"
+                                            [ngModel]="row.editQty"
+                                            (ngModelChange)="updateEditField(row._rowId, 'editQty', $event)"
+                                            [name]="'eqty_' + row._rowId"
+                                            [class.is-invalid]="editQtyError(row)">
+                                        @if (editQtyError(row)) {
+                                            <div class="field-error">{{ editQtyError(row) }}</div>
+                                        }
+                                    </div>
+                                    <div class="unit-field">
+                                        <label class="form-label">Unit <span class="optional">(optional)</span></label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            maxlength="20"
+                                            placeholder="g, ml, pcs..."
+                                            [ngModel]="row.editUnit"
+                                            (ngModelChange)="updateEditField(row._rowId, 'editUnit', $event)"
+                                            [name]="'eunit_' + row._rowId">
+                                    </div>
+                                </div>
+                                <div class="edit-inline-actions">
+                                    <button class="btn btn-ghost btn-xs" (click)="cancelEdit(row._rowId)">Cancel</button>
+                                    <button
+                                        class="btn btn-save-xs"
+                                        [disabled]="!!editQtyError(row)"
+                                        (click)="commitEdit(row._rowId)">
+                                        Done
+                                    </button>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                </div>
+            }
+
+            <!-- ── Add new ingredients ──────────────────────────────────── -->
+            @if (newRows().length > 0) {
+                <div class="section-label" [class.mt-section]="savedRows().length > 0">Add New</div>
+
+                <div class="rows-container">
+                    @for (row of newRows(); track row._rowId) {
+                        <div class="entry-card" [class.has-error]="newRowErrors().has(row._rowId)">
+
+                            <div class="mode-tabs">
+                                <button class="mode-tab" [class.active]="row.mode === 'existing'" (click)="setMode(row._rowId, 'existing')">From library</button>
+                                <button class="mode-tab" [class.active]="row.mode === 'new'" (click)="setMode(row._rowId, 'new')">Create new</button>
+                            </div>
+
+                            @if (row.mode === 'existing') {
+                                <div class="mb-2">
+                                    <label class="form-label">Ingredient <span class="required">*</span></label>
+                                    <select
+                                        class="form-select"
+                                        [ngModel]="row.ingredientId"
+                                        (ngModelChange)="updateNewRow(row._rowId, { ingredientId: +$event || null })"
+                                        [name]="'ing_' + row._rowId">
+                                        <option [ngValue]="null" disabled>Select ingredient...</option>
+                                        @for (ing of availableFor(row._rowId); track ing.id) {
+                                            <option [ngValue]="ing.id">{{ ing.name }}</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+
+                            @if (row.mode === 'new') {
+                                <div class="mb-2">
+                                    <label class="form-label">Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" maxlength="100" placeholder="e.g. Truffle Oil"
+                                        [ngModel]="row.newName" (ngModelChange)="updateNewRow(row._rowId, { newName: $event })"
+                                        [name]="'nname_' + row._rowId">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">Description <span class="optional">(optional)</span></label>
+                                    <input type="text" class="form-control" maxlength="500" placeholder="Brief description..."
+                                        [ngModel]="row.newDescription" (ngModelChange)="updateNewRow(row._rowId, { newDescription: $event })"
+                                        [name]="'ndesc_' + row._rowId">
+                                </div>
+                            }
+
+                            <div class="qty-unit-row">
+                                <div class="qty-field">
+                                    <label class="form-label">Quantity <span class="optional">(optional)</span></label>
+                                    <input type="number" class="form-control" min="0.001" step="any" placeholder="e.g. 50"
+                                        [ngModel]="row.approxQuantity" (ngModelChange)="updateNewRow(row._rowId, { approxQuantity: $event })"
+                                        [name]="'qty_' + row._rowId">
+                                </div>
+                                <div class="unit-field">
+                                    <label class="form-label">Unit <span class="optional">(optional)</span></label>
+                                    <input type="text" class="form-control" maxlength="20" placeholder="g, ml, pcs..."
+                                        [ngModel]="row.unit" (ngModelChange)="updateNewRow(row._rowId, { unit: $event })"
+                                        [name]="'unit_' + row._rowId">
+                                </div>
+                                <button class="btn-remove-row" title="Remove" (click)="removeNewRow(row._rowId)">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </div>
+
+                            @if (newRowErrors().has(row._rowId)) {
+                                <div class="row-error">
+                                    <span class="material-symbols-outlined">error</span>
+                                    {{ newRowErrors().get(row._rowId) }}
+                                </div>
+                            }
+
+                        </div>
+                    }
+                </div>
+            }
+
+            <!-- Add ingredient button -->
+            @if (totalRows < 30) {
+                <button class="btn-add-row" [class.mt-section]="totalRows > 0" (click)="addNewRow()">
+                    <span class="material-symbols-outlined">add</span>
+                    Add Ingredient
+                </button>
+            }
+
+            @if (totalRows === 0) {
+                <div class="empty-state">
+                    <span class="material-symbols-outlined">grocery</span>
+                    <p>No ingredients yet. Click "Add Ingredient" to start.</p>
+                </div>
+            }
+
+            <hr>
+
+            <div class="modal-actions">
+                <button class="btn btn-ghost" type="button" (click)="onClose()">Cancel</button>
+                @if (savedRows().length > 0 || newRows().length > 0) {
+                    <button class="btn btn-danger-ghost" type="button" (click)="clearAll()">
+                        Clear All
+                    </button>
+                }
+                <button
+                    class="btn btn-publish"
+                    type="button"
+                    [disabled]="!isValid() || isSaving()"
+                    (click)="onSave()">
+                    @if (isSaving()) {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                    }
+                    Save
+                </button>
+            </div>
+
+        }
+
+    </div>
+
+</div>
+
+@if (isOpen()) {
+    <div class="offcanvas-backdrop fade show" (click)="onClose()"></div>
+}

@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 export type CustomerTab =
-  'menu' | 'cart' | 'orders';
+  'menu' | 'cart' | 'orders' | 'ai';
 @Component({
   selector: 'app-customer-bottom-nav',
   imports: [],

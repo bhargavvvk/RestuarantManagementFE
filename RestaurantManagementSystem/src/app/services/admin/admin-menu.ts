@@ -1,7 +1,24 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { baseUrl } from '../../../environment';
-import { AdminMenuCategory, AdminMenuItem, CreateCategoryRequest, CreateMenuItemRequest, FoodType, MenuSearchParams, UpdateCategoryRequest, UpdateMenuAvailabilityRequest, UpdateMenuItemRequest } from '../../models/admin-menu.model';
+import {
+  AdminMenuCategory,
+  AdminMenuItem,
+  CreateCategoryRequest,
+  CreateIngredientRequest,
+  CreateMenuItemRequest,
+  FoodType,
+  Ingredient,
+  MenuItemIngredient,
+  MenuItemNutrition,
+  MenuSearchParams,
+  UpdateCategoryRequest,
+  UpdateIngredientRequest,
+  UpdateMenuAvailabilityRequest,
+  UpdateMenuItemIngredientsRequest,
+  UpdateMenuItemRequest,
+  UpsertNutritionRequest
+} from '../../models/admin-menu.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -98,5 +115,53 @@ export class AdminMenu {
 
   deleteCategory(categoryId: number): Observable<void> {
     return this.http.delete<void>(`${baseUrl}/Admin/categories/${categoryId}`);
+  }
+
+  // ─── Ingredients library ────────────────────────────────────────────────────
+
+  getIngredients(search?: string): Observable<Ingredient[]> {
+    let params = new HttpParams();
+    if (search) params = params.set('search', search);
+    return this.http.get<Ingredient[]>(`${baseUrl}/Admin/ingredients`, { params });
+  }
+
+  getIngredient(id: number): Observable<Ingredient> {
+    return this.http.get<Ingredient>(`${baseUrl}/Admin/ingredients/${id}`);
+  }
+
+  createIngredient(request: CreateIngredientRequest): Observable<Ingredient> {
+    return this.http.post<Ingredient>(`${baseUrl}/Admin/ingredients`, request);
+  }
+
+  updateIngredient(id: number, request: UpdateIngredientRequest): Observable<Ingredient> {
+    return this.http.put<Ingredient>(`${baseUrl}/Admin/ingredients/${id}`, request);
+  }
+
+  deleteIngredient(id: number): Observable<void> {
+    return this.http.delete<void>(`${baseUrl}/Admin/ingredients/${id}`);
+  }
+
+  // ─── Menu item ingredients ──────────────────────────────────────────────────
+
+  getMenuItemIngredients(menuItemId: number): Observable<MenuItemIngredient[]> {
+    return this.http.get<MenuItemIngredient[]>(`${baseUrl}/Admin/menu/${menuItemId}/ingredients`);
+  }
+
+  updateMenuItemIngredients(menuItemId: number, request: UpdateMenuItemIngredientsRequest): Observable<MenuItemIngredient[]> {
+    return this.http.put<MenuItemIngredient[]>(`${baseUrl}/Admin/menu/${menuItemId}/ingredients`, request);
+  }
+
+  // ─── Menu item nutrition ────────────────────────────────────────────────────
+
+  getMenuItemNutrition(menuItemId: number): Observable<MenuItemNutrition> {
+    return this.http.get<MenuItemNutrition>(`${baseUrl}/Admin/menu/${menuItemId}/nutrition`);
+  }
+
+  upsertMenuItemNutrition(menuItemId: number, request: UpsertNutritionRequest): Observable<MenuItemNutrition> {
+    return this.http.put<MenuItemNutrition>(`${baseUrl}/Admin/menu/${menuItemId}/nutrition`, request);
+  }
+
+  deleteMenuItemNutrition(menuItemId: number): Observable<void> {
+    return this.http.delete<void>(`${baseUrl}/Admin/menu/${menuItemId}/nutrition`);
   }
 }

@@ -2,6 +2,7 @@ import { Component, input, output } from '@angular/core';
 import { AdminMenuItem, FoodType } from '../../../models/admin-menu.model';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-admin-menu-card',
   imports: [CommonModule],
@@ -14,6 +15,8 @@ export class AdminMenuCard {
   readonly edit = output<number>();
   readonly delete = output<number>();
   readonly availabilityChanged = output<AdminMenuItem>();
+  readonly manageIngredients = output<AdminMenuItem>();
+  readonly manageNutrition = output<AdminMenuItem>();
 
   onEdit(): void {
     this.edit.emit(this.menuItem().id);
@@ -21,6 +24,14 @@ export class AdminMenuCard {
 
   onDelete(): void {
     this.delete.emit(this.menuItem().id);
+  }
+
+  onManageIngredients(): void {
+    this.manageIngredients.emit(this.menuItem());
+  }
+
+  onManageNutrition(): void {
+    this.manageNutrition.emit(this.menuItem());
   }
 
   onAvailabilityChange(event: Event): void {
