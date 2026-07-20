@@ -108,3 +108,16 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* OTP badge — only visible on occupied tables */
+.otp-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: #CC4D29;
+  background: rgba(204, 77, 41, 0.08);
+  border: 1px solid rgba(204, 77, 41, 0.25);
+  border-radius: 8px;
+  padding: 3px 10px;
+  letter-spacing: 1px;
+}

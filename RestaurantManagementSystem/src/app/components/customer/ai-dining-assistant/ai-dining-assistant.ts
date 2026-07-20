@@ -115,8 +115,9 @@ export class AiDiningAssistant implements OnInit, AfterViewChecked {
     }
   }
 
-  onInputChange(value: string): void {
-    this.inputText.set(value);
+  onInputChange(el: HTMLTextAreaElement): void {
+    this.inputText.set(el.value);
+    this.autoResize(el);
   }
 
   sendChip(prompt: string): void {
@@ -142,6 +143,7 @@ export class AiDiningAssistant implements OnInit, AfterViewChecked {
     };
     this.messages.update((msgs) => [...msgs, userMessage]);
     this.inputText.set('');
+    this.resetInputHeight();
     this.isLoading.set(true);
     this.shouldScrollToBottom = true;
 
@@ -208,6 +210,22 @@ export class AiDiningAssistant implements OnInit, AfterViewChecked {
   }
 
   // ── Private ──────────────────────────────────────────────────────────────
+  private autoResize(el: HTMLTextAreaElement): void {
+    // Line height is ~22px; cap at 4 lines (88px) then scroll inside
+    const maxHeight = 22 * 4;
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, maxHeight) + 'px';
+    el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
+  }
+
+  private resetInputHeight(): void {
+    const el = this.inputField?.nativeElement;
+    if (el) {
+      el.style.height = 'auto';
+      el.style.overflowY = 'hidden';
+    }
+  }
+
   private scrollToBottom(): void {
     try {
       const el = this.messagesContainer?.nativeElement;

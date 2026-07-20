@@ -115,7 +115,7 @@
           placeholder="Ask about menu items, ingredients, allergies or restaurant information..."
           [value]="inputText()"
           [disabled]="isLoading()"
-          (input)="onInputChange($any($event.target).value)"
+          (input)="onInputChange($any($event.target))"
           (keydown)="onInputKeydown($event)">
         </textarea>
 

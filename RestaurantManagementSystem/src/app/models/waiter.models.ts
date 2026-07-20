@@ -3,6 +3,7 @@ export interface WaiterTable {
   tableNumber: string;
   status: string;
   sessionId: number | null;
+  sessionOtp: string | null;
 }
 export interface WaiterRequest {
   requestId: number;

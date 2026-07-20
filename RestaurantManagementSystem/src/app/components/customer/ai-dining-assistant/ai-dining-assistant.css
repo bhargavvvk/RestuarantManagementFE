@@ -315,9 +315,11 @@
   outline: none;
   font-size: 14px;
   color: #1c1917;
-  line-height: 1.5;
-  max-height: 100px;
-  overflow-y: auto;
+  line-height: 22px;   /* match the value used in autoResize calc */
+  height: 22px;        /* start at exactly 1 line */
+  min-height: 22px;
+  max-height: 88px;    /* 4 lines max before scroll kicks in */
+  overflow-y: hidden;  /* JS sets to auto when content exceeds 4 lines */
   font-family: inherit;
 }
 

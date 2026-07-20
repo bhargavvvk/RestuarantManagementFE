@@ -10,10 +10,13 @@
 
   <div class="status-badge">
     <div class="dot"></div>
-
-    <span class="text">
-      {{ table.status }}
-    </span>
+    <span class="text">{{ table.status }}</span>
   </div>
+
+  @if (table.sessionOtp) {
+    <div class="otp-badge">
+      OTP: <strong>{{ table.sessionOtp }}</strong>
+    </div>
+  }
 
 </div>
